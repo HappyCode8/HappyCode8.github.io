@@ -2,21 +2,57 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Document</title>
+  <title>Happy Coder</title>
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <meta name="description" content="Description">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
-  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify@4/lib/themes/vue.css">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <link rel="stylesheet" href="/assets/css/vue.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify-darklight-theme@latest/dist/style.min.css" title="dark" type="text/css"/>
+  <link rel="stylesheet" href=//cdn.jsdelivr.net/npm/docsify-themeable@0/dist/css/theme-simple.css" title="light" type="text/css">
 </head>
 <body>
-  <div id="app"></div>
-  <script>
+<div id="app">loading ......</div>
+<script>
     window.$docsify = {
-      name: '',
-      repo: ''
-    }
+      name: 'Happy Coder',//会显示在侧边栏的顶部
+      nameLink: '/#/README',
+      repo: '',//配置以后会在右上角有一个 GitHub Corner 组件
+      auto2top: true,//切换页面后自动跳到顶部
+      onlyCover: true,//只在访问主页时加载封面
+      coverpage: true, //封面
+      loadSidebar: false,//加载侧边栏文件
+      loadNavbar: true,// 加载导航栏文件 _navbar.md
+      maxLevel: 3,//最大只抓取到2级标题
+      subMaxLevel: 3,
+      themeColor: '',//主题色
+      search: {
+        paths: 'auto',
+        placeholder: '🔍 输入搜索的关键字 ',
+        noData: '😞 没有找到! ',
+        depth: 6
+      },
+      pagination: {
+        previousText: 'PREVIOUS',
+        nextText: 'NEXT',
+        crossChapter: true
+       },
+      darklightTheme: {
+        defaultTheme : 'light'
+      }
+    }                                 
   </script>
-  <!-- Docsify v4 -->
-  <script src="//cdn.jsdelivr.net/npm/docsify@4"></script>
+
+<script src="/assets/js/md5.js"></script>
+<script src="/assets/js/docsify.min.js"></script>
+<!--<script src="/assets/js/gitalk.min.js"></script>-->
+<script src="https://cdn.jsdelivr.net/npm/docsify@4/lib/plugins/search.js"></script><!--搜索-->
+<script src="/assets/js/docsify-pagination.min.js"></script><!--上下翻页-->
+<script src="/assets/js/zoom-image.js"></script>
+<script src="/assets/js/prism-bash.js"></script>
+<script src="/assets/js/prism-java.min.js"></script>
+<script src="/assets/js/prism-xml.js"></script>
+<script src="//cdn.jsdelivr.net/npm/docsify-copy-code/dist/docsify-copy-code.min.js"></script><!--代码复制粘贴-->
+<script src="//cdn.jsdelivr.net/npm/docsify-darklight-theme@latest/dist/index.min.js" type="text/javascript"><!--白天晚上切换-->
+</script>
 </body>
 </html>
