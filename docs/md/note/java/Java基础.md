@@ -77,7 +77,6 @@ String类为什么要设计成final的？
   test = new Test(123);
   System.out.print(map1.get(test));    //试图取出对应的 value,结果是null
   
-  
   String key = "key";
   HashMap<String,Integer> map = new HashMap<>();
   map.put(key,123);
