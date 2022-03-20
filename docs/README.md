@@ -18,6 +18,7 @@
 ### ☕️Java
   - [笔记](/md/note/java/笔记.md)
   - [题目](/md/note/java/题目.md)
+  - [Java基础](/md/note/java/java基础.md)
  
 ### 📱JVM
   - [题目](/md/note/JVM/题目.md)
@@ -41,6 +42,7 @@
 
 ### ☁️工具
   - [MarkDown使用](/md/note/tool/markdown.md)
+  - [Git使用](/md/note/tool/git.md)
 
 ### ✏️读书笔记
   - [java8新特性](/md/note/book/java8新特性.md)
@@ -48,5 +50,5 @@
   - [java异步编程实战](/md/note/book/java异步编程实战.md)
 
 ### ☀️其它
-  - [关于我](/md/note/other/aboutme.md)
+  - [关于](/md/note/other/aboutme.md)
   - [我的书签](/md/note/other/collection.md)
