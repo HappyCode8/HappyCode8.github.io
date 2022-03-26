@@ -14,7 +14,7 @@
 
   > 开发工具，类似的还有https://tool.lu/ http://tools.jb51.net/ https://tool.oschina.net/
 
-- [在线画图]https://app.diagrams.net/?src=about
+- [在线画图]https://app.diagrams.net
 
   >在线画图的工具，drawio开源
 
@@ -67,4 +67,13 @@
 # 开源项目
 - [新生命]  https://www.newlifex.com/
 > 一个中间件开发的团队，有一些实用的知识
+
+# 其它
+- [英语]
+> 美国之音: m.51voa.com
+> 
+> 英文杂志: magazinelib.com
+> 
+> 中国新闻: http://www.chinadaily.com.cn/
+
 
