@@ -1,12 +1,22 @@
 # 工具类
 - [恰鹿导航]  https://hou.qialu999.com/
 > 一个收藏了书籍、电影、音乐的常用书签的网站
+
 - [json解析]  https://www.sojson.com/
-> 一些开发用到的工具
+
+  > 一些开发用到的工具
+
 - [云转换]  https://cloudconvert.com/
-> 格式转换工具
+
+  > 格式转换工具
+
 - [菜鸟工具]  https://c.runoob.com/
-> 开发工具，类似的还有https://tool.lu/ http://tools.jb51.net/ https://tool.oschina.net/
+
+  > 开发工具，类似的还有https://tool.lu/ http://tools.jb51.net/ https://tool.oschina.net/
+
+- [在线画图]https://app.diagrams.net/?src=about
+
+  >在线画图的工具，drawio开源
 
 # 学习类
 - [凤凰架构]  https://icyfenix.cn/summary/
@@ -31,18 +41,21 @@
 > gitChat: https://gitbook.cn/
 >
 > 掘金: https://juejin.cn/backend/Java
-> 
+>
 > 极客教程: https://geek-docs.com/
-> 
+>
 > 菜鸟教程: https://www.runoob.com/
-> 
+>
 > W3C入门: https://www.w3cschool.cn/tutorial
-> 
+>
 > 知否: https://segmentfault.com/
-> 
+>
 > 博客园: https://www.cnblogs.com/
-> 
+>
 > Linux公社: https://www.linuxidc.com/
+
+- [国外的优秀社区]
+> DZone: https://dzone.com/
 
 
 # 刷题类
@@ -54,5 +67,4 @@
 # 开源项目
 - [新生命]  https://www.newlifex.com/
 > 一个中间件开发的团队，有一些实用的知识
-
 
