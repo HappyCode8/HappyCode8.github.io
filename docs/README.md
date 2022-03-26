@@ -49,6 +49,9 @@
   - [java虚拟机](/md/note/book/java虚拟机.md)
   - [java异步编程实战](/md/note/book/java异步编程实战.md)
 
+### 🎈开发规范
+  - [代码规范](/md/note/coderule/笔记.md)
+
 ### ☀️其它
   - [关于](/md/note/other/aboutme.md)
   - [我的书签](/md/note/other/collection.md)
