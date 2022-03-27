@@ -44,7 +44,7 @@
   - [MarkDown使用](/md/note/tool/markdown.md)
   - [Git使用](/md/note/tool/git.md)
 
-### ✏️读书笔记
+### ⭐️️读书笔记
   - [java8新特性](/md/note/book/java8新特性.md)
   - [java虚拟机](/md/note/book/java虚拟机.md)
   - [java异步编程实战](/md/note/book/java异步编程实战.md)

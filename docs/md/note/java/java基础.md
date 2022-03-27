@@ -237,3 +237,237 @@ set.add(e2);
 System.out.println(set.size());   // 2
 ```
 
+# 多线程
+
+## 线程状态
+
+> NEW
+>
+> ```java
+> var thread=new Thread();
+> System.out.println(Thread.getState());
+> ```
+>
+> RUNNABLE(包含了传统操作系统的ready和running状态)
+>
+> ```java
+> thread.start();
+> //处于RUNNABLE状态的线程在Java虚拟机中运行，也有可能在等待其它系统资源，它包含了传统操作系统的ready和running两个状态
+> ```
+>
+> BLOCKED
+>
+> ```java
+> //处于BLOCKED状态的线程正在等待锁的释放以进入同步区
+> ```
+>
+> WAITING
+>
+> ```java
+> //处于WAITING状态的线程变成RUNNABLE状态需要其它线程唤醒，调用以下方法进入等待
+> Object.wait()
+> Thread.join()
+> LockSupport.park()
+> //使用notify、notifyAll唤醒
+> ```
+>
+> TIMED_WAITING
+>
+> ```java
+> //处于TIMED_WAITING的线程等待一个具体的时间，时间到后会被自动唤醒
+> ```
+>
+> TERMINATED
+>
+> ```java
+> //处于TERNINATED的线程终止状态，此时线程已经执行完毕
+> ```
+
+## sleep和wait
+
+>sleep是Thread的静态方法，因此作用于当前线程，用来暂停一个指定的时间内不运行，他不释放资源，主要依靠超时唤醒。
+>
+>wait是Object的实例方法，因此作用于对象本身，用来与同步块中其它线程间的通信，他释放了资源，只能在同步上下文中调用wait方法，唤醒时依赖其他线程调用对象的notify()或者notifyAll()方法。
+>
+>**为什么wait必须要在同步块中？**
+>
+>由于Lost Wake-Up Problem的存在：
+>
+>```java
+>class BlockingQueue {
+>    Queue<String> buffer = new LinkedList<String>();
+>
+>    public void give(String data) {
+>        buffer.add(data);
+>        notify();//2
+>    }
+>
+>    public String take() throws InterruptedException {
+>        while (buffer.isEmpty())//1成功判空
+>            wait();//3
+>        return buffer.remove();
+>    }
+>}
+>//按照1->3->2的顺序执行，消费者就会消费不到消息，解决这个问题的方法就是：总是让give/notify和take/wait为原子操作。也就是说wait/notify是线程之间的通信，他们存在竞态，我们必须保证在满足条件的情况下才进行wait。换句话说，如果不加锁的话，那么wait被调用的时候可能wait的条件已经不满足了(如上述)。由于错误的条件下进行了wait，那么就有可能永远不会被notify到，所以我们需要强制wait/notify在synchronized中
+>
+>//1处的代码如果用if的话可能会产生虚假唤醒，所谓虚假唤醒就是只生产了一个但是却唤醒了所有在此条件上等待的线程，AB两消费线程都在执行完1以后执行了wait条件，释放了同步锁，此时程序阻塞在1上，生产了一个产品以后，A消费以后B没有再判断就继续执行了
+>```
+
+## ThreadLocal
+
+>- 原理
+>
+>  ```java
+>  class ThreadLocal{
+>     static class ThreadLocalMap {
+>         static class Entry extends WeakReference<ThreadLocal<?>>{
+>              Object value;
+>         }
+>         private Entry[] table;
+>     }
+>  }
+>  
+>  class Thread{
+>  		  ThreadLocal.ThreadLocalMap threadLocals = null;
+>  }
+>  //所以每一个Thread有一个threadLocals数组，每一个数组元素存的是一个ThreadLocalMap，每一个ThreadLocalMap里边<ThreadLocal的hashcode，value>，解决hash冲突的时候用的是向下搜寻相当于再散列。
+>  //使用InheritableThreadLocal可以实现多个线程访问ThreadLocal的值
+>  //内存泄露原因是这样的，Thread一直持有threadLocals，也就是一直持有数组，数组持有value的强引用但是key是弱引用，因而可能有内存泄露。
+>  ```
+>
+>- 应用
+>
+>  ```
+>  1. java Web是一个单例多线程的模型。
+>  
+>  即通常情况下，Web程序中的每一个Bean都是单例，而用户的每次请求都会对应一个独立的线程，当多个用户同时访问Web程序时，表现出来的就是单例多线程。
+>  在这种模型中，如果需要在一次请求周期中保存某些用户信息，那这个信息绝对不能放到类的成员变量中去。因为类的成员变量是隶属于同一个Bean的，而Bean是被多个线程所共享的，会导致多个线程更改同一个成员变量的情况，程序表现为一会正常一会不正常。这也是实践中经常遇到的bug。
+>  
+>  对于这种场景，就要使用ThreadLocal类了。通常的做法是在请求进入Bean之前把相关的信息保存到ThreadLocal变量中，待后续需要的时候从ThreadLocal中获取即可。
+>  
+>  2. jdbc = new DataBaseConnection();//第1行
+>  Connection con = jdbc.getConnection();//第2行
+>  con.setAutoCommit(false);//第3行
+>  con.executeUpdate(...);//第4行
+>  con.executeUpdate(...);//第5行
+>  con.executeUpdate(...);//第6行
+>  con.commit();//第7行
+>  Spring框架包揽了事务准备阶段和事务提交阶段的代码，使得程序员专注于设计业务处理阶段的代码。Spring框架可以使用AOP（Aspect Oriented Programming）来动态的织入准备阶段和事务提交阶段的代码。但如何才能让三个阶段使用同一个数据源连接呢？这是很重要的。
+>  
+>  在这个场景中，我们实际上是希望让软件结构中纵向的三个阶段使用同样的一个参数con，而这三个阶段之间又无法进行显式的参数传递。解决方案是---ThreadLocal。Spring框架使用ThreadLocal记录每个线程在进行事务操作时所使用的数据库连接，在事务准备阶段，将数据库连接放入ThreadLocal中，在业务处理阶段和事务提交阶段直接从ThreadLocal中获取对应的连接即可。这个是ThreadLocal的经典应用。
+>  ```
+
+## 线程池
+
+>- 参数
+>
+>  ```java
+>  corePoolSize：核心线程的数量
+>  maximumPoolSize：线程池中最大的线程数量
+>  keepAliveTime：线程池中非核心线程空闲的存活时间
+>  TimeUnit：线程空闲存活时间的时间单位
+>  workQueue：存放任务的阻塞队列
+>  threadFactory：用于创建核心线程的线程工厂，可以给创建的线程自定义名字，方便查日志
+>  handler：线程池的饱和策略（拒绝策略），有四种类型。
+>  ```
+>
+>- 流程
+>
+>  ```
+>  往核心线程池提交->核心满了往阻塞队列扔->阻塞队列满了扩线程->max满了拒绝策略
+>  ```
+>
+>- 四种拒绝策略
+>
+>  ```
+>  AbortPolicy：抛出一个异常，默认的拒绝策略
+>  DiscardPolicy：直接丢弃任务
+>  DiscardOldestPolicy：丢弃队列里最老的任务，将当前这个任务继续提交给线程池。
+>  CallerRunsPolicy：交给线程池调用所在的线程进行处理。
+>  ```
+>
+>- 工作队列
+>
+>  阻塞队列区别于其他类型的队列的最主要的特点就是“阻塞”这两个字，所以下面重点介绍阻塞功能：**阻塞功能使得生产者和消费者两端的能力得以平衡，当有任何一端速度过快时，阻塞队列便会把过快的速度给降下来。**实现阻塞最重要的两个方法是 take 方法和 put 方法。
+>
+>  ```
+>  ArrayBlockingQueue：有界队列，是一个用数组实现的有界阻塞队列，按FIFO排序。
+>  LinkedBlockingQueue：按FIFO排序任务，容量可以设置，不设置的话将是一个无边界的阻塞队列
+>  PriorityBlockingQueue:支持优先级排序的无界阻塞队列
+>  DelayBlockingQueue:使用优先级队列实现的延迟无界阻塞队列，到时才能获取
+>  SynchronousQueue:不存储元素的阻塞队列，也即单个元素的队列，只存一个元素
+>  LinkedTransferQueue:由链表结构组成的无界阻塞队列
+>  LinkedBlockingDeque:由链表结构组成的双向阻塞队列
+>  ```
+>
+>- 常用的线程池
+>
+>  ```
+>  newFixedThreadPool(nThreads, nThreads, 0L, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<Runnable>(),threadFactory):
+>  固定数目线程的线程池，内部使用LinkedBlockingQueue
+>  场景：适用于处理CPU密集型的任务，确保CPU在长期工作线程使用的情况下，尽可能少的分配线程。
+>  
+>  newCachedThreadPool(0, Integer.MAX_VALUE, 60L, TimeUnit.SECONDS,new SynchronousQueue<Runnable>(),threadFactory)
+>  可缓存线程的线程池，内部使用SynchronousBlockingQueue
+>  使用场景：用于并发量大执行大量短期的小任务。
+>  
+>  newSingleThreadPool(1, 1,0L, TimeUnit.MILLISECONDS,new LinkedBlockingQueue<Runnable>(),hreadFactory)
+>  单线程的线程池，内部使用LinkedBlockingQueue）
+>  使用场景：适用于串行执行任务的情景，一个任务接一个任务的执行
+>  
+>  newScheduledThreadPool(corePoolSize, Integer.MAX_VALUE, 0, NANOSECONDS, new DelayedWorkQueue());
+>  定时及周期性执行的线程池，内部使用DelayQueue
+>  使用场景：周期性的执行任务的场景，做一些简单的定时调度。
+>  ```
+>
+>- 线程池状态
+>
+>  ```
+>  RUNNING
+>  该状态的线程池会接收新任务，并处理阻塞队列中的任务
+>  调用shutdown()方法可以切换到SHUTDOWN状态
+>  调用shutdownNow()方法可以切换到STOP状态
+>  
+>  SHUTDOWN
+>  该状态的线程池不会接收新任务，但会处理阻塞队列中的任务
+>  队列为空，并且线程池中执行的任务也为空，进入TIDYING状态
+>  
+>  STOP
+>  该状态的线程池不会接收新任务，也不会处理阻塞队列中的任务，而且会中断正在执行中的任务
+>  线程池中执行的任务一旦变为空，进入TIDYING状态
+>  
+>  TIDYING
+>  该状态表明所有的任务已经运行终止，记录的任务数量为0
+>  terminated()执行完毕，进入TERMINATED状态
+>  
+>  TERMINATED
+>  该状态表明线程池彻底终止或死亡
+>  ```
+
+## 并发工具类
+
+> - CountDownLatch
+>
+>   主线程遇到CountDownLatch阻塞在那，要等待CountDownLatch里的所有线程都执行完毕，主线程才
+>
+>   能继续执行。需要注意的是CountDownLatch创建的线程数和每个线程里countDown的总次数需要和
+>
+>   初始化
+>
+> - CyclicBarrier
+>
+>   是循环栅栏，意思是多个线程相互阻塞，只有多个线程都达到了栅栏时候，才能同时执行后续的逻辑。 
+>
+> - Semaphore
+>
+>   信号量，就是用来控制访问有限资源的线程数量，线程要访问资源首先要获得许可证，一个许可证对应一个资源，如果资源不足了，线程就要等待，如果其他线程释放了一个资源（许可证），那么信号量就通知等待的一个线程，分配给它一个许可证。
+>
+> - Exchanger
+>
+>   理解其意思就行，就是线程间的数据交换。是怎么交换呢？实际上是共用一个Exchange的多个线程，在全部都到达栅栏的时候才可以进行数据的交换，否则的话先到达的线程只能等待其他的线程达到栅栏。那怎么才算到达栅栏呢，就是线程内部调用exchanger.exchange方法。然后这个方法的返回值就是其他线程交换的数据，参数就是当前线程想要交还给其他线程的数据。
+
+## 并发容器
+
+>- CopyOnWrite
+>- ConcurrentHashMap
+>- ConcurrentSkipListMap
