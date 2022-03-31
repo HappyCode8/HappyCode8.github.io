@@ -76,3 +76,9 @@ mysql读写分离https://mp.weixin.qq.com/s/res7h5A6uxkH0z5Ovi9hRg
 千万级流量处理https://mp.weixin.qq.com/s/lNofjoW2kt0p_QbG9PWQWA
 
 注解和反射https://mp.weixin.qq.com/s/gLlCzVMLWuJxTsucUlchEg
+
+https://github.com/MaJesTySA/miaosha_Shop
+
+美团全链路压测https://tech.meituan.com/2018/09/27/quake-introduction.html
+
+​       参数偏移 https://blog.csdn.net/iamhuanggua/article/details/85008408
