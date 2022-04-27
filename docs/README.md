@@ -43,6 +43,10 @@
 ### ☁️工具
   - [MarkDown使用](/md/note/tool/markdown.md)
   - [Git使用](/md/note/tool/git.md)
+  - [Docker](/md/note/tool/Docker.md)
+  - [IDEA](/md/note/tool/IDEA.md)
+
+📒项目
 
 ### ⭐️️读书笔记
   - [java8新特性](/md/note/book/java8新特性.md)
