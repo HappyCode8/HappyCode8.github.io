@@ -10,6 +10,7 @@
 ### 📚SQL
   - [题目](/md/note/mysql/题目.md)
   - [笔记](/md/note/mysql/笔记.md)
+  - [MyBatis](/md/note/mysql/MyBatis.md)
 
 ### 💻Redis
   - [题目](/md/note/redis/题目.md)
@@ -28,13 +29,10 @@
   - [题目](/md/note/kafka/题目.md)
   - [笔记](/md/note/kafka/笔记.md)
 
-### 🖱Hive
-  - [题目](/md/note/hive/题目.md)
-  - [笔记](/md/note/hive/笔记.md)
-
-### 🎧Mybatis
-  - [题目](/md/note/mybatis/题目.md)
-  - [笔记](/md/note/mybatis/笔记.md)
+### 🖱大数据
+  - [Hive](/md/note/bigdata/Hive.md)
+  - [Hbase](/md/note/bigdata/Hbase.md)
+  - [Dories](/md/note/bigdata/Doris.md)
 
 ### 📃系统设计
   - [笔记](/md/note/system/笔记.md)
@@ -45,8 +43,6 @@
   - [Git使用](/md/note/tool/git.md)
   - [Docker](/md/note/tool/Docker.md)
   - [IDEA](/md/note/tool/IDEA.md)
-
-📒项目
 
 ### ⭐️️读书笔记
   - [java8新特性](/md/note/book/java8新特性.md)
