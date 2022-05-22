@@ -1,3 +1,9 @@
+
+
+# 操作系统
+
+https://mp.weixin.qq.com/s/5S0swlCe-Gx66aO3Lrpylg
+
 # linux
 
 ## 文件系统

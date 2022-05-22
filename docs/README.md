@@ -16,13 +16,11 @@
   - [JVM](/md/note/java/JVM.md)
 
 ### 📚MySQL
-
   - [题目](/md/note/mysql/题目.md)
   - [笔记](/md/note/mysql/笔记.md)
   - [MyBatis](/md/note/mysql/MyBatis.md)
 
 ### 💻中间件
-
   - [redis](/md/note/middleware/redis.md)
   - [kafka](/md/note/middleware/kafka.md)
 
