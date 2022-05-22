@@ -1,10 +1,47 @@
 # Mybatis
 
+## 建表示例
+
+```sql
+CREATE TABLE `ai_sco_day_analyse` (
+   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '自增主键',
+   `template_id` varchar(64) NOT NULL DEFAULT '' COMMENT '机器人id',
+   `call_date` date NOT NULL DEFAULT '0000-00-00' COMMENT '日期',
+   `template_version` varchar(16) NOT NULL DEFAULT '' COMMENT '机器人版本',
+   `total_count` int(11) NOT NULL DEFAULT '0' COMMENT '通话总数',
+   `through_count` int(11) NOT NULL DEFAULT '0' COMMENT '接通总数',
+   `first_round_not_hangup_count` int(11) NOT NULL DEFAULT '0' COMMENT '首轮未挂断总数',
+   `cooperate_count` int(11) NOT NULL DEFAULT '0' COMMENT '配合数',
+   `success_count` int(11) NOT NULL DEFAULT '0' COMMENT '成功数',
+   `see_through_count` int(11) NOT NULL DEFAULT '0' COMMENT '识破数',
+   `nlu_distinguish_count` int(11) NOT NULL DEFAULT '0' COMMENT 'nlu实际识别的query数',
+   `nlu_eff_count` int(11) NOT NULL DEFAULT '0' COMMENT 'nlu可识别query数',
+   `antipathy_count` int(11) NOT NULL DEFAULT '0' COMMENT '反感数',
+   `talking_time_len` int(11) NOT NULL DEFAULT '0' COMMENT '通话时长',
+   `insert_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '本条记录创建时间',
+   `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '本条记录修改时间',
+   `is_visible` tinyint(1) NOT NULL DEFAULT '1',
+   PRIMARY KEY (`id`),
+   UNIQUE KEY `idx_call_date_tenant_id` (`call_date`,`template_id`,`template_version`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4
+
+select bot_id,
+       bot_name,
+       case when call_count>=100000                      then '价值高'
+            when call_count<100000 and call_count>=10000 then '价值中'
+            else '价值低'
+             end as bot_value,
+       case when nlu_distinguish_count_detail/nlu_eff_count_detail>=0.9 and nlu_distinguish_count_mark/nlu_eff_count_mark>=0.9                          then 'B'
+            when nlu_distinguish_count_detail/nlu_eff_count_detail>=0.9 and (nlu_distinguish_count_mark/nlu_eff_count_mark<0.9 or nlu_eff_count_mark=0) then 'C'
+            else 'D'
+             end as bot_rank
+  from us.yoona_bot_level_stastics
+ where create_date BETWEEN '$$begindate' and '$$enddate'
+```
+
 ## 枚举值转换
 
 项目结构
-
-<img src="/Users/wyj/Library/Application Support/typora-user-images/image-20210626104951956.png" alt="image-20210626104951956" style="zoom:40%;" />
 
 ```java
 import org.springframework.web.bind.annotation.GetMapping;
@@ -250,8 +287,8 @@ id与代码接口中的函数名对应起来，parameterType是查询的参数�
         from
         (
         select
-        <trim suffixOverrides=",">trim用于去除或者拼接字符，suffixOverrides=”,“去除sql语句后面的逗号
-            <if test="templateColumn">if test用于测试是否满足某种条件，直接写相当于！=null
+        <trim suffixOverrides=","><!--trim用于去除或者拼接字符，suffixOverrides=”,“去除sql语句后面的逗号-->
+            <if test="templateColumn"><!--if test用于测试是否满足某种条件，直接写相当于！=null-->
                 template_value,
                 template_name,
                 template_type,
@@ -260,15 +297,15 @@ id与代码接口中的函数名对应起来，parameterType是查询的参数�
         from
         ai_sco_base_call_statistics
         where
-        <trim prefixOverrides="and">去除最前边的and
+        <trim prefixOverrides="and"><!--去除最前边的and-->
             <if test="whereStartDate != null">
                 and call_date >= #{whereStartDate}
             </if>
             <if test="whereTenantIds != null">
                 and tenant_id in
-                foreach用于循环列表，将列表用逗号分隔前后加括号拼接
+                <!--foreach用于循环列表，将列表用逗号分隔前后加括号拼接,collection中的要么是参数名，要么用@Param注解好-->
                 <foreach collection="whereTenantIds" open="(" close=")" separator="," item="listItem">
-                    #{listItem} 预编译阶段会生成?类似的，但是如果${groupByClause}，就会做纯替换
+                    <!--#{listItem} 预编译阶段会生成?类似的，但是如果${groupByClause}，就会做纯替换-->
                 </foreach>
             </if>
             and is_visible = 1
@@ -297,39 +334,40 @@ public PageInfo<KnowledgeVO> selectByDateAndTemplate() {
 
 ## 与$符的区别
 
->（1）
->　　1）#{} 为参数占位符 ?，即sql 预编译
->　　2）${} 为字符串替换，即 sql 拼接
->（2）
->　　1）#{}：动态解析 -> 预编译 -> 执行
->　　2）${}：动态解析 -> 编译 -> 执行
->（3）
->　　1）#{} 的变量替换是在DBMS 中
->　　2）${} 的变量替换是在 DBMS 外
->（4）
->　　1）变量替换后，#{} 对应的变量自动加上单引号 ''
->　　2）变量替换后，${} 对应的变量不会加上单引号 ''
->（5）
->　　1）#{} 能防止sql 注入
->　　2）${} 不能防止sql 注入
->
->  #{} 和 ${} 的实例：假设传入参数为 1
->（1）开始
->　　1）#{}：select * from t_user where uid=#{uid}
->　　2）${}：select * from t_user where uid= '${uid}'
->（2）然后
->	 1）#{}：select * from t_user where uid= ?
->	 2）${}：select * from t_user where uid= '1'
->（3）最后
->　　1）#{}：select * from t_user where uid= '1'
->　　2）${}：select * from t_user where uid= '1'
->    
-> #{} 和 ${} 在使用中的技巧和建议
->（1）不论是单个参数，还是多个参数，一律都建议使用注解@Param("")
->（2）能用 #{} 的地方就用 #{}，不用或少用 ${}
->（3）表名作参数时，必须用 ${}。如：select * from ${tableName}
->（4）order by 时，必须用 ${}。如：select * from t_user order by ${columnName}
->		 3,4因为预编译加了单引号，会导致不起作用
->（5）使用 ${} 时，要注意何时加或不加单引号，即 ${} 和 '${}'
->
->
+```
+（1）
+　　1）#{} 为参数占位符 ?，即sql 预编译
+　　2）${} 为字符串替换，即 sql 拼接
+（2）
+　　1）#{}：动态解析 -> 预编译 -> 执行
+　　2）${}：动态解析 -> 编译 -> 执行
+（3）
+　　1）#{} 的变量替换是在DBMS 中
+　　2）${} 的变量替换是在 DBMS 外
+（4）
+　　1）变量替换后，#{} 对应的变量自动加上单引号 ''
+　　2）变量替换后，${} 对应的变量不会加上单引号 ''
+（5）
+　　1）#{} 能防止sql 注入
+　　2）${} 不能防止sql 注入
+
+#{} 和 ${} 的实例：假设传入参数为 1
+（1）开始
+　　1）#{}：select * from t_user where uid=#{uid}
+　　2）${}：select * from t_user where uid= '${uid}'
+（2）然后
+	 1）#{}：select * from t_user where uid= ?
+	 2）${}：select * from t_user where uid= '1'
+（3）最后
+　　1）#{}：select * from t_user where uid= '1'
+　　2）${}：select * from t_user where uid= '1'
+
+#{} 和 ${} 在使用中的技巧和建议
+（1）不论是单个参数，还是多个参数，一律都建议使用注解@Param("")
+（2）能用 #{} 的地方就用 #{}，不用或少用 ${}
+（3）表名作参数时，必须用 ${}。如：select * from ${tableName}
+（4）order by 时，必须用 ${}。如：select * from t_user order by ${columnName}
+		 3,4因为预编译加了单引号，会导致不起作用
+（5）使用 ${} 时，要注意何时加或不加单引号，即 ${} 和 '${}'
+```
+

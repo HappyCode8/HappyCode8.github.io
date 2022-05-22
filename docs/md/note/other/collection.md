@@ -53,6 +53,8 @@
 > 博客园: https://www.cnblogs.com/
 >
 > Linux公社: https://www.linuxidc.com/
+>
+> flink社区：https://flink-learning.org.cn/
 
 - [国外的优秀社区]
 > DZone: https://dzone.com/

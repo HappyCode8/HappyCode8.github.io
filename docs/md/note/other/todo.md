@@ -84,3 +84,9 @@ https://github.com/MaJesTySA/miaosha_Shop
 参数偏移 https://blog.csdn.net/iamhuanggua/article/details/85008408
 
 一些springboot的示例https://github.com/smltq/spring-boot-demo
+
+mybatis的日志功能如何设计的https://mp.weixin.qq.com/s/hWE8S8Zzy6m1-YhbqrgYDg
+
+大事务https://mp.weixin.qq.com/s/eHAQfeH2A_uYIUTuHmHbDw
+
+mysqlhttps://mp.weixin.qq.com/s/zCR-bccW6aoNrVpwRTGBiw

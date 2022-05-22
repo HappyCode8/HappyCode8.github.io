@@ -4,30 +4,27 @@
   - [数据结构](/md/note/algorithm/数据结构.md)
 
 ### 📃计算机基础
-  - [题目](/md/note/base/题目.md)
-  - [笔记](/md/note/base/笔记.md)
+  - [网络基础](/md/note/base/网络基础.md)
+  - [Linux](/md/note/base/Linux.md)
+  - [Socket](/md/note/base/Socket.md)
 
-### 📚SQL
+### ☕️Java
+  - [笔记](/md/note/java/笔记.md)
+  - [基础](/md/note/java/java基础.md)
+  - [多线程](/md/note/java/多线程.md)
+  - [容器](/md/note/java/容器.md)
+  - [JVM](/md/note/java/JVM.md)
+
+### 📚MySQL
+
   - [题目](/md/note/mysql/题目.md)
   - [笔记](/md/note/mysql/笔记.md)
   - [MyBatis](/md/note/mysql/MyBatis.md)
 
-### 💻Redis
-  - [题目](/md/note/redis/题目.md)
-  - [笔记](/md/note/redis/笔记.md)
+### 💻中间件
 
-### ☕️Java
-  - [笔记](/md/note/java/笔记.md)
-  - [题目](/md/note/java/题目.md)
-  - [Java基础](/md/note/java/java基础.md)
-
-### 📱JVM
-  - [题目](/md/note/JVM/题目.md)
-  - [笔记](/md/note/JVM/笔记.md)
-
-### ⌨️Kafka
-  - [题目](/md/note/kafka/题目.md)
-  - [笔记](/md/note/kafka/笔记.md)
+  - [redis](/md/note/middleware/redis.md)
+  - [kafka](/md/note/middleware/kafka.md)
 
 ### 🖱大数据
   - [Hive](/md/note/bigdata/Hive.md)
