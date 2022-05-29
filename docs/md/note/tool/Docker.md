@@ -306,3 +306,69 @@ services:
 
 使用docker-compose up`命令启动
 
+# Docker常用的中间件文件
+
+```yml
+version: "2.1"
+services:
+  zookeeper:
+    image: wurstmeister/zookeeper
+    container_name: dw-zookeeper
+    hostname: dw-zookeeper
+    ports:
+      - "2181:2181"
+
+  kafka:
+    image: wurstmeister/kafka
+    container_name: dw-kafka
+    hostname: dw-kafka
+    ports:
+      - "9092:9092"
+    depends_on:
+      - zookeeper
+    environment:
+      KAFKA_ADVERTISED_HOST_NAME: localhost
+      KAFKA_ADVERTISED_PORT: 9092
+      KAFKA_ZOOKEEPER_CONNECT: dw-zookeeper:2181
+      KAFKA_CREATE_TOPICS: "ods_base_log:1:1" # 单分区，单副本
+
+  mysql:
+    image: mysql:8.0
+    container_name: dw-mysql
+    command:
+      --default-authentication-plugin=mysql_native_password
+      --character-set-server=utf8mb4
+      --collation-server=utf8mb4_general_ci
+      --explicit_defaults_for_timestamp=true
+      --lower_case_table_names=1
+    # data 用来存放了数据库表文件，init存放初始化的脚本
+    volumes:
+      - /Users/wyj/Documents/mysql/data/:/var/lib/mysql/
+      - /Users/wyj/Documents/mysql/conf/my.cnf:/etc/my.cnf
+      - /Users/wyj/Documents/mysql/init:/docker-entrypoint-initdb.d/
+    ports:
+      - "3306:3306"
+    environment:
+      TZ: Asia/Shanghai
+      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_USER: wyj
+      MYSQL_PASSWORD: 123456
+
+  hbase:
+    image: harisekhon/hbase
+#    container_name: dw-hbase
+#    hostname: dw-hbase
+    #使用compose启动有问题，16030起不来，使用下面命令
+#  docker run -d -p 2181:2181 -p 8080:8080 -p 8085:8085 -p 9090:9090 -p 9095:9095 -p 16000:16000 -p 16010:16010 -p 16201:16201 -p 16301:16301  -p 16030:16030 -p 16020:16020 --name hbase001 harisekhon/hbase
+    ports:
+      - "2182:2181"
+      - "9090:9090"
+      - "9095:9095"
+      - "16000:16000"
+      - "16010:16010"
+      - "16201:16201"
+      - "16301:16301"
+```
+
+
+
