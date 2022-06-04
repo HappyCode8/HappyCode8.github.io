@@ -346,5 +346,7 @@ https://mp.weixin.qq.com/s/YPkE3Tsu3RVbhfVZCBt1pQ
 - RocketMQ：**天生为金融互联网领域而生，对于可靠性要求很高的场景**，尤其是电商里面的订单扣款，以及业务削峰，在大量交易涌入时，后端可能无法及时处理的情况。RoketMQ 在稳定性上可能更值得信赖，这些业务场景在阿里双 11 已经经历了多次考验，**如果你的业务有上述并发场景，建议可以选择 RocketMQ。**
 - RabbitMQ：结合 erlang 语言本身的并发优势，性能较好，社区活跃度也比较高，但是不利于做二次开发和维护，不过 RabbitMQ 的社区十分活跃，可以解决开发过程中遇到的 bug。**如果你的数据量没有那么大，小公司优先选择功能比较完备的 RabbitMQ。**
 
+## 如何自己设计一个消息队列
 
+https://mp.weixin.qq.com/s/hd8z2F1hLbrykxZL6gQb1g
 

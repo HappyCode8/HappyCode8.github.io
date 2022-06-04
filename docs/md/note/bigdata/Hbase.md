@@ -1,5 +1,7 @@
 # Hbase
 
+https://github.com/collabH/repository/blob/master/datawarehouse/%E7%90%86%E8%AE%BA/%E6%95%B0%E6%8D%AE%E4%BB%93%E5%BA%93%E5%AE%9E%E6%88%98.md
+
 ## 逻辑结构
 
 ![image-20210912212744733.png](https://s2.loli.net/2022/05/28/1cfzlOHeAEUI8bF.png)

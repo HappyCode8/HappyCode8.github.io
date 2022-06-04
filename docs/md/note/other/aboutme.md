@@ -2,6 +2,8 @@
 docsify serve
 - [docsify]  https://docsify.js.org/#/
 > 一个神奇的文档网站生成器
+>
+> 本地启动 docsify serve ./docs
 
 - [emoji代码]  https://www.webfx.com/tools/emoji-cheat-sheet/
 > 可以在上边找一些表情

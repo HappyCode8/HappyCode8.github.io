@@ -214,7 +214,7 @@ pexpireat key-name timestamp 讲一个毫秒级精度的时间戳设置为给定
 
 # 问题
 
-
+https://mp.weixin.qq.com/s/i4-FuBwY7mHcuh1w6REmdg
 
 ## 大量key同一时间过期
 

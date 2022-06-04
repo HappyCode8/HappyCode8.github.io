@@ -68,3 +68,4 @@ localhost:5601使用kibana管理ES，在management的devtools可以运行ES命�
 
 > scan 'student',{LIMIT=>10} 查询数据表最多返回10条
 
+https://mp.weixin.qq.com/s/Pheqs6kEZl85XZf2vsy12A
