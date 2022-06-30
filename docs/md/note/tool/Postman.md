@@ -10,7 +10,7 @@
 
 Pre-request Script脚本
 
-```
+```js
 //设置id和secrent
 var client_secret='fd6652baad314c5189c30702456d3c47';
 var client_id = '22d8c3a80f38e535'
@@ -35,7 +35,10 @@ postman.setEnvironmentVariable("Date", timespan);
 
 在请求头中加入如下参数
 
-![image-20201017103519447](./images/image-20201017103519447.png)
+```
+Date {{Date}}
+Authorization {{Authorization}}
+```
 
 常见的时间戳、随机数、随机字符串、MD5等的测试
 
@@ -60,4 +63,10 @@ postman.setGlobalVariable("sign",strmd5)
 ```
 
 **有一些业务方规定了数据不能以body形式提交，而是要以参数的形式提交，那么以表单的形式提交可以代替参数形式，这样避免了URL长度的限制**
+
+贴出页面的cookie，在控制台输出
+
+```
+document.cookie
+```
 

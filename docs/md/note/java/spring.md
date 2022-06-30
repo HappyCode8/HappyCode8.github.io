@@ -6,19 +6,327 @@ todo: 这是小傅哥的那个手撸spring的笔记
 
 ## Step1
 
-​		BeanFactory是一个里面包含了hashmap对象的类，当向BeanFactory注册一个对象的时候，就是把一个对象用BeanDefination包裹起来，然后put到hashmap里，get的时候根据名字从hashmap里边拿出来，做个类型强转。
-​        BeanFactory beanFactory = new BeanFactory();
-​        BeanDefinition beanDefinition = new BeanDefinition(new UserService());
-​        beanFactory.registerBeanDefinition("userService", beanDefinition);
-​        UserService userService = (UserService) beanFactory.getBean("userService");
-​        userService.queryUserInfo();
+​		**BeanFactory**是一个里面包含了hashmap对象的类，当向BeanFactory注册一个对象的时候，就是把一个Object用**BeanDefination**包裹起来，然后put到hashmap里，get的时候根据名字从hashmap里边拿出来，做个类型强转。
+
+```java
+BeanFactory beanFactory = new BeanFactory();
+BeanDefinition beanDefinition = new BeanDefinition(new UserService());
+beanFactory.registerBeanDefinition("userService", beanDefinition);
+UserService userService = (UserService) beanFactory.getBean("userService");
+userService.queryUserInfo();
+```
 
 ## Step2
 
-- 首先BeanDefinition包裹的对象由Object变成了Class，此后向Spring容器注册Class而不是Object
-- BeanFactory只是获取Bean，注册Bean的方法放到BeanDefinitionRegistry接口
-- DefaultSingletonBeanRegistry实现了SingletonBeanRegistry接口，实现仍然是一个HashMap，可以放入Map里一个Object，也可以得到
-- AbstractBeanFactory继承了DefaultSingletonBeanRegistry，实现了BeanFactory接口，它里边有两个抽象方法，getBean时首先得到
+- **BeanFactory**变为了一个接口只负责根据id获取实例化好的bean，**AbstractBeanFactory**实现了其接口（getbean方法实现放在了其中）
+
+  ```java
+  @Override
+  public Object getBean(String name) throws BeansException {
+      Object bean = getSingleton(name);//有创建好的就用创建好的
+      if (bean != null) {
+          return bean;
+      }
+  
+      //没有创建好的就获取类定义创建bean
+      BeanDefinition beanDefinition = getBeanDefinition(name);
+      //创建bean的同时将其放置到缓存里
+      return createBean(name, beanDefinition);
+  }
+  ```
+
+- **BeanDefinitionRegistry**作为一个接口只负责注册BeanDefinition，**DefaultListableBeanFactory**实现了其接口
+
+  >Map<String, BeanDefinition> 类的BeanDefinition定义
+  >
+  >registerBeanDefinition 放入BeanDefinitio
+  >
+  >getBeanDefinition 得到BeanDefinitio
+
+- **SingletonBeanRegistry**作为一个接口只负责放创建好的对象与获取创建好的对象，**DefaultSingletonBeanRegistry**实现了其接口
+
+  >Map<String, Object> 类创建好的单例对象的缓存
+  >
+  >getSingleton(String beanName)
+  >
+  >addSingleton(String beanName)
+
+## Step3
+
+- **AbstractBeanFactory**
+
+  带参数的创建实际上是由反射完成的，可以选择cglib或者jdk自带的反射方法完成，这部分实现在**AbstractAutowireCapableBeanFactory**里完成
+
+  ```java
+  protected <T> T doGetBean(final String name, final Object[] args) {
+    Object bean = getSingleton(name);
+    if (bean != null) {
+      return (T) bean;
+    }
+  
+    BeanDefinition beanDefinition = getBeanDefinition(name);
+    return (T) createBean(name, beanDefinition, args);
+  }
+  
+  protected Object createBeanInstance(BeanDefinition beanDefinition, String beanName, Object[] args) {
+          Constructor constructorToUse = null;
+          Class<?> beanClass = beanDefinition.getBeanClass();
+          Constructor<?>[] declaredConstructors = beanClass.getDeclaredConstructors();
+          for (Constructor ctor : declaredConstructors) {
+              if (null != args && ctor.getParameterTypes().length == args.length) {
+                  constructorToUse = ctor;
+                  break;
+              }
+          }
+          return getInstantiationStrategy().instantiate(beanDefinition, beanName, constructorToUse, args);
+      }
+  ```
+
+## Step4
+
+- 如果属性有值的话需要填充属性，属性采用**PropertyValue**来包装属性
+
+  ```java
+  public class PropertyValue {
+      private final String name;//属性名
+      private final Object value;//属性值
+  }
+  
+  //属性值可以是一个BeanReference指明属性引用的对象
+  public class BeanReference {
+      private final String beanName;
+  }
+  
+  @Override
+      protected Object createBean(String beanName, BeanDefinition beanDefinition, Object[] args) throws BeansException {
+          Object bean = null;
+          try {
+              bean = createBeanInstance(beanDefinition, beanName, args);
+              // 给 Bean 填充属性，填充属性时如果是一个BeanReference，那就要就行调用getBean方法获取
+              applyPropertyValues(beanName, bean, beanDefinition);
+          } catch (Exception e) {
+              throw new BeansException("Instantiation of bean failed", e);
+          }
+  
+          addSingleton(beanName, bean);
+          return bean;
+      }
+  
+  ```
+
+## Step5
+
+- 引入配置文件,之前写入BeanDefinition是手写的，实际在XML中解析完成放入BeanDefinition
+
+## Step6
+
+- 在getbean前后要实现一些特定的方法做一些预处理，实现机制是写一个类实现BeanPostProcessor（在 Bean 对象实例化之后修改 Bean 对象，也可以替换 Bean 对象）、BeanFactoryPostProcessor（在 Bean 对象注册后但未实例化之前，对 Bean 的定义信息BeanDefinition执行修改操作）
+
+  ```java
+  public interface BeanPostProcessor {
+      /**
+       * 在 Bean 对象执行初始化方法之前，执行此方法
+       */
+      Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException;
+  
+      /**
+       * 在 Bean 对象执行初始化方法之后，执行此方法
+       */
+      Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException;
+  }
+  public abstract class AbstractBeanFactory{
+      private final List<BeanPostProcessor> beanPostProcessors = new ArrayList<BeanPostProcessor>();//允许用户注册BeanPostProcessor，把所有的都加入每次实例化一个bean的时候都试图执行他前后置方法
+  }
+  ```
+
+- 属性填充完成以后遍历bean的beanPostProcessors，然后执行其前后置方法
+
+- 将原来的直接自己实例化工厂的方式改为使用ApplicationContext，因为我们不太可能让面向 Spring 本身开发的 DefaultListableBeanFactory 服务，直接给予用户使用
+
+  ```java
+  //向ClassPathXmlApplicationContext传入配置文件地址，同时调用refresh方法
+  public ClassPathXmlApplicationContext(String[] configLocations) throws BeansException {
+          this.configLocations = configLocations;
+          refresh();
+  }
+  
+  public void refresh() throws BeansException {
+          // 1. 创建 BeanFactory，并加载 BeanDefinition
+          //    1.1 创建DefaultListableBeanFactory
+          //    1.2 载入配置文件并解析，注册类信息
+          refreshBeanFactory();
+  
+          // 2. 获取 BeanFactory
+          ConfigurableListableBeanFactory beanFactory = getBeanFactory();
+  
+          // 3. 在 Bean 实例化之前，执行 BeanFactoryPostProcessor (Invoke factory processors registered as beans in the context.)
+          //执行的方法是先扫描beandefinition，找到其中所有类型是BeanFactoryPostProcessor的类调用其postProcessBeanFactory方法
+          invokeBeanFactoryPostProcessors(beanFactory);
+  
+          // 4. BeanPostProcessor 需要提前于其他 Bean 对象实例化之前执行注册操作
+          //方法是先扫描beandefinition，找到其中所有类型是BeanPostProcessor的类调用beanFactory的add方法将其加入beanFactory的BeanPostProcessor，以供以后执行getbean时调用
+          registerBeanPostProcessors(beanFactory);
+  
+          // 5. 提前实例化单例Bean对象，实例化的方法就是执行beanDefinition map里的每一个getbean方法
+          beanFactory.preInstantiateSingletons();
+  }
+  ```
+
+## Step7
+
+- 初始化和销毁
+
+  ```java
+  //在配置文件中加入这两个方法init-method、destroy-method，在 BeanDefinition 的属性当中记录，这样在 initializeBean 初始化操作的工程中，就可以通过反射的方式来调用配置在 Bean 定义属性当中的方法信息了
+  private void invokeInitMethods(String beanName, Object bean, BeanDefinition beanDefinition) throws Exception {
+          // 1. 实现接口 InitializingBean。调用其afterPropertiesSet()
+          if (bean instanceof InitializingBean) {
+              ((InitializingBean) bean).afterPropertiesSet();
+          }
+  
+          // 2. 注解配置 init-method {判断是为了避免二次执行销毁}
+          String initMethodName = beanDefinition.getInitMethodName();
+          if (StrUtil.isNotEmpty(initMethodName)) {
+              Method initMethod = beanDefinition.getBeanClass().getMethod(initMethodName);
+              if (null == initMethod) {
+                  throw new BeansException("Could not find an init method named '" + initMethodName + "' on bean with name '" + beanName + "'");
+              }
+              initMethod.invoke(bean);
+          }
+      }
+  //另外如果是接口实现的方式(实现InitializingBean、DisposableBean接口)，那么直接可以通过 Bean 对象调用对应接口定义的方法即可，((InitializingBean) bean).afterPropertiesSet()
+  
+  //在createbean 注册实现了 DisposableBean 接口的 Bean 对象
+   registerDisposableBeanIfNecessary(beanName, bean, beanDefinition);
+  //销毁方法最后注册为一个map
+  private final Map<String, DisposableBean> disposableBeans = new HashMap<>();
+  //需要在 ConfigurableApplicationContext 接口中定义注册虚拟机钩子的方法 registerShutdownHook 和手动执行关闭的方法 close,最终就是依次调用map里的销毁方法
+  public void destroySingletons() {
+          Set<String> keySet = this.disposableBeans.keySet();
+          Object[] disposableBeanNames = keySet.toArray();
+          
+          for (int i = disposableBeanNames.length - 1; i >= 0; i--) {
+              Object beanName = disposableBeanNames[i];
+              DisposableBean disposableBean = disposableBeans.remove(beanName);
+              try {
+                  disposableBean.destroy();
+              } catch (Exception e) {
+                  throw new BeansException("Destroy method on bean with name '" + beanName + "' threw an exception", e);
+              }
+          }
+      }
+  ```
+
+## Step8
+
+- 感知Aware 的接口包括：BeanFactoryAware、BeanClassLoaderAware、BeanNameAware和ApplicationContextAware
+
+  ```java
+  public void refresh() throws BeansException {
+          // 1. 创建 BeanFactory，并加载 BeanDefinition
+          refreshBeanFactory();
+  
+          // 2. 获取 BeanFactory
+          ConfigurableListableBeanFactory beanFactory = getBeanFactory();
+  
+          // 3. 添加 ApplicationContextAwareProcessor，让继承自 ApplicationContextAware 的 Bean 对象都能感知所属的 ApplicationContext
+          beanFactory.addBeanPostProcessor(new ApplicationContextAwareProcessor(this));
+  
+          // 4. 在 Bean 实例化之前，执行 BeanFactoryPostProcessor (Invoke factory processors registered as beans in the context.)
+          invokeBeanFactoryPostProcessors(beanFactory);
+  
+          // 5. BeanPostProcessor 需要提前于其他 Bean 对象实例化之前执行注册操作
+          registerBeanPostProcessors(beanFactory);
+  
+          // 6. 提前实例化单例Bean对象
+          beanFactory.preInstantiateSingletons();
+      }
+  ```
+
+## Step9
+
+- 单例、多例以及FctoryBean
+
+  ```java
+  //单例、多例写在配置文件中
+  @Override
+      protected Object createBean(String beanName, BeanDefinition beanDefinition, Object[] args) throws BeansException {
+          Object bean = null;
+          try {
+              bean = createBeanInstance(beanDefinition, beanName, args);
+              // 给 Bean 填充属性
+              applyPropertyValues(beanName, bean, beanDefinition);
+              // 执行 Bean 的初始化方法和 BeanPostProcessor 的前置和后置处理方法
+              bean = initializeBean(beanName, bean, beanDefinition);
+          } catch (Exception e) {
+              throw new BeansException("Instantiation of bean failed", e);
+          }
+  
+          // 注册实现了 DisposableBean 接口的 Bean 对象
+          registerDisposableBeanIfNecessary(beanName, bean, beanDefinition);
+  
+          // 判断 SCOPE_SINGLETON、SCOPE_PROTOTYPE
+          if (beanDefinition.isSingleton()) {
+              addSingleton(beanName, bean);
+          }
+          return bean;
+      }
+  //单例对象不销毁
+  ```
+
+  ```java
+  //如果对象是实现了 FactoryBean#getObject就调用
+  protected <T> T doGetBean(final String name, final Object[] args) {
+          Object sharedInstance = getSingleton(name);
+          if (sharedInstance != null) {
+              // 如果是 FactoryBean，则需要调用 FactoryBean#getObject
+              return (T) getObjectForBeanInstance(sharedInstance, name);
+          }
+  
+          BeanDefinition beanDefinition = getBeanDefinition(name);
+          Object bean = createBean(name, beanDefinition, args);
+          return (T) getObjectForBeanInstance(bean, name);
+      }
+  ```
+
+## Step10
+
+- 本质上就是一个观察者模式
+
+  ```java
+  public void refresh() throws BeansException {
+          // 1. 创建 BeanFactory，并加载 BeanDefinition
+          refreshBeanFactory();
+  
+          // 2. 获取 BeanFactory
+          ConfigurableListableBeanFactory beanFactory = getBeanFactory();
+  
+          // 3. 添加 ApplicationContextAwareProcessor，让继承自 ApplicationContextAware 的 Bean 对象都能感知所属的 ApplicationContext
+          beanFactory.addBeanPostProcessor(new ApplicationContextAwareProcessor(this));
+  
+          // 4. 在 Bean 实例化之前，执行 BeanFactoryPostProcessor (Invoke factory processors registered as beans in the context.)
+          invokeBeanFactoryPostProcessors(beanFactory);
+  
+          // 5. BeanPostProcessor 需要提前于其他 Bean 对象实例化之前执行注册操作
+          registerBeanPostProcessors(beanFactory);
+  
+          // 6. 初始化事件发布者
+          initApplicationEventMulticaster();
+  
+          // 7. 注册事件监听器
+          registerListeners();
+  
+          // 8. 提前实例化单例Bean对象
+          beanFactory.preInstantiateSingletons();
+  
+          // 9. 发布容器刷新完成事件
+          finishRefresh();
+      }
+  ```
+
+  
+
+
 
 # Spring
 
@@ -1127,6 +1435,8 @@ public class Main {
   
   ## 常用注解
   
+  https://mp.weixin.qq.com/s/u_O1m7Wyg0icIKffl20U1Q
+  
   - web
   
     @Controller、@RestController、@RequesuMapping(get、post、put、delete)、@ResponseBody、@RequestBody、@PathVariable
@@ -1206,6 +1516,98 @@ public class Main {
   - Springboot 启动原理
   
   ## SpringCloud
+  
+  
+  
+  ```properties
+  手写模拟Spring
+  手写模拟Spring扫描底层实现
+  手写模拟BeanDefinition的生成
+  手写模拟getBean方法底层实现
+  手写模拟Bean创建流程
+  手写模拟依赖注入
+  手写模拟Aware回调机制
+  手写模拟Spring初始化机制
+  手写模拟BeanPostProcessor机制
+  手写模拟SpringAOP机制
+  Bean生命周期底层原理
+  依赖注入底层原理
+  单例池底层原理
+  @PostConstruct底层原理
+  初始化底层原理源码实现
+  推断构造方法底层原理
+  AOP底层实现原理
+  Spring事务底层实现原理
+  Spring事务失效原理
+  @Configuration的底层实现原理
+  为什么会出现循环依赖？
+  如何打破循环依赖？
+  什么是提前进行AOP？
+  第二级缓存earlySingletonObjects的作用
+  第三级缓存singletonFactories的作用
+  为什么@Lazy能解决循环依赖
+  Spring整合Mybatis底层原理
+  整合Mybatis代理对象
+  ImportBeanDefinitionRegistrar的作用
+  Mapper扫描的底层原理
+  Spring扫描入口
+  到底什么是配置类？
+  Spring中的beanName生成机制
+  ScopedProxyMode的作用
+  ExcludeFilter机制
+  扫描路径解析源码分析
+  扫描中的ASM技术
+  扫描中的IncludeFilter机制
+  扫描中的独立类、接口、抽象类
+  @Lookup注解与ComponentsIndex
+  
+  SpringBoot的优势
+  快速搭建一个Web工程
+  Start机制的作用与原理
+  SpringBoot的自动配置与手动配置
+  @Configuration的作用与底层原理
+  spring.factories机制的作用
+  @SpringBootApplication注解解析
+  TypeExcludeFilter机制
+  自动配置总结
+  @ConditionalOnBean与@ConditionalOnMissingBean
+  @ConditionalOnSingleCandidate
+  @ConditionalOnClass和ConditionalOnMissingClass
+  ConditionalOnExpression
+  @ConditionalOnJava
+  @ConditionalOnWebApplication
+  ConditionalOnProperty和ConditionalOnResource
+  @ConditionalOnCloudPlatform
+  SpringBoot中的属性绑定
+  yml配置与配置优先级
+  Spring Boot中的Profiles机制
+  Spring Boot整合JdbcTemplate
+  Spring Boot整合Mybatis
+  Spring Boot整合Mybatis Plus
+  Spring Boot整合JPA
+  Spring Boot整合Redis
+  源码篇-启动流程梳理
+  源码篇-推断应用类型
+  源码篇-读取spring.factories文件
+  源码篇-获取SpringApplicationRunListener
+  源码篇-启动剩余步骤
+  源码篇-ApplicationRunner和CommandLineRunner
+  源码篇-自动配置解析顺序
+  源码篇-自动配置类读取与过滤
+  源码篇-自动配置类条件检查
+  源码篇-tomcat和jetty决策实现
+  源码篇-tomcat自定义配置生效过程
+  MVC模式解读
+  SpringMvc执行流程图解形式深度剖析
+  SpringMvc底层源码深度剖析
+  SpringMvc控制器不同实现方式与底层源码详解
+  SpringMvc参数注入解密
+  SpringMVC拦截器执行流程详解
+  SpringMvc框架核心功能手写实现
+  Spring容器与SpringMvc容器关系分析
+  ```
+  
+  
   
   
   

@@ -66,6 +66,10 @@
 - [Grandyang]  https://www.cnblogs.com/grandyang/
 > 一些刷题题解
 
+- [尚硅谷] http://www.atguigu.com/mst/java/gaopin/17847.html
+
+  >有一些大数据类、java的题目可以参考
+
 # 开源项目
 - [新生命]  https://www.newlifex.com/
 > 一个中间件开发的团队，有一些实用的知识

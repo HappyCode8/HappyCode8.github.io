@@ -64,3 +64,7 @@ docker run -d -p 2182:2181  -p 9090:9090 -p 9095:9095 -p 16000:16000 -p 16010:16
 要想访问节点情况，需要把Region Servers下的ServerName对应的12位串码映射到/etc/hosts/ localhost
 ```
 
+## 常用命令
+
+> scan 'student',{LIMIT=>10} 查询数据表最多返回10条
+

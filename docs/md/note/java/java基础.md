@@ -237,3 +237,21 @@ set.add(e2);
 System.out.println(set.size());   // 2
 ```
 
+# 常见问题
+
+<font color='red'> try中的语句执行错误后边的还会执行吗？</font>
+
+```java
+public static void main(String[] args) {
+        //System.out.println(test.num);
+        try {
+            int e=1/0;
+            System.out.println("hello1");
+        }catch (Exception e){
+
+        }
+        System.out.println("hello2");
+    }
+
+输出：hello2
+```

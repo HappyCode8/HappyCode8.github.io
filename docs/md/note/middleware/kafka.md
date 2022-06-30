@@ -1,3 +1,5 @@
+# Kafka常见面试题
+
 ## 为什么要用kafka
 
 > 解耦、异步、削峰
@@ -300,6 +302,16 @@
     - latest从最新的偏移量开始检索，本质上是加入时间带你开始消费
     - none不指定重置策略，代理将会向消费者抛出异常
 
+## 消息队列选型
+
+- Kafka：追求高吞吐量，一开始的目的就是用于日志收集和传输，**适合产生大量数据的互联网服务的数据收集业务**，大型公司建议可以选用，**如果有日志采集功能，肯定是首选 kafka。**
+- RocketMQ：**天生为金融互联网领域而生，对于可靠性要求很高的场景**，尤其是电商里面的订单扣款，以及业务削峰，在大量交易涌入时，后端可能无法及时处理的情况。RoketMQ 在稳定性上可能更值得信赖，这些业务场景在阿里双 11 已经经历了多次考验，**如果你的业务有上述并发场景，建议可以选择 RocketMQ。**
+- RabbitMQ：结合 erlang 语言本身的并发优势，性能较好，社区活跃度也比较高，但是不利于做二次开发和维护，不过 RabbitMQ 的社区十分活跃，可以解决开发过程中遇到的 bug。**如果你的数据量没有那么大，小公司优先选择功能比较完备的 RabbitMQ。**
+
+## 如何自己设计一个消息队列
+
+https://mp.weixin.qq.com/s/hd8z2F1hLbrykxZL6gQb1g
+
 # kafka的一些坑
 
 https://mp.weixin.qq.com/s/YPkE3Tsu3RVbhfVZCBt1pQ
@@ -340,13 +352,50 @@ https://mp.weixin.qq.com/s/YPkE3Tsu3RVbhfVZCBt1pQ
 
 - prod的数据被test环境消费了，重置offset
 
-# 消息队列选型
+# Kafka命令行操作
 
-- Kafka：追求高吞吐量，一开始的目的就是用于日志收集和传输，**适合产生大量数据的互联网服务的数据收集业务**，大型公司建议可以选用，**如果有日志采集功能，肯定是首选 kafka。**
-- RocketMQ：**天生为金融互联网领域而生，对于可靠性要求很高的场景**，尤其是电商里面的订单扣款，以及业务削峰，在大量交易涌入时，后端可能无法及时处理的情况。RoketMQ 在稳定性上可能更值得信赖，这些业务场景在阿里双 11 已经经历了多次考验，**如果你的业务有上述并发场景，建议可以选择 RocketMQ。**
-- RabbitMQ：结合 erlang 语言本身的并发优势，性能较好，社区活跃度也比较高，但是不利于做二次开发和维护，不过 RabbitMQ 的社区十分活跃，可以解决开发过程中遇到的 bug。**如果你的数据量没有那么大，小公司优先选择功能比较完备的 RabbitMQ。**
+```shell
+bin/zookeeper-server-start.sh config/zookeeper.properties #启动zk
 
-## 如何自己设计一个消息队列
+bin/kafka-server-start.sh config/server.properties #启动kafka服务端
 
-https://mp.weixin.qq.com/s/hd8z2F1hLbrykxZL6gQb1g
+bin/kafka-topics.sh --create --topic quickstart-events --bootstrap-server localhost:9092 #创建topic
+
+bin/kafka-topics.sh --describe --topic quickstart-events --bootstrap-server localhost:9092 #查看topic的描述
+
+bin/kafka-console-producer.sh --topic quickstart-events --bootstrap-server localhost:9092#启动生产者
+
+bin/kafka-console-consumer.sh --topic quickstart-events --from-beginning --bootstrap-server localhost:9092#启动消费者
+
+bin/kafka-topics.sh --zookeeper localhost:2181 --list#查看kafka所有的topic
+kafka-topics.sh --zookeeper zookeeper:2181 --list#当在容器中时执行这一条
+
+bin/kafka-topics.sh --zookeeper localhost:2181 --topic hotitems --describe#查看kafka某个topic的信息
+
+bin/kafka-consumer-groups.sh --bootstrap-server localhost:9092 --list#查看消费者组
+
+bin/kafka-consumer-groups.sh --bootstrap-server localhost:9092 --delete --group {消费组}
+#删除某个消费者
+
+bin/kafka-consumer-groups.sh --bootstrap-server localhost:9092 --describe --group console-consumer-68915  #查看某个消费者组的情况
+GROUP   console-consumer-68915   #消费者组id            
+TOPIC     hotitems      #消费组消费的主题
+PARTITION  0						#分区
+CURRENT-OFFSET  -				#当前偏移
+LOG-END-OFFSET  11613   #下一条偏移
+LAG         -           #
+CONSUMER-ID  consumer-console-consumer-68915-1-7f757591-d038-45be-840e-9fd6433aa92d#消费者id                                                        
+HOST         /127.0.0.1      #主机
+CLIENT-ID			consumer-console-consumer-68915-1    #客户端id
+
+#后台启动kafka
+cd /usr/local/kafka_2.12-2.5.0
+bin/zookeeper-server-start.sh -daemon config/zookeeper.properties
+bin/kafka-server-start.sh -daemon config/server.properties
+
+#关闭kafka
+cd /usr/local/kafka_2.12-2.5.0
+bin/kafka-server-stop.sh config/server.properties
+bin/zookeeper-server-stop.sh
+```
 

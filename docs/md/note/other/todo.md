@@ -1,7 +1,5 @@
 - 本周待办
 
-  Txy，以下是面试题和答案。加油，一起卷。
-
   1. 聊聊项目，好的设计，好的代码
   2. 谈谈什么是零拷贝？
   3. 一共有几种 IO 模型？NIO 和多路复用的区别？
@@ -90,3 +88,4 @@ mybatis的日志功能如何设计的https://mp.weixin.qq.com/s/hWE8S8Zzy6m1-Yhb
 大事务https://mp.weixin.qq.com/s/eHAQfeH2A_uYIUTuHmHbDw
 
 mysqlhttps://mp.weixin.qq.com/s/zCR-bccW6aoNrVpwRTGBiw
+
