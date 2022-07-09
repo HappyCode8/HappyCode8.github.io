@@ -87,6 +87,8 @@ https://mp.weixin.qq.com/s/5S0swlCe-Gx66aO3Lrpylg
 
 1. 查看占用了8080端口号的进程`lsof -i:8080`
 
+1. 查看某个进程ps -aux | grep python
+
 2. 查看当前在哪个目录下`pwd`
 
 3. `chmod a+x `文件 赋予文件可执行权限

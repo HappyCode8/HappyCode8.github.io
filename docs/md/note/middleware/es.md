@@ -62,8 +62,6 @@ Localhost:9200,出现如图所示的信息时启动成功
 
 localhost:5601使用kibana管理ES，在management的devtools可以运行ES命令
 
-https://mp.weixin.qq.com/s/Pheqs6kEZl85XZf2vsy12A
-
 ## kibana、es、ik
 
 ```shell

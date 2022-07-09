@@ -1,5 +1,4 @@
 本站使用gitpage以及以下工具构建，仅仅用于个人学习
-docsify serve
 - [docsify]  https://docsify.js.org/#/
 > 一个神奇的文档网站生成器
 >
@@ -18,6 +17,9 @@ docsify serve
 > https://www.superbed.cn/
 > https://www.z4a.net/
 > https://moetu.org/
+
+- markdown工具，目前使用typora，不过高版本的typora开始收费，可以使用开源替代品marktext https://github.com/marktext/marktext
+- 文本编辑工具sublime
 
 <!--公众号-->
 

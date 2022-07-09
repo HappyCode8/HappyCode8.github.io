@@ -8,7 +8,7 @@
 
 - Vue.sj: 提供对vue的支持
 
-- Pyhton：提供对Python的支持
+- 其他语言支持：Python提供对Python的支持，Scala提供对Scala的支持，Go提供对Go的支持
 
 - 代码质量的：Alibaba Java Coding Guidelines、SonarLint
 
@@ -17,6 +17,8 @@
 - Grep console:控制台输出不同日志级别的颜色
 
 - sequenceDiagram：时序图
+
+- redis simple: 提供redis读取
 
 # 激活
 

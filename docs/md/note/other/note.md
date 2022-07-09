@@ -28,12 +28,6 @@
 
 sys.stdin使用command+d结束输入
 
-## Sublime text3
-
-`command+shift+j`格式化json
-
-`command+shift+p`搜索install
-
 ## JS
 
 ```js
@@ -42,7 +36,6 @@ var tags=document.getElementsByTagName("video");
 [...tags].forEach(val=>val.playbackRate = 2);
 ```
 
-## 
 
 
 
