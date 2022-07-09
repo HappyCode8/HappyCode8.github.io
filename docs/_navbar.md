@@ -3,6 +3,4 @@
 - [书签](/md/note/other/collection.md)
 - Fun
   - [俄罗斯方块](https://binaryify.github.io/vue-tetris/?lan=zh)
-
-
-       
+  - [随机ACG](/md/note/other/acg.md)

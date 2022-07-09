@@ -11,7 +11,7 @@
   <link rel="stylesheet" href=//cdn.jsdelivr.net/npm/docsify-themeable@0/dist/css/theme-simple.css" title="light" type="text/css">
 </head>
 <body>
-<div id="app">loading ......</div>
+<div id="app" >loading ......</div>
 <script>
     window.$docsify = {
       name: 'HappyCode8',//会显示在侧边栏的顶部
@@ -21,10 +21,10 @@
       onlyCover: true,//只在访问主页时加载封面
       coverpage: true, //封面
       loadSidebar: false,//加载侧边栏文件
-      loadNavbar: false,// 加载导航栏文件 _navbar.md
+      loadNavbar: true,// 加载导航栏文件 _navbar.md
       maxLevel: 3,//最大只抓取到2级标题
       subMaxLevel: 3,
-      themeColor: '',//主题色
+      themeColor: '#1E90FF',//主题色
       search: {
         paths: 'auto',
         placeholder: '🔍 输入搜索的关键字 ',
@@ -44,7 +44,6 @@
 
 <script src="/assets/js/md5.js"></script>
 <script src="/assets/js/docsify.min.js"></script>
-<!--<script src="/assets/js/gitalk.min.js"></script>-->
 <script src="https://cdn.jsdelivr.net/npm/docsify@4/lib/plugins/search.js"></script><!--搜索-->
 <script src="/assets/js/docsify-pagination.min.js"></script><!--上下翻页-->
 <script src="/assets/js/zoom-image.js"></script>

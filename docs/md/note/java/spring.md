@@ -519,8 +519,6 @@ public class DefaultAdvisorAutoProxyCreator implements InstantiationAwareBeanPos
           Object bean = createBean(name, beanDefinition, args);
           return (T) getObjectForBeanInstance(bean, name);
       }
-  
-  
   ```
 
 - createBean
