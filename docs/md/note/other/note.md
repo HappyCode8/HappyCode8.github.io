@@ -37,6 +37,3 @@ var tags=document.getElementsByTagName("video");
 ```
 
 
-
-
-

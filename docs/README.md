@@ -18,14 +18,11 @@
   - [Spring](/md/note/java/spring.md)
   - [MyBatis](/md/note/java/MyBatis.md)
 
-### 📚数据库
-  - [基础](/md/note/mysql/基础.md)
-  - [分库分表](/md/note/mysql/分库分表.md)
-
-### 💻中间件
+### 📚中间件
   - [redis](/md/note/middleware/redis.md)
   - [kafka](/md/note/middleware/kafka.md)
   - [es](/md/note/middleware/es.md)
+  - [MySQL](/md/note/middleware/mysql.md)
 
 ### 🖱大数据
   - [Hive](/md/note/bigdata/Hive.md)
@@ -42,6 +39,7 @@
   - [Docker](/md/note/tool/Docker.md)
   - [IDEA](/md/note/tool/IDEA.md)
   - [PostMan](/md/note/tool/PostMan.md)
+  - [Maven](/md/note/tool/Maven.md)
 
 ### ⭐️️读书笔记
   - [java8新特性](/md/note/book/java8新特性.md)

@@ -23,20 +23,22 @@
 > 讲架构的
 - [优秀的个人博客]
 > CSNotes: http://www.cyc2018.xyz/
-> 
+>
 > Java 全栈知识体系: https://www.pdai.tech/
-> 
+>
 > 汪明鑫个人博客: http://xinyeshuaiqi.cn/
-> 
+>
 > Java架构师必看: https://javajgs.com/
-> 
+>
 > bugstack: https://bugstack.cn/
-> 
+>
 > mghio: https://www.mghio.cn/
-> 
+>
 > java充电社: http://www.itsoku.com/
-> 
+>
 > 章鱼猫思维导图: https://www.processon.com/u/5c89e3fce4b01e76977e388c
+>
+> 对线面试官：https://www.zhihu.com/people/Java_3y/posts
 - [优秀的社区]
 > gitChat: https://gitbook.cn/
 >
