@@ -22,7 +22,7 @@
   - [redis](/md/note/middleware/redis.md)
   - [kafka](/md/note/middleware/kafka.md)
   - [es](/md/note/middleware/es.md)
-  - [MySQL](/md/note/middleware/mysql.md)
+  - [mysql](/md/note/middleware/mysql.md)
 
 ### 🖱大数据
   - [Hive](/md/note/bigdata/Hive.md)

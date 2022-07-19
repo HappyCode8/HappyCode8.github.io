@@ -1157,15 +1157,15 @@ MVCC(Multi Version Concurrency Control)，中文名是多版本并发控制，�
 - `DB_TRX_ID`，事务ID，每次修改时，都会把该事务ID复制给`DB_TRX_ID`；
 - `DB_ROLL_PTR`，回滚指针，指向回滚段的undo日志。
 
-![图片](https://mmbiz.qpic.cn/mmbiz_png/PMZOEonJxWcxrhwchLbbpusoPaT2cOlA49nHbkPW8RrfhCkyyC4gsGeyVtjkMhS5xvcOMfVtjE3tCDNQCn4X6g/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1)表隐藏列
+![图片](https://img-blog.csdnimg.cn/036beb2588fe4b56a1b0b0edcdb35ebe.png)表隐藏列
 
 假如有一张`user`表，表中只有一行记录，当时插入的事务id为80。此时，该条记录的示例图如下：
 
-![图片](https://mmbiz.qpic.cn/mmbiz_png/PMZOEonJxWcxrhwchLbbpusoPaT2cOlAwJ1UbvY3sNBEd01E1Jupaj1D2ib1vfqpbt0usUa7yo7dAwaTaicejjkw/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1)
+![图片](https://img-blog.csdnimg.cn/15910552d98b4821950ae34a5617b8e7.png)
 
 接下来有两个`DB_TRX_ID`分别为`100`、`200`的事务对这条记录进行`update`操作，整个过程如下：
 
-![图片](https://mmbiz.qpic.cn/mmbiz_png/PMZOEonJxWcxrhwchLbbpusoPaT2cOlAic4fnyfNy48db4S0lYen1hbtLpJJPshLXHHy92ntnWBn8Qn1bjibotmg/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1)
+![图片](https://img-blog.csdnimg.cn/3aa90cb5f82e4240a42205495dd7bafe.png)
 
 由于每次变动都会先把`undo`日志记录下来，并用`DB_ROLL_PTR`指向`undo`日志地址。因此可以认为，**对该条记录的修改日志串联起来就形成了一个`版本链`，版本链的头节点就是当前记录最新的值**。如下：
 
