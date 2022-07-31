@@ -1,12 +1,10 @@
-
-
 # Small-Spring
 
 [Spring手撸专栏](https://bugstack.cn/md/spring/develop-spring/2021-05-16-%E7%AC%AC1%E7%AB%A0%EF%BC%9A%E5%BC%80%E7%AF%87%E4%BB%8B%E7%BB%8D%EF%BC%8C%E6%89%8B%E5%86%99Spring%E8%83%BD%E7%BB%99%E4%BD%A0%E5%B8%A6%E6%9D%A5%E4%BB%80%E4%B9%88%EF%BC%9F.html)
 
 ## Step1：简单的Bean容器
 
-​		**BeanFactory**是一个里面包含了hashmap对象的类，当向BeanFactory注册一个对象的时候，就是把一个Object用**BeanDefination**包裹起来，然后put到hashmap里，get的时候根据名字从hashmap里边拿出来，做个类型强转。
+​        **BeanFactory**是一个里面包含了hashmap对象的类，当向BeanFactory注册一个对象的时候，就是把一个Object用**BeanDefination**包裹起来，然后put到hashmap里，get的时候根据名字从hashmap里边拿出来，做个类型强转。
 
 ```java
 BeanFactory beanFactory = new BeanFactory();
@@ -19,7 +17,7 @@ userService.queryUserInfo();
 ## Step2：Bean定义、注册与获取
 
 - **BeanFactory**变为了一个接口只负责根据id获取实例化好的bean，**AbstractBeanFactory**实现了其接口（getbean方法实现放在了其中）
-
+  
   ```java
   @Override
   public Object getBean(String name) throws BeansException {
@@ -36,27 +34,27 @@ userService.queryUserInfo();
   ```
 
 - **BeanDefinitionRegistry**作为一个接口只负责注册BeanDefinition，**DefaultListableBeanFactory**实现了其接口
-
-  >Map<String, BeanDefinition> 类的BeanDefinition定义
-  >
-  >registerBeanDefinition 放入BeanDefinitio
-  >
-  >getBeanDefinition 得到BeanDefinitio
+  
+  > Map<String, BeanDefinition> 类的BeanDefinition定义
+  > 
+  > registerBeanDefinition 放入BeanDefinitio
+  > 
+  > getBeanDefinition 得到BeanDefinitio
 
 - **SingletonBeanRegistry**作为一个接口只负责放创建好的对象与获取创建好的对象，**DefaultSingletonBeanRegistry**实现了其接口
-
-  >Map<String, Object> 类创建好的单例对象的缓存
-  >
-  >getSingleton(String beanName)
-  >
-  >addSingleton(String beanName)
+  
+  > Map<String, Object> 类创建好的单例对象的缓存
+  > 
+  > getSingleton(String beanName)
+  > 
+  > addSingleton(String beanName)
 
 ## Step3：带构造函数的类的实例化
 
 - **AbstractBeanFactory**
-
+  
   带参数的创建实际上是由反射完成的，可以选择cglib或者jdk自带的反射方法完成，这部分实现在**AbstractAutowireCapableBeanFactory**里完成
-
+  
   ```java
   protected <T> T doGetBean(final String name, final Object[] args) {
     Object bean = getSingleton(name);
@@ -85,7 +83,7 @@ userService.queryUserInfo();
 ## Step4：注入属性和依赖对象
 
 - 如果属性有值的话需要填充属性，属性采用**PropertyValue**来包装属性
-
+  
   ```java
   public class PropertyValue {
       private final String name;//属性名
@@ -111,7 +109,6 @@ userService.queryUserInfo();
           addSingleton(beanName, bean);
           return bean;
       }
-  
   ```
 
 ## Step5：解析XML文件注册对象
@@ -121,7 +118,7 @@ userService.queryUserInfo();
 ## Step6：实现应用上下文
 
 - 在getbean前后要实现一些特定的方法做一些预处理，实现机制是写一个类实现BeanPostProcessor（在 Bean 对象实例化之后修改 Bean 对象，也可以替换 Bean 对象）、BeanFactoryPostProcessor（在 Bean 对象注册后但未实例化之前，对 Bean 的定义信息BeanDefinition执行修改操作）
-
+  
   ```java
   public interface BeanPostProcessor {
       /**
@@ -142,7 +139,7 @@ userService.queryUserInfo();
 - 属性填充完成以后遍历bean的beanPostProcessors，然后执行其前后置方法
 
 - 将原来的直接自己实例化工厂的方式改为使用ApplicationContext，因为我们不太可能让面向 Spring 本身开发的 DefaultListableBeanFactory 服务，直接给予用户使用
-
+  
   ```java
   //向ClassPathXmlApplicationContext传入配置文件地址，同时调用refresh方法
   public ClassPathXmlApplicationContext(String[] configLocations) throws BeansException {
@@ -175,7 +172,7 @@ userService.queryUserInfo();
 ## Step7：初始化和销毁方法
 
 - 初始化和销毁
-
+  
   ```java
   //在配置文件中加入这两个方法init-method、destroy-method，在 BeanDefinition 的属性当中记录，这样在 initializeBean 初始化操作的工程中，就可以通过反射的方式来调用配置在 Bean 定义属性当中的方法信息了
   private void invokeInitMethods(String beanName, Object bean, BeanDefinition beanDefinition) throws Exception {
@@ -204,7 +201,7 @@ userService.queryUserInfo();
   public void destroySingletons() {
           Set<String> keySet = this.disposableBeans.keySet();
           Object[] disposableBeanNames = keySet.toArray();
-          
+  
           for (int i = disposableBeanNames.length - 1; i >= 0; i--) {
               Object beanName = disposableBeanNames[i];
               DisposableBean disposableBean = disposableBeans.remove(beanName);
@@ -220,7 +217,7 @@ userService.queryUserInfo();
 ## Step8：Aware感知容器对象
 
 - 感知Aware 的接口包括：BeanFactoryAware、BeanClassLoaderAware、BeanNameAware和ApplicationContextAware
-
+  
   ```java
   public void refresh() throws BeansException {
           // 1. 创建 BeanFactory，并加载 BeanDefinition
@@ -246,7 +243,7 @@ userService.queryUserInfo();
 ## Step9：对象作用域与FactoryBean
 
 - 单例、多例以及FctoryBean
-
+  
   ```java
   //单例、多例写在配置文件中
   @Override
@@ -273,7 +270,7 @@ userService.queryUserInfo();
       }
   //单例对象不销毁
   ```
-
+  
   ```java
   //如果对象是实现了 FactoryBean#getObject就调用
   protected <T> T doGetBean(final String name, final Object[] args) {
@@ -292,7 +289,7 @@ userService.queryUserInfo();
 ## Step10：容器事件和容器监听器
 
 - 本质上就是一个观察者模式
-
+  
   ```java
   public void refresh() throws BeansException {
           // 1. 创建 BeanFactory，并加载 BeanDefinition
@@ -397,7 +394,7 @@ public class DefaultAdvisorAutoProxyCreator implements InstantiationAwareBeanPos
 
         return null;
     }
-    
+
 }
 ```
 
@@ -416,7 +413,7 @@ public class DefaultAdvisorAutoProxyCreator implements InstantiationAwareBeanPos
 
 ## Step15：给代理对象的属性设置值
 
-``` java
+```java
  @Override
     protected Object createBean(String beanName, BeanDefinition beanDefinition, Object[] args) throws BeansException {
         Object bean = null;
@@ -457,13 +454,13 @@ public class DefaultAdvisorAutoProxyCreator implements InstantiationAwareBeanPos
 ## 总结
 
 - bean实例化的过程
-
+  
   ```java
   @Override
       public void refresh() throws BeansException {
           /*
           1. 创建 BeanFactory，并加载 BeanDefinition
-             1.1 创建 BeanFactory就是new DefaultListableBeanFactory()(包含Map<String, BeanDefinition> 		beanDefinitionMap beanDefinitionMap)
+             1.1 创建 BeanFactory就是new DefaultListableBeanFactory()(包含Map<String, BeanDefinition>         beanDefinitionMap beanDefinitionMap)
              1.2 然后用loadBeanDefinitions方法，解析xml文件将得到的bean的属性全部解析到，主要包括id,name,class,inti-method,destroy-method,scope等，解析完成以后调用DefaultListableBeanFactory的registerBeanDefinition方法将放入 beanDefinitionMap方法里
           */
           refreshBeanFactory();
@@ -476,14 +473,14 @@ public class DefaultAdvisorAutoProxyCreator implements InstantiationAwareBeanPos
           beanFactory.addBeanPostProcessor(new ApplicationContextAwareProcessor(this));
   
           /* 4. 在 Bean 实例化之前，执行 BeanFactoryPostProcessor
-          	   4.1 收集所有BeanFactoryPostProcessor类型的类为一个Map<String, T>,收集过程中已经开始通过doGetBean实例化而且仅实例化这些类（在getBeanTypeOf的方法中判断bean的类型时）
-          	   4.2 执行每个BeanFactoryPostProcessor的postProcessBeanFactory方法
+                 4.1 收集所有BeanFactoryPostProcessor类型的类为一个Map<String, T>,收集过程中已经开始通过doGetBean实例化而且仅实例化这些类（在getBeanTypeOf的方法中判断bean的类型时）
+                 4.2 执行每个BeanFactoryPostProcessor的postProcessBeanFactory方法
         */
           invokeBeanFactoryPostProcessors(beanFactory);
   
           /*5. BeanPostProcessor 需要提前于其他Bean对象实例化之前执行注册操作
-          		5.1 收集所有BeanPostProcessor类型的类为一个Map<String, T>,收集过程中已经开始通过doGetBean实例化而且仅实例化这些类（在getBeanTypeOf的方法中判断bean的类型时）
-          		5.2 加入所有的BeanPostProcessor为一个list
+                  5.1 收集所有BeanPostProcessor类型的类为一个Map<String, T>,收集过程中已经开始通过doGetBean实例化而且仅实例化这些类（在getBeanTypeOf的方法中判断bean的类型时）
+                  5.2 加入所有的BeanPostProcessor为一个list
           */
           registerBeanPostProcessors(beanFactory);
   
@@ -497,8 +494,8 @@ public class DefaultAdvisorAutoProxyCreator implements InstantiationAwareBeanPos
           registerListeners();
   
           /* 8. 提前实例化单例Bean对象
-          		8.1 实例化的方法就是依次调一次getBean方法，最后调用doGetBean方法
-        	*/
+                  8.1 实例化的方法就是依次调一次getBean方法，最后调用doGetBean方法
+            */
           beanFactory.preInstantiateSingletons();
   
           // 9. 发布容器刷新完成事件
@@ -507,7 +504,7 @@ public class DefaultAdvisorAutoProxyCreator implements InstantiationAwareBeanPos
   ```
 
 - doGetBean方法
-
+  
   ```java
   protected <T> T doGetBean(final String name, final Object[] args) {
           Object sharedInstance = getSingleton(name);
@@ -522,7 +519,7 @@ public class DefaultAdvisorAutoProxyCreator implements InstantiationAwareBeanPos
   ```
 
 - createBean
-
+  
   ```java
   protected Object createBean(String beanName, BeanDefinition beanDefinition, Object[] args) throws BeansException {
           // 判断是否返回代理 Bean 对象,判断的方法是生成代理对象的类实现了InstantiationAwareBeanPostProcessor，这个接口实现了PostProcessor，在处理PostProcessor时如果能通过InstantiationAwareBeanPostProcessor.postProcessBeforeInstantiation方法返回一个切后的对象，那就返回这个对象
@@ -536,7 +533,7 @@ public class DefaultAdvisorAutoProxyCreator implements InstantiationAwareBeanPos
   ```
 
 - doCreateBean
-
+  
   ```java
   protected Object doCreateBean(String beanName, BeanDefinition beanDefinition, Object[] args) {
           Object bean = null;
@@ -583,16 +580,16 @@ public class DefaultAdvisorAutoProxyCreator implements InstantiationAwareBeanPos
   ```
 
 - getSingleton方法
-
+  
   ```java
-  		// 一级缓存，普通对象，beanName->Bean，其中存储的就是实例化，属性赋值成功之后的单例对象
+          // 一级缓存，普通对象，beanName->Bean，其中存储的就是实例化，属性赋值成功之后的单例对象
       private Map<String, Object> singletonObjects = new ConcurrentHashMap<>();
       // 二级缓存，提前暴露对象，早期的单例对象，beanName->Bean，其中存储的是实例化之后，属性未赋值的单例对象
       protected final Map<String, Object> earlySingletonObjects = new HashMap<String, Object>();
       // 三级缓存，存放代理对象，单例工厂的缓存，beanName->ObjectFactory，添加进去的时候实例还未具备属性，用于保存beanName和创建bean的工厂之间的关系map，单例Bean在创建之初过早的暴露出去的Factory，为什么采用工厂方式，是因为有些Bean是需要被代理的，总不能把代理前的暴露出去那就毫无意义了
       private final Map<String, ObjectFactory<?>> singletonFactories = new HashMap<String, ObjectFactory<?>>();
   public Object getSingleton(String beanName) {
-    			//首先看一级缓存里是否存在
+                //首先看一级缓存里是否存在
           Object singletonObject = singletonObjects.get(beanName);
           if (null == singletonObject) {
               singletonObject = earlySingletonObjects.get(beanName);
@@ -612,49 +609,49 @@ public class DefaultAdvisorAutoProxyCreator implements InstantiationAwareBeanPos
   ```
 
 - bena的生命周期
-
+  
   <img src="https://s2.loli.net/2022/07/03/VkKNp3nYQPAqmXe.png" alt="spring生命周期.png" style="zoom:25%;" />
-
-  >1. 对象的实例化（相当于new了出来）
-  >
-  >2. 填充属性
-  >
-  >3. 调用BeanNameAware的setBeanName方法
-  >
-  >4. 调用BeanFactoryAware的setBeanFacotry方法
-  >
-  >5. 调用ApplicationContextAware的setApplicationContext方法
-  >
-  >6. 调用BeanPostProcessor的postProcessBeforeInitialization方法
-  >
-  >7. 调用InitializingBean的afterPropertySet方法
-  >
-  >8. 调用自定义的初始化方法
-  >
-  >9. 调用BeanPostProcessor的postProcessAfterInitialization方法
-  >
-  >10. bean可以使用了
-  >
-  >11. 容器关闭时调用DisposableBean的destroy方法
-  >
-  >12. 调用自定义的销毁方法
+  
+  > 1. 对象的实例化（相当于new了出来）
+  > 
+  > 2. 填充属性
+  > 
+  > 3. 调用BeanNameAware的setBeanName方法
+  > 
+  > 4. 调用BeanFactoryAware的setBeanFacotry方法
+  > 
+  > 5. 调用ApplicationContextAware的setApplicationContext方法
+  > 
+  > 6. 调用BeanPostProcessor的postProcessBeforeInitialization方法
+  > 
+  > 7. 调用InitializingBean的afterPropertySet方法
+  > 
+  > 8. 调用自定义的初始化方法
+  > 
+  > 9. 调用BeanPostProcessor的postProcessAfterInitialization方法
+  > 
+  > 10. bean可以使用了
+  > 
+  > 11. 容器关闭时调用DisposableBean的destroy方法
+  > 
+  > 12. 调用自定义的销毁方法
 
 - AbstractAutoProxyCreator创建代理的流程
-
-  >1. 先确认是否已经创建过代理对象(earlyProxyReferences，避免对代理对象在进行代理)
-  >1. 如果没有，则考虑是否需要进行代理(通过wrapIfNecessary)
-  >1. 如果是特殊的Bean 或者之前判断过不用创建代理的Bean则不创建代理
-  >1. 否则看是否有匹配的Advise(匹配方式就是上文介绍的通过PointCut或者IntroducationAdvisor可以直接匹配类)
-  >1. 如果找到了Advisor，说明需要创建代理，进入createProxy
-  >1. 首先会创建ProxyFactory,这个工厂是用来创建AopProxy的，而AopProxy才是用来创建代理对象的。因为底层代理方式有两种(JDK动态代理和CGLIB，对应到AopProxy的实现就是JdkDynamicAopProxy和ObjenesisCglibAopProxy)，所以这里使用了一个简单工厂的设计。ProxyFactory会设置此次代理的属性，然后根据这些属性选择合适的代理方式，创建代理对象。
-  >1. 创建的对象会替换掉被代理对象(Target)，被保存在BeanFactory.singletonObjects,因此当有其他Bean希望注入Target时，其实已经被注入了Proxy。以上就是Spring实现动态代理的过程。
+  
+  > 1. 先确认是否已经创建过代理对象(earlyProxyReferences，避免对代理对象在进行代理)
+  > 2. 如果没有，则考虑是否需要进行代理(通过wrapIfNecessary)
+  > 3. 如果是特殊的Bean 或者之前判断过不用创建代理的Bean则不创建代理
+  > 4. 否则看是否有匹配的Advise(匹配方式就是上文介绍的通过PointCut或者IntroducationAdvisor可以直接匹配类)
+  > 5. 如果找到了Advisor，说明需要创建代理，进入createProxy
+  > 6. 首先会创建ProxyFactory,这个工厂是用来创建AopProxy的，而AopProxy才是用来创建代理对象的。因为底层代理方式有两种(JDK动态代理和CGLIB，对应到AopProxy的实现就是JdkDynamicAopProxy和ObjenesisCglibAopProxy)，所以这里使用了一个简单工厂的设计。ProxyFactory会设置此次代理的属性，然后根据这些属性选择合适的代理方式，创建代理对象。
+  > 7. 创建的对象会替换掉被代理对象(Target)，被保存在BeanFactory.singletonObjects,因此当有其他Bean希望注入Target时，其实已经被注入了Proxy。以上就是Spring实现动态代理的过程。
 
 # Spring
 
 ## 获取Spring容器
 
 - 实现BeanFactoryAware接口获取Spring容器
-
+  
   ```java
   @Service
   public  class PersonService implements BeanFactoryAware {
@@ -672,7 +669,7 @@ public class DefaultAdvisorAutoProxyCreator implements InstantiationAwareBeanPos
   ```
 
 - 实现ApplicationContextAware接口
-
+  
   ```java
   @Service
   public  class PersonService2 implements ApplicationContextAware {
@@ -690,42 +687,42 @@ public class DefaultAdvisorAutoProxyCreator implements InstantiationAwareBeanPos
   ```
 
 - 实现ApplicationListener接口
-
+  
   ```java
   @Service
   public  class PersonService3 implements ApplicationListener<ContextRefreshedEvent> {
       private ApplicationContext applicationContext;
-  
-  
+  ```
+
       @Override
       public void onApplicationEvent(ContextRefreshedEvent event) {
           applicationContext = event.getApplicationContext();
       }
-  
+    
       public void add() {
           Person person = (Person) applicationContext.getBean("person");
       }
-  
-  }
-  ```
 
+  }
+
+```
 ## 初始化bean
 
 - 使用@PostConstruct注解
 
-  ```java
-  @Service
-  public  class AService {
-  
-      @PostConstruct
-      public void init() {
-          System.out.println("===初始化===");
-      }
-  }
-  ```
+```java
+@Service
+public  class AService {
+
+    @PostConstruct
+    public void init() {
+        System.out.println("===初始化===");
+    }
+}
+```
 
 - 实现InitializingBean接口
-
+  
   ```java
   @Service
   public  class BService implements InitializingBean {
@@ -833,7 +830,7 @@ public  class CService {
 
 如果你看过spring源码，会发现它有70多个地方在用FactoryBean接口。特别提一句：`mybatis`的`SqlSessionFactory`对象就是通过`SqlSessionFactoryBean`类创建的。
 
-``` java
+```java
 @Component
 public  class MyFactoryBean implements FactoryBean {
 
@@ -994,7 +991,7 @@ public  class AuthInterceptor extends HandlerInterceptorAdapter {
 ```java
 @Configuration
 public  class WebAuthConfig extends WebMvcConfigurerAdapter {
- 
+
     @Bean
     public AuthInterceptor getAuthInterceptor() {
         return  new AuthInterceptor();
@@ -1033,7 +1030,7 @@ public  class LogFilter implements Filter {
 
     @Override
     public void destroy() {
-        
+
     }
 }
 ```
@@ -1262,9 +1259,9 @@ public  class MyCondition implements Condition {
 ## @Import
 
 - 普通类
-
+  
   这种引入方式是最简单的，被引入的类会被实例化bean对象。
-
+  
   ```java
   public  class A {
   }
@@ -1274,24 +1271,24 @@ public  class MyCondition implements Condition {
   public class TestConfiguration {
   }
   ```
-
+  
   通过`@Import`注解引入A类，spring就能自动实例化A对象，然后在需要使用的地方通过`@Autowired`注解注入即可：
-
+  
   ```java
      @Autowired
   private A a;
   ```
-
+  
   是不是挺让人意外的？不用加`@Bean`注解也能实例化bean。
 
 - Configuration注解的配置类
-
+  
   这种引入方式是最复杂的，因为`@Configuration`注解还支持多种组合注解，比如：
-
+  
   - `@Import`
   - `@ImportResource`
   - `@PropertySource`等。
-
+  
   ```java
   public  class A {
   }
@@ -1314,18 +1311,18 @@ public  class MyCondition implements Condition {
   public class TestConfiguration {
   }
   ```
-
+  
   通过`@Import`注解引入@Configuration注解的配置类，会把该配置类相关`@Import`、`@ImportResource`、`@PropertySource`等注解引入的类进行递归，一次性全部引入。
 
 - 实现ImportSelector接口的类
-
+  
   这种引入方式需要实现`ImportSelector`接口：
-
+  
   ```java
   public  class AImportSelector implements ImportSelector {
   
   private  static  final String CLASS_NAME = "com.sue.cache.service.test13.A";
-      
+  
    public String[] selectImports(AnnotationMetadata importingClassMetadata) {
           return  new String[]{CLASS_NAME};
       }
@@ -1336,13 +1333,13 @@ public  class MyCondition implements Condition {
   public class TestConfiguration {
   }
   ```
-
+  
   这种方式的好处是`selectImports`方法返回的是数组，意味着可以同时引入多个类，还是非常方便的。
 
 - 实现ImportBeanDefinitionRegistrar接口的类
-
+  
   这种引入方式需要实现`ImportBeanDefinitionRegistrar`接口：
-
+  
   ```java
   public  class AImportBeanDefinitionRegistrar implements ImportBeanDefinitionRegistrar {
       @Override
@@ -1357,20 +1354,20 @@ public  class MyCondition implements Condition {
   public class TestConfiguration {
   }
   ```
-
+  
   这种方式是最灵活的，能在`registerBeanDefinitions`方法中获取到`BeanDefinitionRegistry`容器注册对象，可以手动控制`BeanDefinition`的创建和注册。
-
+  
   当然`@import`注解非常人性化，还支持同时引入多种不同类型的类。
-
+  
   ```java
   @Import({B.class,AImportBeanDefinitionRegistrar.class})
   @Configuration
   public class TestConfiguration {
   }
   ```
-
+  
   这四种引入类的方式各有千秋，总结如下：
-
+  
   1. 普通类，用于创建没有特殊要求的bean实例。
   2. @Configuration注解的配置类，用于层层嵌套引入的场景。
   3. 实现ImportSelector接口的类，用于一次性引入多个类的场景，或者可以根据不同的配置决定引入不同类的场景。
@@ -1483,15 +1480,15 @@ public  class ThreadPoolConfig {
 ## 事务
 
 - 声明式事务
-
+  
   大多数情况下，我们在开发过程中使用更多的可能是`声明式事务`，即使用`@Transactional`注解定义的事务，因为它用起来更简单，方便。
-
+  
   只需在需要执行的事务方法上，加上`@Transactional`注解就能自动开启事务，这种声明式事务之所以能生效，是因为它的底层使用了AOP，创建了代理对象，调用`TransactionInterceptor`拦截器实现事务的功能。
-
-  >spring事务有个特别的地方：它获取的数据库连接放在`ThreadLocal`中的，也就是说同一个线程中从始至终都能获取同一个数据库连接，可以保证同一个线程中多次数据库操作在同一个事务中执行。
-
+  
+  > spring事务有个特别的地方：它获取的数据库连接放在`ThreadLocal`中的，也就是说同一个线程中从始至终都能获取同一个数据库连接，可以保证同一个线程中多次数据库操作在同一个事务中执行。
+  
   正常情况下是没有问题的，但是如果使用不当，事务会失效，主要原因如下：
-
+  
   - 事务方法错误的权限
   - 事务方法被定义成final
   - 当前service对象没被spring管理
@@ -1502,17 +1499,17 @@ public  class ThreadPoolConfig {
   - 抛出非RuntimeException，导致事务不回滚
 
 - 编程式事务
-
+  
   一般情况下编程式事务我们可以通过`TransactionTemplate`类开启事务功能。有个好消息，就是`springboot`已经默认实例化好这个对象了，我们能直接在项目中使用。
-
+  
   ```java
   @Service
   public  class UserService {
      @Autowired
      private TransactionTemplate transactionTemplate;
-     
+  
      ...
-     
+  
      public void save(final User user) {
            transactionTemplate.execute((status) => {
               doSameThing...
@@ -1521,7 +1518,7 @@ public  class ThreadPoolConfig {
      }
   }
   ```
-
+  
   使用`TransactionTemplate`的编程式事务能避免很多事务失效的问题，但是对大事务问题，不一定能够解决，只是说相对于使用`@Transactional`注解要好些。
 
 ## 跨域
@@ -1623,11 +1620,11 @@ public class ProxySubject implements Subject{//代理类
         }
         realSubject.request();
     }
-    
+
     public void request2() {
         realSubject.request();
     }
-    
+
 }
 
 public class Main {
@@ -1645,89 +1642,89 @@ public class Main {
 ## 自动配置原理
 
 - 什么是自动配置
-
-  >1. 只要我们在pom.xml文件中引入spring-boot-starter-data-redis-xxx.jar包，然后只要在配置文件中配置redis连接，如：
-  >
-  >```properties
-  >spring.redis.database = 0
-  >spring.redis.timeout =10000
-  >spring.redis.host = 10.72.16.9
-  >spring.redis.port = 6379spring.redis.pattern = 1
-  >```
-  >
-  >就可以在service方法中直接注入`StringRedisTemplate`对象的实例，可以直接使用了。
-  >
-  >```java
-  >@Autowired
-  >private StringRedisTemplate stringRedisTemplate;
-  >```
-  >
-  >2. 在项目中只要引入spring-boot-starter-xxx.jar，事务就自动生效了，并且可以直接在service方法中直接注入TransactionTemplate，用它开发编程式事务代码。
-  >
-  >3. 使用@ConfigurationProperties可以把指定路径下的属性，直接注入到实体对象中，看看下面这个例子：
-  >
-  >  ```properties
-  >jump.threadpool.corePoolSize=8
-  >jump.threadpool.maxPoolSize=16
-  >jump.threadpool.keepAliveSeconds=10
-  >jump.threadpool.queueCapacity=100
-  >  ```
-  >
-  >  ```java
-  >  @Data
-  >  @Component
-  >  @ConfigurationProperties("jump.threadpool")
-  >  public class ThreadPoolProperties {
-  >
+  
+  > 1. 只要我们在pom.xml文件中引入spring-boot-starter-data-redis-xxx.jar包，然后只要在配置文件中配置redis连接，如：
+  > 
+  > ```properties
+  > spring.redis.database = 0
+  > spring.redis.timeout =10000
+  > spring.redis.host = 10.72.16.9
+  > spring.redis.port = 6379spring.redis.pattern = 1
+  > ```
+  > 
+  > 就可以在service方法中直接注入`StringRedisTemplate`对象的实例，可以直接使用了。
+  > 
+  > ```java
+  > @Autowired
+  > private StringRedisTemplate stringRedisTemplate;
+  > ```
+  > 
+  > 2. 在项目中只要引入spring-boot-starter-xxx.jar，事务就自动生效了，并且可以直接在service方法中直接注入TransactionTemplate，用它开发编程式事务代码。
+  > 
+  > 3. 使用@ConfigurationProperties可以把指定路径下的属性，直接注入到实体对象中，看看下面这个例子：
+  >    
+  >    ```properties
+  >    jump.threadpool.corePoolSize=8
+  >    jump.threadpool.maxPoolSize=16
+  >    jump.threadpool.keepAliveSeconds=10
+  >    jump.threadpool.queueCapacity=100
+  >    ```
+  >    
+  >    ```java
+  >    @Data
+  >    @Component
+  >    @ConfigurationProperties("jump.threadpool")
+  >    public class ThreadPoolProperties {
+  >    
   >      private int corePoolSize;
   >      private int maxPoolSize;
   >      private int keepAliveSeconds;
   >      private int queueCapacity;
-  >  }
-  >  ```
+  >    }
+  >    ```
 
 - 自动装配原理
-
-  >1. bean的自动配置
-  >
-  >  Spring Boot的启动类上有一个@SpringBootApplication，这个注解包括了@EnableAutoConfiguration，该注解的关键功能由@Import提供，其导入的AutoConfigurationImportSelector的selectImports()方法通过SpringFactoriesLoader.loadFactoryNames()扫描所有具有META-INF/spring.factories的jar包下面key是EnableAutoConfiguration全名的，所有自动配置类。比如springboot的spring-boot-autoconfigure-xxx.jar下的META-INF/spring.factories文件
-  >
-  >```properties
-  >org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  >org.springframework.boot.autoconfigure.admin.SpringApplicationAdminJmxAutoConfiguration,\
-  >org.springframework.boot.autoconfigure.aop.AopAutoConfiguration,\
-  >org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration,\
-  >```
-  >
-  >加载过程大概是这样的：
-  >
-  >SpringApplication.run(...)方法->
-  >
-  >AbstractApplicationContext.refresh()方法->
-  >
-  >invokeBeanFactoryPostProcessors(...)方法->
-  >
-  >**PostProcessorRegistrationDelegate.invokeBeanFactoryPostProcessors(...)** 方法->
-  >
-  >ConfigurationClassPostProcessor.postProcessBeanDefinitionRegistry(..)方法->
-  >
-  >AutoConfigurationImportSelector.selectImports
-  >
-  >该方法会找到自动配置的类，并给打了@Bean注解的方法创建对象。
-  >
-  >postProcessBeanDefinitionRegistry方法是最核心的方法，它负责解析@Configuration、@Import、@ImportSource、@Component、@ComponentScan、@Bean等，完成bean的自动配置功能。
-  >
-  >2. 属性的自动配置
-  >
-  >  属性的自动配置是通过ConfigurationPropertiesBindingPostProcessor类的postProcessBeforeInitialization方法完成，它会解析@ConfigurationProperties注解上的属性，将配置文件中对应key的值绑定到属性上。
-  >
-  >3. 自动配置的生效条件
-  >
-  >  每个xxxxAutoConfiguration类上都可以定义一些生效条件，这些条件基本都是从@Conditional派生出来的。
-  >
-  >  ```
-  >@ConditionalOnBean：当容器里有指定的bean时生效@ConditionalOnMissingBean：当容器里不存在指定bean时生效@ConditionalOnClass：当类路径下有指定类时生效@ConditionalOnMissingClass：当类路径下不存在指定类时生效@ConditionalOnProperty：指定的属性是否有指定的值，比如@ConditionalOnProperties(prefix=”xxx.xxx”, value=”enable”, matchIfMissing=true)，代表当xxx.xxx为enable时条件的布尔值为true，如果没有设置的情况下也为true。
-  >  ```
+  
+  > 1. bean的自动配置
+  >    
+  >    Spring Boot的启动类上有一个@SpringBootApplication，这个注解包括了@EnableAutoConfiguration，该注解的关键功能由@Import提供，其导入的AutoConfigurationImportSelector的selectImports()方法通过SpringFactoriesLoader.loadFactoryNames()扫描所有具有META-INF/spring.factories的jar包下面key是EnableAutoConfiguration全名的，所有自动配置类。比如springboot的spring-boot-autoconfigure-xxx.jar下的META-INF/spring.factories文件
+  > 
+  > ```properties
+  > org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  > org.springframework.boot.autoconfigure.admin.SpringApplicationAdminJmxAutoConfiguration,\
+  > org.springframework.boot.autoconfigure.aop.AopAutoConfiguration,\
+  > org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration,\
+  > ```
+  > 
+  > 加载过程大概是这样的：
+  > 
+  > SpringApplication.run(...)方法->
+  > 
+  > AbstractApplicationContext.refresh()方法->
+  > 
+  > invokeBeanFactoryPostProcessors(...)方法->
+  > 
+  > **PostProcessorRegistrationDelegate.invokeBeanFactoryPostProcessors(...)** 方法->
+  > 
+  > ConfigurationClassPostProcessor.postProcessBeanDefinitionRegistry(..)方法->
+  > 
+  > AutoConfigurationImportSelector.selectImports
+  > 
+  > 该方法会找到自动配置的类，并给打了@Bean注解的方法创建对象。
+  > 
+  > postProcessBeanDefinitionRegistry方法是最核心的方法，它负责解析@Configuration、@Import、@ImportSource、@Component、@ComponentScan、@Bean等，完成bean的自动配置功能。
+  > 
+  > 2. 属性的自动配置
+  >    
+  >    属性的自动配置是通过ConfigurationPropertiesBindingPostProcessor类的postProcessBeforeInitialization方法完成，它会解析@ConfigurationProperties注解上的属性，将配置文件中对应key的值绑定到属性上。
+  > 
+  > 3. 自动配置的生效条件
+  >    
+  >    每个xxxxAutoConfiguration类上都可以定义一些生效条件，这些条件基本都是从@Conditional派生出来的。
+  >    
+  >    ```
+  >    @ConditionalOnBean：当容器里有指定的bean时生效@ConditionalOnMissingBean：当容器里不存在指定bean时生效@ConditionalOnClass：当类路径下有指定类时生效@ConditionalOnMissingClass：当类路径下不存在指定类时生效@ConditionalOnProperty：指定的属性是否有指定的值，比如@ConditionalOnProperties(prefix=”xxx.xxx”, value=”enable”, matchIfMissing=true)，代表当xxx.xxx为enable时条件的布尔值为true，如果没有设置的情况下也为true。
+  >    ```
 
 # 面经
 
@@ -1763,23 +1760,23 @@ Spring AOP：即面向切面编程，它提供了与 AOP 联盟兼容的编程�
 [参考](https://mp.weixin.qq.com/s/u_O1m7Wyg0icIKffl20U1Q)
 
 - web
-
+  
   @Controller、@RestController、@RequesuMapping(get、post、put、delete)、@ResponseBody、@RequestBody、@PathVariable、@ControllerAdvice（需要和`@ExceptionHandler`、`@InitBinder`以及`@ModelAttribute`注解搭配使用）、@ModelAttribute、@CrossOrigin、
 
 - 容器
-
+  
   @Componet、@Service、@Repository、@Autowired、@Qualifier、@Configuration、@Value、@Bean、@Scope、@ComponentScan、
 
 - AOP
-
+  
   @Aspect、@After、@Before、@Around、@PointCut
 
 - 事务
-
-  @Transactional
   
-- Springboot
+  @Transactional
 
+- Springboot
+  
   @SpringBootApplication**、**@EnableAutoConfiguration**、**@ConditionalOnClass与@ConditionalOnMissingClass**、**@ConditionalOnBean与@ConditionalOnMissingBean**、**@ConditionalOnProperty**、**@ConditionalOnResource**、**@ConditionalOnWebApplication与@ConditionalOnNotWebApplication**、**@ConditionalExpression**、**@Conditional
 
 ## 设计模式
@@ -1871,23 +1868,23 @@ globalSession：同一个全局Session共享一个Bean，只用于基于Protlet�
 - 如果类型A与B发生了循环依赖，那它的创建过程就是：实例化A，放到二级缓存，实例化B，放到二级缓存，初始化B（从二级缓存拿到A的引用），将B放到一级缓存，初始化A，将A放到一级缓存，完事！
 
 - 关于三级引用，如果使用了三级缓存，A中有代理的情况下创建bean的过程如下[参考](https://www.jianshu.com/p/abda18eaa848)
-
+  
   ```
   开始创建A->实例化A->为A注入属性->开始创建B->实例化B->为B注入属性->为A创建代理->初始化B->结束创建B->初始化A->结束创建A
   ```
-
+  
   如果不使用三级缓存，A中有代理的情况下创建bean的过程如下
-
+  
   ```
   开始创建A->实例化A->为A创建代理->为A注入属性->开始创建B->实例化B->为B注入属性->初始化B->结束创建B->初始化A->结束创建A
   ```
-
+  
   上面两个流程的唯一区别在于为A对象创建代理的时机不同，在使用了三级缓存的情况下为A创建代理的时机是在B中需要注入A的时候，而不使用三级缓存的话在A实例化后就需要马上为A创建代理然后放入到二级缓存中去。对于整个A、B的创建过程而言，消耗的时间是一样的（所以常见的三级缓存提高了效率这种说法都是错误的）
-
+  
   上述这种情况下，差别就是在哪里创建代理。如果不用三级缓存，使用二级缓存，违背了Spring在结合AOP跟Bean的生命周期的设计！Spring结合AOP跟Bean的生命周期本身就是通过AbstractAutoProxyCreator这个后置处理器来完成的，在这个后置处理的postProcessAfterInitialization方法中对初始化后的Bean完成AOP代理。如果出现了循环依赖，那没有办法，只有给Bean先创建代理，但是没有出现循环依赖的情况下，设计之初就是让Bean在生命周期的最后一步完成代理而不是在实例化后就立马完成代理。
 
 - Spring可以解决哪些情况的循环依赖？
-
+  
   ```
   当循环依赖的实例都采用setter方法注入的时候，Spring可以支持
   都采用构造器注入的时候，不支持
@@ -1921,13 +1918,13 @@ Spring在创建bean的过程中，最终会调用到doCreateBean()方法，在do
 - **目标对象** （Target）：代理的目标对象
 
 - **织入**（Weabing）：织入是将增强添加到目标类的具体连接点上的过程。
-
+  
   - 编译期织入：切面在目标类编译时被织入
-
+  
   - 类加载期织入：切面在目标类加载到JVM时被织入。需要特殊的类加载器，它可以在目标类被引入应用之前增强该目标类的字节码。
-
+  
   - 运行期织入：切面在应用运行的某个时刻被织入。一般情况下，在织入切面时，AOP容器会为目标对象动态地创建一个代理对象。SpringAOP就是以这种方式织入切面。
-
+    
     Spring采用运行期织入，而AspectJ采用编译期织入和类加载器织入。
 
 - **AOP有哪些环绕方式**
@@ -1941,7 +1938,7 @@ Spring在创建bean的过程中，最终会调用到doCreateBean()方法，在do
 ## 动态代理
 
 - JDK 动态代理和 CGLIB 代理
-
+  
   ```
   JDK 动态代理
   Interface：对于 JDK 动态代理，目标类需要实现一个Interface。
@@ -1954,7 +1951,7 @@ Spring在创建bean的过程中，最终会调用到doCreateBean()方法，在do
   ```
 
 - 动态代理的使用场景
-
+  
   ```
   1. AOP 切面编程：为切点配置包含的类生成代理 bean 实例。
   2. @lazy：懒加载，被注解的bean 不是不实例化，而是先创建一个代理bean 注入。
@@ -1963,13 +1960,13 @@ Spring在创建bean的过程中，最终会调用到doCreateBean()方法，在do
   ```
 
 - 什么是提前进行AOP？
-
+  
   ```
   在循环引用中如果循环应用的对象涉及到AOP，那就不得不提前进行AOP,除非使用第三级缓存
   ```
 
 - @Lazy解决循环依赖
-
+  
   ```java
   @Service
   public class A extends GenericBaseService {
@@ -1987,7 +1984,7 @@ Spring在创建bean的过程中，最终会调用到doCreateBean()方法，在do
 ## Spring 事务
 
 - 声明式事务实现原理
-
+  
   ```
   1. 查找@Transactional标记的方法
   2. TransactionInterceptor （事务拦截器）在目标方法执行前后进行拦截
@@ -1997,7 +1994,7 @@ Spring在创建bean的过程中，最终会调用到doCreateBean()方法，在do
   ```
 
 - 传播机制
-
+  
   ```
   PROPAGATION_REQUIRED:支持当前事务，如果当前没有事务，就新建一个事务。这是最常见的选择，也是 Spring 默认的事务的传播。
   PROPAGATION_REQUIRES_NEW:新建事务，如果当前存在事务，把当前事务挂起。新建的事务将和被挂起的事务没有任何关系，是两个独立的事务，外层事务失败回滚之后，不能回滚内层事务执行的结果，内层事务失败抛出异常，外层事务捕获，也可以不处理回滚操作
@@ -2009,7 +2006,7 @@ Spring在创建bean的过程中，最终会调用到doCreateBean()方法，在do
   ```
 
 - 失效情况
-
+  
   ```
   1、数据库引擎不支持事务（InnoDB才支持）
   2、没有被 Spring 管理（类上没有打@Service等@component的子注解）
@@ -2021,7 +2018,7 @@ Spring在创建bean的过程中，最终会调用到doCreateBean()方法，在do
   ```
 
 - Spring事务与数据库事务的关系
-
+  
   ```
   Spring事务隔离级别是在数据库隔离级别之上又进一步进行了封装。
   1.数据库是可以控制事务的传播和隔离级别的，Spring在之上又进一步进行了封装，可以在不同的项目、不同的操作中再次对事务的传播行为和隔离级别进行策略控制，spring中设置的隔离是数据库的会话隔离级别（数据库还有全局隔离）
@@ -2030,7 +2027,7 @@ Spring在创建bean的过程中，最终会调用到doCreateBean()方法，在do
   ```
 
 - 编程式事务和声明式事务
-
+  
   ```java
   声明式事务注解方式3个步骤
   //1. 在spring配置类上加上@EnableTransactionManagement注解
@@ -2098,7 +2095,7 @@ Spring在创建bean的过程中，最终会调用到doCreateBean()方法，在do
   ```
 
 - 如何确定方法有没有用到spring事务
-
+  
   ```
   方式1：断点调试
   spring事务是由TransactionInterceptor拦截器处理的，最后会调用下面这个方法，设置个断点就可以看到详细过程了。
@@ -2122,8 +2119,6 @@ spring的Bean在创建的时候会进行初始化，而初始化过程会解析�
 对于@Configuration注解的类中@Bean标记的方法，返回的都是一个bean，在增强的方法中，Spring会先去容器中查看一下是否有这个bean的实例了，如果有了的话，就返回已有对象，没有的话就创建一个，然后放到容器中。
 ```
 
-
-
 ## MVC核心组件
 
 1. **DispatcherServlet**：前置控制器，是整个流程控制的**核心**，控制其他组件的执行，进行统一调度，降低组件之间的耦合性，相当于总指挥。
@@ -2146,11 +2141,11 @@ spring的Bean在创建的时候会进行初始化，而初始化过程会解析�
 4. Controller被封装成了ServletInvocableHandlerMethod，HandlerAdapter处理器适配器去执行invokeAndHandle方法，完成对Controller的请求处理
 
 5. HandlerAdapter执行完对Controller的请求，会调用HandlerMethodReturnValueHandler去处理返回值，主要的过程：
-
+   
    5.1. 调用RequestResponseBodyMethodProcessor，创建ServletServerHttpResponse（Spring对原生ServerHttpResponse的封装）实例
-
+   
    5.2.使用HttpMessageConverter的write方法，将返回值写入ServletServerHttpResponse的OutputStream输出流中
-
+   
    5.3.在写入的过程中，会使用JsonGenerator（默认使用Jackson框架）对返回值进行Json序列化
 
 6. 执行完请求后，返回的ModealAndView为null，ServletServerHttpResponse里也已经写入了响应，所以不用关心View的处理
@@ -2229,5 +2224,8 @@ SpringMvc框架核心功能手写实现
 Spring容器与SpringMvc容器关系分析
 ```
 
+# 其它
 
+## 其它参考
 
+[一些springboot的示例](https://github.com/smltq/spring-boot-demo)  [循环依赖](https://mp.weixin.qq.com/s/5VHU2qRQMPL0IOZuEOPmQA)

@@ -39,7 +39,6 @@
   - [Docker](/md/note/tool/Docker.md)
   - [IDEA](/md/note/tool/IDEA.md)
   - [PostMan](/md/note/tool/PostMan.md)
-  - [Maven](/md/note/tool/Maven.md)
 
 ### ⭐️️读书笔记
   - [java8新特性](/md/note/book/java8新特性.md)

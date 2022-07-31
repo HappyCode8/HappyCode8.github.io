@@ -19,8 +19,9 @@
 > https://moetu.org/
 
 - markdown工具，目前使用typora，不过高版本的typora开始收费，可以使用开源替代品marktext https://github.com/marktext/marktext
-- 文本编辑工具sublime
-- [随机ACG图] https://www.dmoe.cc
+- 文本编辑工具：sublime
+- 思维导图工具：幕布
+- [随机ACG图](https://www.dmoe.cc)
 
 <!--公众号-->
 
