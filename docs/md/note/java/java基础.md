@@ -199,6 +199,39 @@ float f = 1.1;//不行，1.1是double，不能向下转型
 
 - 需要在几个相关的类中共享代码
 
+```java
+public interface test1 {
+    public static final int a = 0;
+    int b=1;
+    //写不写public都一样，不写默认就是public，为啥不是private？private别人都不能访问，没啥用
+    //为啥不是protected？假设AB不同包，A是protected，B能访问A的与B是A的子类互为前提，死循环
+    private int test() {//为啥有private方法，又不能被重写？纯粹为了代码美观，可以让别的方法使用,为default服务
+        return 0;
+    }
+
+    public default int test2() {
+        //为啥要有default方法？为了避免每个实现接口的方法都要反复重写,default可重写也可不重写
+        //可以调用abstract/private/static/private static方法。
+        test4();
+        test();
+        return 0;
+    }
+
+    public abstract int test3();//不写默认就是public abstract
+
+    static void test4() {//为啥有static方法？纯粹为了提高利用率，美观,只能调用static/private static
+        System.out.println("dewdw");
+    }
+
+    private static void test6() {//为啥有？纯粹为了提高利用率，美观，为static方法服务
+        System.out.println("private static method");
+    }
+}
+
+```
+
+
+
 # Object方法
 
 ## hashcode与equal
