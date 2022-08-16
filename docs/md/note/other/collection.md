@@ -2,7 +2,7 @@
 - [恰鹿导航]  https://hou.qialu999.com/
 > 一个收藏了书籍、电影、音乐的常用书签的网站
 
-- [json解析]  https://www.sojson.com/
+- [json解析]  https://www.sojson.com/  https://www.json.cn/json/jsoncompare.html(有一些)
 
   > 一些开发用到的工具
 

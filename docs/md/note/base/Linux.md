@@ -111,6 +111,20 @@ https://mp.weixin.qq.com/s?__biz=MzkwODE5ODM0Ng==&mid=2247488406&idx=1&sn=93e243
     
     grep -A 10 keyword catalina.out 显示keyword及后10行
 
+11. sed
+
+    ```shell
+    sed -e "s/^/'/" -e "s/$/',/" temp.txt  # 在文件的每一行行首加上单引号，行尾加上单引号与逗号
+    ```
+
+12. awk
+
+    ```shell
+    awk '{print $1,$4}' temp.txt # 输出文件每行的第一项与第四项
+    ```
+
+    
+
 ## Shell
 
 统计文件夹下文件总共有多少行

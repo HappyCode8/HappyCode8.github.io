@@ -35,6 +35,32 @@
   33. 18.粘包/拆包是怎么发生的？怎么解决这个问题？
   34. 19.浏览器地址栏输入网站按回车后发生了什么？
 
+# 面试实际问题
+
+1. 线程池原理
+2. redis数据结构以及底层实现
+3. java锁、对象头、同步原理
+4. java新特性
+5. 两个数字字符串相减
+6. java hashmap数据结构、扩容原理
+7. 带指向父指针的最近公共祖先
+
+最长公共子串，找最接近某个数的和，两次买卖股票问题
+
+拦截器、过滤器、AOP
+
+
+
+redis限流、单用户1分钟访问10次
+
+- 基于Redis的setnx的操作，过期时间设置为1分钟，有就加次数，超过10返回，没有新建
+
+mysql深分页、在可重复读下怎么解决幻读
+
+- 
+
+
+
 java线程安全https://mp.weixin.qq.com/s/0ZofmJwoeCGUSgSJoo8zwQ
 
 限流https://mp.weixin.qq.com/s/kS-8TYl2XgXsVgy9KWzLAw
@@ -73,3 +99,9 @@ kafkahttps://mp.weixin.qq.com/s/8KqaDsQoyx9P-Om81GNvlQ
 
 mybatis的日志功能如何设计的https://mp.weixin.qq.com/s/hWE8S8Zzy6m1-YhbqrgYDg
 
+jd:
+
+```
+熟悉linux、数据结构、算法、设计模式、java、缓存、消息队列、负载均衡、分布式存储、分布式事务
+高并发、大数据量、微服务、docker、k8s
+```

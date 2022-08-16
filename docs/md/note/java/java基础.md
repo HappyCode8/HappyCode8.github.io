@@ -143,6 +143,57 @@ System.out.println(s1.intern() == s3);  // true
 - JDK1.7字符串常量池被单独从方法区移到堆中，运行时常量池剩下的还在永久带（方法区）
 - JDK1.8，永久带更名为元空间（方法区的新的实现），但字符串常量池池还在堆中，运行时常量池在元空间（方法区）。
 
+```java
+/**
+* 不改变s引用情况下改变s的值
+* */
+public class mianshi1 {
+    public static void main(String[] args) throws NoSuchFieldException, IllegalAccessException {
+        String s= "abc";
+        Field value = s.getClass().getDeclaredField("value");
+        value.setAccessible(true);
+        value.set(s, new byte[]{'a','b','c','d'});
+        System.out.println(s);
+    }
+}
+
+public class mianshi2 {
+    public static void main(String[] args) {
+        String s1=new String("abc");//堆。创建了2个对象，编译阶段在常量池创建常量对象，运行阶段在堆中创建String对象
+        String s2="abc";//常量池。创建了一个对象
+        String s3="abc";
+        String s4=s2.intern();
+        System.out.println(s1==s2);
+        System.out.println(s2==s3);
+        System.out.println(s2==s4);
+        String s5="123"+"456";//1个常量对象，jvm编译以后的合并优化
+        String s6="123"+new String("456");//4个，2个常量池，1个string，还有1个合并以后得
+    }
+}
+
+/*
+* -128~127缓存，所谓缓存其实是一个内部类，在装箱过程中调用valueof时返回缓存的数组对象
+* */
+public class mianshi3 {
+    public static void main(String[] args) {
+        Integer i1=127;
+        Integer i2=127;
+        System.out.println(i1==i2);
+        Integer i3=128;
+        Integer i4=128;
+        System.out.println(i3==i4);
+        Integer i5=-127;
+        Integer i6=-127;
+        System.out.println(i5==i6);
+        Integer i7=-128;
+        Integer i8=-128;
+        System.out.println(i7==i8);
+    }
+}
+```
+
+
+
 # 参数传递
 
 在将一个参数传入一个方法时，本质上是将对象的地址以值的方式传递到形参。可以理解为传递了引用的复制，当改变形参这个对象的属性时是可以改变实参的属性的，因为指向了堆中的一个对象，当改变形参的指向时是不会改变实参的指向的。
@@ -170,6 +221,12 @@ float f = 1.1;//不行，1.1是double，不能向下转型
 - 访问控制存在的原因：
   - a、让客户端程序员无法触及他们不应该触及的部分 ；
   -  b、允许库设计者可以改变类内部的工作方式而不用担心会影响到客户端程序员
+
+# 反射
+
+# SPI
+
+
 
 # 抽象类与接口
 
@@ -269,6 +326,184 @@ set.add(e1);
 set.add(e2);
 System.out.println(set.size());   // 2
 ```
+
+# java8升java11重要特性
+
+[原文](https://www.pdai.tech/md/java/java8up/java9-11.html#java-8-%E5%8D%87java-11-%E9%87%8D%E8%A6%81%E7%89%B9%E6%80%A7%E5%BF%85%E8%AF%BB)
+
+## 语言新特性
+
+- JDK9允许在接口中使用私有方法
+
+  ```java
+  //主要用于接口中互相调用
+  public interface SayHi {
+      private String buildMessage() {
+          return "Hello";
+      }
+      void sayHi(final String message);
+      default void sayHi() {
+          sayHi(buildMessage());
+      }
+  }
+  ```
+
+- JDK10局部变量类型推断
+
+- JDK11用于Lambda参数的局部变量语法
+
+## 新工具和库更新
+
+- JDK9新增了各种集合的of方法（list,set,map）创建不可变集合,Stream 中增加了新的方法 ofNullable、dropWhile、takeWhile 和 iterate，Collectors 中增加了新的方法 filtering 和 flatMapping，Optional 类中新增了 ifPresentOrElse、or 和 stream 等方法
+
+- JDK9进程API
+
+- JDK9变量句柄
+
+  ```java
+  //变量句柄是一个变量或一组变量的引用，包括静态域，非静态域，数组元素和堆外数据结构中的组成部分等。变量句柄的含义类似于已有的方法句柄。
+  public class HandleTarget {
+      public int count = 1;
+  }
+  public class VarHandleTest {
+      private HandleTarget handleTarget = new HandleTarget();
+      private VarHandle varHandle;
+      @Before
+      public void setUp() throws Exception {
+          this.handleTarget = new HandleTarget();
+          this.varHandle = MethodHandles
+              .lookup()
+              .findVarHandle(HandleTarget.class, "count", int.class);
+      }
+      @Test
+      public void testGet() throws Exception {
+          assertEquals(1, this.varHandle.get(this.handleTarget));
+          assertEquals(1, this.varHandle.getVolatile(this.handleTarget));
+          assertEquals(1, this.varHandle.getOpaque(this.handleTarget));
+          assertEquals(1, this.varHandle.getAcquire(this.handleTarget));
+      }
+  }
+  ```
+
+- JDK9-IO流新特性
+
+  类 java.io.InputStream 中增加了新的方法来读取和复制 InputStream 中包含的数据。
+
+  - readAllBytes：读取 InputStream 中的所有剩余字节。
+  - readNBytes： 从 InputStream 中读取指定数量的字节到数组中。
+  - transferTo：读取 InputStream 中的全部字节并写入到指定的 OutputStream 中 。
+
+- JDK9改进应用安全性能
+
+- JDK10根证书认证
+
+- JDK11标准HTTP Client升级，完全支持异步非阻塞（可以使用Spring提供的WebClient）
+
+  ```java
+      HttpClient client = HttpClient.newHttpClient();
+      HttpRequest request = HttpRequest.newBuilder()
+            .uri(URI.create("http://openjdk.java.net/"))
+            .build();
+      client.sendAsync(request, BodyHandlers.ofString())
+            .thenApply(HttpResponse::body)
+            .thenAccept(System.out::println)
+            .join();
+  ```
+
+- JDK11简化启动单个源代码文件的方法
+
+  ```java
+  java HelloWorld.java就可以直接运行文件
+  ```
+
+- JDK11 - 支持 TLS 1.3 协议
+
+## JVM优化
+
+- JDK9-统一JVM日志
+
+  移除Java8中废弃的垃圾回收器配置组合，同时把G1设为默认的垃圾回收器，CMS被声明位废弃
+
+- JDK10-统一GC接口
+
+- JDK10-并行全垃圾回收器G1
+
+- JDK11 - Epsilon：低开销垃圾回收器
+
+- JDK11- 低开销的 Heap Profiling
+
+- JDK11 - 可伸缩低延迟垃圾收集器(ZGC)
+
+  根据 SPECjbb 2015 的基准测试，128G 的大堆下最大停顿时间才 1.68ms，远低于 10ms，和 G1 算法相比，改进非常明显
+
+# Java 11 升Java 17 重要特性必读
+
+- Spring6和SpringBoot3只支持JDK17
+
+## 语言新特性
+
+- JDK14-Switch 表达式
+
+  ```java
+  //省去break
+  int dayOfWeek = switch (day) {
+      case MONDAY, FRIDAY, SUNDAY -> 6;
+      case TUESDAY                -> 7;
+      case THURSDAY, SATURDAY     -> 8;
+  case WEDNESDAY              -> 9;
+      default              -> 0;
+  
+  };
+  ```
+
+- JDK15-文本块
+
+  ```java
+  public static void main(String[] args) {
+      String query = """
+             SELECT * from USER \
+             WHERE `id` = 1 \
+             ORDER BY `id`, `name`;\
+             """;
+      System.out.println(query);
+  }
+  ```
+
+- JDK16-instanceof 模式匹配
+
+  ```java
+  if (person instanceof Student student) {
+      student.say();
+     // other student operations
+  } else if (person instanceof Teacher teacher) {
+      teacher.say();
+      // other teacher operations
+  }
+  ```
+
+- JDK16-Records类型
+
+- JDK17-密封的类和接口，限制类只能被谁继承
+
+## 新工具和库更新
+
+- JDK13 - Socket API 重构
+- JDK14 - 改进 NullPointerExceptions 提示信息
+- JDK15 - 隐藏类 Hidden Classes
+- JDK15 - DatagramSocket API重构
+- JDK16 - 对基于值的类发出警告
+- JDK17 - 增强的伪随机数生成器
+
+## JVM优化
+
+- JDK13 - 增强 ZGC 释放未使用内存
+- DK14 - G1 的 NUMA 可识别内存分配
+- JDK14 - 删除 CMS 垃圾回收器
+- JDK14 - 弃用 ParallelScavenge 和 SerialOld GC 的组合使用
+- JDK15 - 禁用偏向锁定
+- JDK15 - 低暂停时间垃圾收集器
+- JDK16 - ZGC 并发线程处理
+- JDK16 - 弹性元空间
 
 # 常见问题
 
