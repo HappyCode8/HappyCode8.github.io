@@ -67,11 +67,11 @@ Java程序会通过栈上的reference数据来操作堆上的具体对象。由�
 
 - 如果使用句柄访问的话，Java堆中将可能会划分出一块内存来作为句柄池，reference中存储的就是对象的句柄地址，而句柄中包含了对象实例数据与类型数据各自具体的地址信息
 
-  ![](https://mmbiz.qpic.cn/mmbiz_png/PMZOEonJxWdXVfRtic6m8yMAjqOeKnPoTXFcy5QuefJhIRibTDBr80RIficQPJN5rk8glVNQ0nRj9XL72ppLZTJiaQ/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1)
+  ![](https://img-blog.csdnimg.cn/img_convert/2a34a257240c5006fb1ee4676c6dbeea.png)
 
 - 如果使用直接指针访问的话，Java堆中对象的内存布局就必须考虑如何放置访问类型数据的相关信息，reference中存储的直接就是对象地址，如果只是访问对象本身的话，就不需要多一次间接访问的开销
 
-  ![](https://mmbiz.qpic.cn/mmbiz_png/PMZOEonJxWdXVfRtic6m8yMAjqOeKnPoTYldac8BLjSK1jQblvnPz5XOdwHsbSH0VDYCntop74tav3UQxIDr1nA/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1)
+  ![](https://img-blog.csdnimg.cn/img_convert/474f0d7941ea53a6e079f0d24e9cc640.png)
 
 这两种对象访问方式各有优势，使用句柄来访问的最大好处就是reference中存储的是稳定句柄地址，在对象被移动（垃圾收集时移动对象是非常普遍的行为）时只会改变句柄中的实例数据指针，而reference本身不需要被修改。
 
@@ -559,7 +559,7 @@ jmap -dump:format=b,file=heap pid
 - 针对大对象或者长生命周期对象导致的FGC，可通过 jmap -histo 命令并结合dump堆内存文件作进一步分析，需要先定位到可疑对象。
 - 通过可疑对象定位到具体代码再次分析，这时候要结合GC原理和JVM参数设置，弄清楚可疑对象是否满足了进入到老年代的条件才能下结论。
 
-## 40.有没有处理过内存泄漏问题？是如何定位的？
+## 有没有处理过内存泄漏问题？是如何定位的？
 
 内存泄漏是内在病源，外在病症表现可能有：
 
@@ -623,25 +623,25 @@ jmap -dump:format=b,file=heap pid
 10. 1. 在 dump 文析结果中查找存在大量的对象，再查对其的引用。
     2. dump 文件分析
 
-## 41.有没有处理过内存溢出问题？
+## 有没有处理过内存溢出问题？
 
 内存泄漏和内存溢出二者关系非常密切，内存溢出可能会有很多原因导致，内存泄漏最可能的罪魁祸首之一。
 
 排查过程和排查内存泄漏过程类似。
 
-## 42.能说一下类的生命周期吗？
+## 能说一下类的生命周期吗？
 
 一个类从被加载到虚拟机内存中开始，到从内存中卸载，整个生命周期需要经过七个阶段：加载 （Loading）、验证（Verification）、准备（Preparation）、解析（Resolution）、初始化 （Initialization）、使用（Using）和卸载（Unloading），其中验证、准备、解析三个部分统称为连接（Linking）。
 
-![图片](https://mmbiz.qpic.cn/mmbiz_png/PMZOEonJxWdXVfRtic6m8yMAjqOeKnPoTQ4kgKmAgYMV4GYJSLgiaOZeyLX7ibpRenh6ebqiaQkiaBHaOx2kVFRBS4Q/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1)类的生命周期
+![图片](https://img-blog.csdnimg.cn/img_convert/90a2d0a7781313fbc80387d6dde66c13.png)
 
-## 43.类加载的过程知道吗？
+## 类加载的过程知道吗？
 
 加载是JVM加载的起点，具体什么时候开始加载，《Java虚拟机规范》中并没有进行强制约束，可以交给虚拟机的具体实现来自由把握。
 
 在加载过程，JVM要做三件事情：
 
-![图片](https://mmbiz.qpic.cn/mmbiz_png/PMZOEonJxWdXVfRtic6m8yMAjqOeKnPoTpWvLTEpdH0icvwhcCqmUm78AOAdXWA9o8ZELScYBU5Yh2XZ7wgVx1Iw/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1)加载
+![图片](https://img-blog.csdnimg.cn/img_convert/61e937d10c6cb4c396c8d784ad6c0728.png)
 
 - 1）通过一个类的全限定名来获取定义此类的二进制字节流。
 - 2）将这个字节流所代表的静态存储结构转化为方法区的运行时数据结构。
@@ -651,7 +651,7 @@ jmap -dump:format=b,file=heap pid
 
 类型数据妥善安置在方法区之后，会在Java堆内存中实例化一个java.lang.Class类的对象， 这个对象将作为程序访问方法区中的类型数据的外部接口。
 
-## 44.类加载器有哪些？
+## 类加载器有哪些？
 
 主要有四种类加载器:
 
@@ -660,27 +660,27 @@ jmap -dump:format=b,file=heap pid
 - **系统类加载器**（system class loader）：它根据 Java 应用的类路径（CLASSPATH）来加载Java 类。一般来说，Java 应用的类都是由它来完成加载的。可以通过ClassLoader.getSystemClassLoader()来获取它。
 - **用户自定义类加载器** (user class loader)，用户通过继承 java.lang.ClassLoader类的方式自行实现的类加载器。
 
-## 45.什么是双亲委派机制？
+## 什么是双亲委派机制？
 
-![图片](https://mmbiz.qpic.cn/mmbiz_png/PMZOEonJxWdXVfRtic6m8yMAjqOeKnPoTtcyiaOeuLwFYlzwvuNujp8nkcg12lY7C631yKNy9I3HibB3HsKpoeQkQ/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1)双亲委派模型
+![图片](https://img-blog.csdnimg.cn/img_convert/1a5e26e57562d2d893d032cfb81466c1.png)双亲委派模型
 
 双亲委派模型的工作过程：如果一个类加载器收到了类加载的请求，它首先不会自己去尝试加载这个类，而是把这个请求委派给父类加载器去完成，每一个层次的类加载器都是如此，因此所有的加载请求最终都应该传送到最顶层的启动类加载器中，只有当父加载器反馈自己无法完成这个加载请求时，子加载器才会尝试自己去完成加载。
 
-## 46.为什么要用双亲委派机制？
+## 为什么要用双亲委派机制？
 
 答案是为了保证应用程序的稳定有序。
 
 例如类java.lang.Object，它存放在rt.jar之中，通过双亲委派机制，保证最终都是委派给处于模型最顶端的启动类加载器进行加载，保证Object的一致。反之，都由各个类加载器自行去加载的话，如果用户自己也编写了一个名为java.lang.Object的类，并放在程序的 ClassPath中，那系统中就会出现多个不同的Object类。
 
-## 47.如何破坏双亲委派机制？
+## 如何破坏双亲委派机制？
 
 如果不想打破双亲委派模型，就重写ClassLoader类中的fifindClass()方法即可，无法被父类加载器加载的类最终会通过这个方法被加载。而如果想打破双亲委派模型则需要重写loadClass()方法。
 
-## 48.历史上有哪几次双亲委派机制的破坏？
+## 历史上有哪几次双亲委派机制的破坏？
 
 双亲委派机制在历史上主要有三次破坏：
 
-![图片](https://mmbiz.qpic.cn/mmbiz_png/PMZOEonJxWdXVfRtic6m8yMAjqOeKnPoTOicIJL9OMa5am46V4EpXLL2qoWSDyTeMOeJpgSxI4FBkNBb8SaPmqQw/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1)双亲委派模型的三次破坏
+![图片](https://img-blog.csdnimg.cn/img_convert/7838bdbc885a18f6113559fc2bd919dc.png)双亲委派模型的三次破坏
 
 > **第一次破坏**
 
@@ -708,7 +708,7 @@ JNDI服务使用这个线程上下文类加载器去加载所需的SPI服务代�
 
 OSGi实现模块化热部署的关键是它自定义的类加载器机制的实现，每一个程序模块（OSGi中称为 Bundle）都有一个自己的类加载器，当需要更换一个Bundle时，就把Bundle连同类加载器一起换掉以实现代码的热替换。在OSGi环境下，类加载器不再双亲委派模型推荐的树状结构，而是进一步发展为更加复杂的网状结构。
 
-## 49.你觉得应该怎么实现一个热部署功能？
+## 你觉得应该怎么实现一个热部署功能？
 
 我们已经知道了Java类的加载过程。一个Java类文件到虚拟机里的对象，要经过如下过程:首先通过Java编译器，将Java文件编译成class字节码，类加载器读取class字节码，再将类转化为实例，对实例newInstance就可以生成对象。
 
@@ -728,13 +728,13 @@ OSGi实现模块化热部署的关键是它自定义的类加载器机制的实�
 
 到此，一个热部署的功能就这样实现了。
 
-## 50.Tomcat的类加载机制了解吗？
+## Tomcat的类加载机制了解吗？
 
 Tomcat是主流的Java Web服务器之一，为了实现一些特殊的功能需求，自定义了一些类加载器。
 
 Tomcat类加载器如下：
 
-![图片](https://mmbiz.qpic.cn/mmbiz_png/PMZOEonJxWdXVfRtic6m8yMAjqOeKnPoTMGYrkqKcRpLsXsiaicqrvSRhr9XaibAvk2beJwFCCcWjtcjoeueUSrQeg/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1)Tomcat类加载器
+![图片](https://img-blog.csdnimg.cn/img_convert/7fea52c871221bf5a4041d821414252e.png)Tomcat类加载器
 
 Tomcat实际上也是破坏了双亲委派模型的。
 

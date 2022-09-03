@@ -39,6 +39,8 @@
 > 章鱼猫思维导图: https://www.processon.com/u/5c89e3fce4b01e76977e388c
 >
 > 对线面试官：https://www.zhihu.com/people/Java_3y/posts
+>
+> 大数据：https://shimin-huang.gitbook.io/doc
 - [优秀的社区]
 > gitChat: https://gitbook.cn/
 >

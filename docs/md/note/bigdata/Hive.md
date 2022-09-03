@@ -31,3 +31,18 @@
 >- lead(col,n) over(partition by … order by …) 向后第n行
 >- ntile(n)：可以看作是把有序的数据集合平均分配到指定的数量n的桶中,将桶号分配给每一行，排序对应的数字为桶号。如果不能平均分配，则较小桶号的桶分配额外的行，并且各个桶中能放的数据条数最多相差1，这个函数一半用来获得前百分之几十的数据，比如切3部分获取第一份就是33%
 
+## 安装
+
+>[安装hadoop](https://blog.csdn.net/qq_20042935/article/details/123007927)
+>
+>[安装hive](https://blog.csdn.net/qq_20042935/article/details/123046044)
+>
+>启停注意点：
+>
+>1. 要格式化文件系统
+>
+>2. cd /usr/local/Cellar/hadoop/3.3.1/libexec/sbin ./start-all.sh
+>
+>   ./start-all.sh
+>
+>3. 

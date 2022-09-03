@@ -698,7 +698,7 @@ public class DefaultAdvisorAutoProxyCreator implements InstantiationAwareBeanPos
       public void onApplicationEvent(ContextRefreshedEvent event) {
           applicationContext = event.getApplicationContext();
       }
-    
+        
       public void add() {
           Person person = (Person) applicationContext.getBean("person");
       }
@@ -1675,7 +1675,7 @@ public class Main {
   >    @Component
   >    @ConfigurationProperties("jump.threadpool")
   >    public class ThreadPoolProperties {
-  >    
+  >       
   >      private int corePoolSize;
   >      private int maxPoolSize;
   >      private int keepAliveSeconds;
@@ -1704,7 +1704,7 @@ public class Main {
   > 
   > invokeBeanFactoryPostProcessors(...)方法->
   > 
-  > **PostProcessorRegistrationDelegate.invokeBeanFactoryPostProcessors(...)** 方法->
+  > PostProcessorRegistrationDelegate.invokeBeanFactoryPostProcessors(...) 方法->
   > 
   > ConfigurationClassPostProcessor.postProcessBeanDefinitionRegistry(..)方法->
   > 
@@ -1725,6 +1725,22 @@ public class Main {
   >    ```
   >    @ConditionalOnBean：当容器里有指定的bean时生效@ConditionalOnMissingBean：当容器里不存在指定bean时生效@ConditionalOnClass：当类路径下有指定类时生效@ConditionalOnMissingClass：当类路径下不存在指定类时生效@ConditionalOnProperty：指定的属性是否有指定的值，比如@ConditionalOnProperties(prefix=”xxx.xxx”, value=”enable”, matchIfMissing=true)，代表当xxx.xxx为enable时条件的布尔值为true，如果没有设置的情况下也为true。
   >    ```
+
+# Tomcat
+
+- 深入拆解Tomcat & Jetty（极客时间）
+
+# Servlet
+
+- Servlet规范
+
+- 三大器
+
+  >拦截器：
+  >
+  >过滤器：
+  >
+  >监听器：
 
 # 面经
 

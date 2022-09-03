@@ -418,6 +418,14 @@ System.out.println(set.size());   // 2
 
 - JDK11 - 支持 TLS 1.3 协议
 
+- JDK9 - Jshell
+
+  ```java
+  命令行输入jshell进入，/exit退出,用于快速验证代码逻辑
+  ```
+
+  
+
 ## JVM优化
 
 - JDK9-统一JVM日志
@@ -458,6 +466,8 @@ System.out.println(set.size());   // 2
 
 - JDK15-文本块
 
+  所见即所得的字符串
+
   ```java
   public static void main(String[] args) {
       String query = """
@@ -483,7 +493,21 @@ System.out.println(set.size());   // 2
 
 - JDK16-Records类型
 
+  档案类
+
+  ```
+  Java档案类是用来表示不可变数据的透明载体，用来简化不可变数据的表达
+  ```
+
 - JDK17-密封的类和接口，限制类只能被谁继承
+
+  限制类的可扩展性
+
+  ```java
+  public abstract sealed class Shape permits xx{}
+  ```
+
+  
 
 ## 新工具和库更新
 
