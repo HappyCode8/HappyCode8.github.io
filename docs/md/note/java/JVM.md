@@ -769,3 +769,67 @@ Tomact是web容器，可能需要部署多个应用程序。不同的应用程�
 >系统还没挂掉：导出dump文件：jmap -dump:format=b,file=xxx.hprof 进程号，但是注意会引起GC，导致STW  或者可以使用一些工具，arthas（阿里的工具应该是）
 >
 >结合jvisualvm进行调试：查看最多跟业务有关对象-> 找到GCROOT->查看线程栈
+
+# JVM问题排查
+
+## 原生工具
+
+>ls /Library/Java/JavaVirtualMachines/jdk-11.0.8.jdk/Contents/Home/bin 
+>
+>jaotc    javadoc   jdeprscan  jinfo    jps     jstatd   rmiregistry jar     javap    jdeps    jjs     jrunscript keytool   serialver jarsigner  jcmd    jfr     jlink    jshell   pack200   unpack200 java    jconsole  jhsdb    jmap    jstack   rmic javac    jdb     jimage   jmod    jstat    rmid
+
+| 工具      | 类型     | 作用                                                         |
+| --------- | -------- | ------------------------------------------------------------ |
+| jps       | 命令行   | 列出系统上的JVM进程                                          |
+| jinfo     | 命令行   | 查看JVM的各种配置信息                                        |
+| jvisualvm | 图形界面 | 综合的JVM监控工具，查看JVM基本情况、栈堆转储、内存和CPU profiling等 |
+| jconsole  | 图形界面 | 监控JVM的基本情况                                            |
+| jstat     | 命令行   | JVM统计工具，附加到一个JVM进程上收集和记录JVM的各种性能指标数据 |
+| jstack    | 命令行   | JVM栈查看工具，可以打印JVM进程的线程栈和锁情况               |
+| jcmd      | 命令行   | JVM命令行调试工具，用于向JVM进程发送调试命令                 |
+| jmap      | 命令行   | JVM堆内存分析工具，可以打印JVM进程对象直方图、类加载统计以及做堆转储操作 |
+
+- jstat
+
+  >如果没有条件使用图形界面（毕竟在Linux服务器上，我们主要使用命令行工具），又希望看到GC趋势的话，可以使用jstat工具。
+  >
+  >jstat工具允许以固定的监控频次输出JVM的各种监控指标，比如使用-gcutil输出GC和内存占用汇总信息，每隔5秒输出一次，输出100次，可以使用如下命令：jstat -gcutil 23940 5000 100
+  >
+  >> 输出结果中，S0表示Survivor0区占用百分比，S1表示Survivor1区占用百分比，E表示Eden区占用百分比，O表示老年代占用百分比，M表示元数据区占用百分比，YGC表示年轻代回收次数，YGCT表示年轻代回收耗时，FGC表示老年代回收次数，FGCT表示老年代回收耗时。
+  >
+  >jstat命令的参数众多，包含-class、-compiler、-gc等。Java 8、Linux/Unix平台jstat工具的完整介绍，你可以查看[这里](https://docs.oracle.com/javase/8/docs/technotes/tools/#monitor)。jstat定时输出的特性，可以方便我们持续观察程序的各项指标。
+
+- Java的OutOfMemoryError是比较严重的问题，需要分析出根因，所以对生产应用一般都会这样设置JVM参数，方便发生OOM时进行堆转储，然后使用MAT工具进行分析
+
+  ```
+  -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=.
+  ```
+
+## 扩展工具
+
+- Arthas
+
+  阿里开源的Java诊断工具，相比JDK内置的诊断工具，要更人性化，并且功能强大，可以实现许多问题的一键定位，而且可以一键反编译类查看源码，甚至是直接进行生产代码热修复，实现在一个工具内快速定位和修复问题的一站式服务。
+
+  ```
+  curl -O https://alibaba.github.io/arthas/arthas-boot.jar
+  java -jar arthas-boot.jar
+  ```
+
+  1. dashboard命令用于整体展示进程所有线程、内存、GC等情况
+
+  2. 查看最繁忙的线程在执行的线程栈，可以使用thread -n
+
+  3. jad命令直接反编译
+
+  4. 使用watch命令来观察方法入参。如下命令，表示需要监控耗时超过100毫秒的doTask方法的入参，并且输出入参，展开2层入参参数：
+
+     ```
+     watch doTask '{params}' '#cost>100' -x 2
+     ```
+
+​			需要额外说明的是，由于monitor、trace、watch等命令是通过字节码增强技术来实现的，会在指定类的方法中插			入一些切面来实现数据统计和观测，因此诊断结束要执行shutdown来还原类或方法字节码，然后退出Arthas。
+
+# 其它
+
+[参考](http://learnjvm.com/)

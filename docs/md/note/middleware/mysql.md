@@ -575,8 +575,11 @@ MySQL5.5之前，默认存储引擎是MylSAM，5.5之后变成了InnoDB。
     一种是把上一次的最后一条数据，也即上面的c传过来，然后做“c < xxx”处理，但是这种一般需要改接口协议，并不一定可行；
     另一种是采用延迟关联的方式进行处理，减少SQL回表，但是要记得索引需要完全覆盖才有效果，SQL改动如下：
     select t1.* from _t t1, (select id from _t where a = 1 and b = 2 order by c desc limit 10000, 10) t2 where t1.id = t2.id;
+    
+    -- order by + 索引？
+    select id，name from user_info order by id  limit #{offset},#{pageSize}
     ```
-
+    
 14. in+order by
     
     ```sql
@@ -1474,3 +1477,9 @@ services:
       MYSQL_USER: wyj
       MYSQL_PASSWORD: 123456
 ```
+
+## 配置
+
+主24核+128G+2048G SSD，从更好一点
+
+1.6亿数据大概占125G

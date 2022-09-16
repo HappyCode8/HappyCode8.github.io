@@ -41,6 +41,8 @@
 > 对线面试官：https://www.zhihu.com/people/Java_3y/posts
 >
 > 大数据：https://shimin-huang.gitbook.io/doc
+>
+> 大数据：https://github.com/wangzhiwubigdata/God-Of-BigData
 - [优秀的社区]
 > gitChat: https://gitbook.cn/
 >

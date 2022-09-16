@@ -1,5 +1,3 @@
-
-
 # Scala
 
 [菜鸟教程](https://www.runoob.com/scala/scala-pattern-matching.html)

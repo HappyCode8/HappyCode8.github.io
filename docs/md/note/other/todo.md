@@ -99,6 +99,8 @@ kafkahttps://mp.weixin.qq.com/s/8KqaDsQoyx9P-Om81GNvlQ
 
 mybatis的日志功能如何设计的https://mp.weixin.qq.com/s/hWE8S8Zzy6m1-YhbqrgYDg
 
+社招一年半面经分享https://mp.weixin.qq.com/s/SOErvCCrmPaAVUphSO2Wqw
+
 jd:
 
 ```

@@ -12,6 +12,10 @@
 
 - 代码质量的：Alibaba Java Coding Guidelines、SonarLint
 
+  >这两个插件都可以项目右键上打开或关闭实时监测
+
+- 代码行数检测：Statistic
+
 - json与bean互转：GsonFormat-plus、java Bean to Json
 
 - Grep console:控制台输出不同日志级别的颜色

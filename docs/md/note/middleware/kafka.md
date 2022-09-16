@@ -391,6 +391,10 @@
 
 https://mp.weixin.qq.com/s/hd8z2F1hLbrykxZL6gQb1g
 
+https://mp.weixin.qq.com/s/YJUB2I1Vd87oVaA_07GwOQ
+
+可以参考的面试题：https://mp.weixin.qq.com/s/gm-c3gikWU0MwEJW_QIDFQ
+
 # kafka的一些坑
 
 https://mp.weixin.qq.com/s/YPkE3Tsu3RVbhfVZCBt1pQ

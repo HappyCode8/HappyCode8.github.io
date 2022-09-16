@@ -355,13 +355,13 @@
 
   最主要的区别就是SimpleChannelInboundHandler在接收到数据后会自动release掉数据占用的Bytebuffer资源(自动调用Bytebuffer.release())。而为何服务器端不能用呢，因为我们想让服务器把客户端请求的数据发送回去，而服务器端有可能在channelRead方法返回前还没有写完数据，因此不能让它自动release。
 
-      ```java
-public void channelRead(ChannelHandlerContext channelHandlerContext, Object msg) {
+  ```java
+  public void channelRead(ChannelHandlerContext channelHandlerContext, Object msg) {
         final var in=(ByteBuf)msg;
         System.out.println("服务器收到数据："+in.toString(CharsetUtil.UTF_8));
         channelHandlerContext.write(in);//异步，有可能方法返回还没处理完这一部分
     }
-      ```
+  ```
 
 ### 服务端
 
@@ -563,112 +563,6 @@ ChannelPipeline为一系列ChannelHandler提供了一个接口，并且提供了
 ### Encoders与Decoders
 
 入站信息会被解码，从字节转换为另一种形式，出站时相反.
-
-# 基于Netty的聊天室
-
-## 库表
-
-1. 用户表
-
-   ```sql
-   CREATE TABLE user ( 
-     id bigint NOT NULL AUTO_INCREMENT COMMENT '自增ID', 
-     userId varchar(9) COMMENT '用户ID', 
-     userNickName varchar(32) COMMENT '用户昵称', 
-     userHead varchar(16) COMMENT '用户头像', 
-     userPassword varchar(64) COMMENT '用户密码', 
-     createTime datetime COMMENT '创建时间', 
-     updateTime datetime COMMENT '更新时间', 
-     PRIMARY KEY (id)
-   )
-   ```
-
-2. 群表
-
-   ```sql
-   CREATE TABLE groups ( 
-     id bigint NOT NULL AUTO_INCREMENT COMMENT '自增ID', 
-     groupId varchar(9) COMMENT '群组ID', 
-     groupName varchar(16) COMMENT '群组名称', 
-     groupHead varchar(16) COMMENT '群组头像', 
-     createTime datetime COMMENT '创建时间', 
-     updateTime datetime COMMENT '更新时间', 
-     PRIMARY KEY (id), 
-     CONSTRAINT idx_groupId UNIQUE (groupId) 
-   ) 
-   ```
-
-3. 好友表（用户—用户关系）
-
-   ```sql
-   CREATE TABLE user_friend ( 
-     id bigint NOT NULL AUTO_INCREMENT COMMENT '自增ID', 
-     userId bigint COMMENT '用户ID', 
-     userFriendId bigint COMMENT '好友用户ID', 
-     createTime datetime COMMENT '创建时间', 
-     updateTime datetime COMMENT '更新时间' , 
-     PRIMARY KEY (id), 
-     CONSTRAINT uuid_idx UNIQUE (userId, userFriendId) 
-   ) 
-   ```
-
-4. 用户群表（用户—群关系）
-
-   ```sql
-   CREATE TABLE user_group ( 
-     id bigint NOT NULL AUTO_INCREMENT COMMENT '自增ID', 
-     userId varchar(9) COMMENT '用户ID', 
-     groupId varchar(9) COMMENT '群组ID', 
-     createTime datetime COMMENT '创建时间', 
-     updateTime datetime COMMENT '更新时间', 
-     PRIMARY KEY (id), 
-     CONSTRAINT idx_uuid UNIQUE (userId, groupId) 
-   ) 
-   ```
-
-5. 对话框表
-
-   ```sql
-   CREATE TABLE talk_box ( 
-     id bigint NOT NULL AUTO_INCREMENT COMMENT '自增ID', 
-     userId varchar(9) COMMENT '用户ID', 
-     talkId varchar(9) COMMENT '对话框ID(好友ID、群组ID)', 
-     talkType int(4) COMMENT '对话框类型；0好友、1群组', 
-     createTime datetime COMMENT '创建时间', 
-     updateTime datetime COMMENT '更新时间', 
-     PRIMARY KEY (id), 
-     CONSTRAINT idx_talkId_userId UNIQUE (userId, talkId) 
-   ) 
-   ```
-
-6. 聊天记录表
-
-   ```sql
-   CREATE TABLE chat_record ( 
-     id bigint NOT NULL AUTO_INCREMENT COMMENT '自增ID', 
-     userId varchar(9) COMMENT '自己ID', 
-     friendId varchar(9) COMMENT '好友ID', 
-     msgContent varchar(512) COMMENT '消息内容', 
-     msgDate datetime COMMENT '消息时间', 
-     createTime datetime COMMENT '创建时间', 
-     updateTime datetime COMMENT '更新时间', 
-     talkType int(4) COMMENT '0好友，1群组', 
-     msgType int(4) DEFAULT '0', 
-     PRIMARY KEY (id) 
-   )
-   ```
-
-## 1.实现点对点聊天
-
-需求：连接以后，输出：[请输入登录账号、密码：换行]
-
-​            并且进入：[ratel@" + message + "]$：输入账号密码验证
-
-​            成功：输出您当前的好友列表为：[xx:1,ss:2]，群列表为[xx:1,ss:2]，请选择您的操作
-
-1.与好友聊天
-
-2.群聊
 
 
 

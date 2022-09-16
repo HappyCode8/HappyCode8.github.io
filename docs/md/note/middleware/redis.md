@@ -32,6 +32,12 @@ pexpire key-name milliseconds 让给定键在指定的毫秒数之后过期
 pexpireat key-name timestamp 讲一个毫秒级精度的时间戳设置为给定键的过期时间
 ```
 
+启动redis
+
+```
+redis-server
+```
+
 # 基础
 
 ## 什么是Redis
@@ -711,23 +717,228 @@ Redis集群提供了灵活的节点扩容和收缩方案，可以在不影响集
 ## 缓存击穿、缓存穿透、缓存雪崩
 
 > 1. 如果在某个key（通常是热点key）失效的时候，有大量的请求一起过来就是**击穿**
->    
+>
 >    - 开一个后台线程监控数据，变化时就缓存进去，这种解决方案只适用于不要求数据严格一致性的情况，因为当后台线程在构建缓存的时候，其他的线程很有可能也在读取数据，这样就会访问到旧数据了。
 >    - 当 key 失效的时候，让一个线程读取数据并构建到缓存中，其他线程就先等待，直到缓存构建完后重新读取缓存。当然，采用互斥锁的方案也是有缺陷的，当缓存失效的时候，同一时间只有一个线程读数据库然后回写缓存，其他线程都处于阻塞状态。如果是高并发场景，大量线程阻塞势必会降低吞吐量。这种情况该如何处理呢？我只能说没什么设计是完美的，你又想数据一致，又想保证吞吐量，哪有那么好的事，为了系统能更加健全，必要的时候牺牲下性能也是可以采取的措施，两者之间怎么取舍要根据实际业务场景来决定，万能的技术方案什么的根本不存在。
-> 
-> 2. 如果大量的请求访问多个key，刚好key同时失效了就是**雪崩**
+>
+>    ```java
+>    @RestController
+>    @Slf4j
+>    public class testRedis {
+>        @Autowired
+>        private StringRedisTemplate stringRedisTemplate;
+>        private AtomicInteger atomicInteger = new AtomicInteger();
 >    
+>        @PostConstruct
+>        public void init() {
+>            //初始化一个热点数据到Redis中，过期时间设置为5秒
+>            stringRedisTemplate.opsForValue().set("hotsopt", getExpensiveData(), 5, TimeUnit.SECONDS);
+>            //每隔1秒输出一下回源的QPS
+>            Executors.newSingleThreadScheduledExecutor().scheduleAtFixedRate(() -> {
+>                log.info("DB QPS : {}", atomicInteger.getAndSet(0));
+>            }, 0, 1, TimeUnit.SECONDS);
+>        }
+>    
+>        @GetMapping("city")
+>        public String wrong() throws InterruptedException {
+>            String data = stringRedisTemplate.opsForValue().get("hotsopt");
+>            if (StringUtils.isEmpty(data)) {
+>                data = getExpensiveData();
+>                //重新加入缓存，过期时间还是5秒
+>                stringRedisTemplate.opsForValue().set("hotsopt", data, 5, TimeUnit.SECONDS);
+>            }
+>            return data;
+>        }
+>    
+>        private String getExpensiveData() {
+>            atomicInteger.incrementAndGet();
+>            return "important data";
+>        }
+>    }
+>    ```
+>
+> 2. 如果大量的请求访问多个key，刚好key同时失效了就是**雪崩**
+>
 >    - 热点key永不过期
 >    - key设置不同的失效时间
 >    - 互斥锁（只有一个读库更新缓存，别的读缓存）
 >    - 主备缓存，备缓存有效期长，获取锁失败时读取备份缓存，更新主缓存时更新备用缓存
 >    - 缓存预热
 >    - 缓存降级，指缓存失效或缓存服务器挂掉的情况下，不去访问数据库，直接返回默认数据或访问服务的内存数据
-> 
+>
+>    ```java
+>    /**
+>     * @author wyj
+>     * 模拟缓存雪崩，从结果可以看出每过大约30秒就会产生一次回源
+>     */
+>    
+>    @RestController
+>    @Slf4j
+>    public class testRedis {
+>    
+>        @Autowired
+>        private StringRedisTemplate stringRedisTemplate;
+>        private AtomicInteger atomicInteger = new AtomicInteger();
+>    
+>        @PostConstruct
+>        public void wrongInit() {
+>            //初始化1000个城市数据到Redis，所有缓存数据有效期30秒
+>            IntStream.rangeClosed(1, 1000).forEach(i -> stringRedisTemplate.opsForValue().set("city" + i, getCityFromDb(i), 30, TimeUnit.SECONDS));
+>            log.info("Cache init finished");
+>    
+>            //每秒一次，输出数据库访问的QPS
+>            Executors.newSingleThreadScheduledExecutor().scheduleAtFixedRate(() -> {
+>                log.info("DB QPS : {}", atomicInteger.getAndSet(0));
+>            }, 0, 1, TimeUnit.SECONDS);
+>        }
+>    
+>        @GetMapping("city")
+>        public String city() {
+>            //随机查询一个城市
+>            int id = ThreadLocalRandom.current().nextInt(1000) + 1;
+>            String key = "city" + id;
+>            String data = stringRedisTemplate.opsForValue().get(key);
+>            if (data == null) {
+>                //回源到数据库查询
+>                data = getCityFromDb(id);
+>                if (!StringUtils.isEmpty(data)){
+>                    stringRedisTemplate.opsForValue().set(key, data, 30, TimeUnit.SECONDS);
+>                }
+>            }
+>            return data;
+>        }
+>    
+>        private String getCityFromDb(int cityId) {
+>            //模拟查询数据库，查一次增加计数器加一
+>            atomicInteger.incrementAndGet();
+>            return "citydata" + System.currentTimeMillis();
+>        }
+>    }
+>    /*
+>    2022-09-11 17:15:47.957                : DB QPS : 113
+>    2022-09-11 17:15:48.957                : DB QPS : 153
+>    .....
+>    2022-09-11 17:16:19.956                : DB QPS : 205
+>    2022-09-11 17:16:20.958                : DB QPS : 186
+>    
+>    在并发情况下，总共 1000 条数据回源达到了 1002 次，说明有一些条目出现了并发回源
+>    */
+>    ```
+>
 > 3. 如果大量的用户请求缓存中不存在的key（甚至数据库也不存在，比如攻击）就是**穿透**
+>
+>    ```java
+>    public class testRedis {
+>    
+>        @Autowired
+>        private StringRedisTemplate stringRedisTemplate;
+>        private AtomicInteger atomicInteger = new AtomicInteger();
+>    
+>        @PostConstruct
+>        public void init() {
+>            Executors.newSingleThreadScheduledExecutor().scheduleAtFixedRate(() -> {
+>                log.info("DB QPS : {}", atomicInteger.getAndSet(0));
+>            }, 0, 1, TimeUnit.SECONDS);
+>    
+>            //bloomFilter = BloomFilter.create(Funnels.integerFunnel(), 10000, 0.01);
+>            //IntStream.rangeClosed(1, 10000).forEach(bloomFilter::put);
+>        }
+>    
+>        @GetMapping("city")
+>        public String wrong(@RequestParam("id") int id) {
+>            String key = "user" + id;
+>            String data = stringRedisTemplate.opsForValue().get(key);
+>            //无法区分是无效用户还是缓存失效
+>            if (StringUtils.isEmpty(data)) {
+>                data = getCityFromDb(id);
+>                stringRedisTemplate.opsForValue().set(key, data, 30, TimeUnit.SECONDS);
+>            }
+>            return data;
+>        }
+>    
+>        private String getCityFromDb(int id) {
+>            atomicInteger.incrementAndGet();
+>            //注意，只有ID介于0（不含）和10000（包含）之间的用户才是有效用户，可以查询到用户信息
+>            if (id > 0 && id <= 10000) {
+>                return "userdata";
+>            }
+>            //否则返回空字符串
+>            return "";
+>        }
+>    }
+>    ```
 >    
 >    - 缓存空对象，如果有大量的 key 穿透，缓存空对象会占用宝贵的内存空间。空对象的 key 设置了过期时间，这段时间内可能数据库刚好有了该 key 的数据，从而导致数据不一致的情况。
+>    
+>    ```java
+>    
+>    @GetMapping("right")
+>    public String right(@RequestParam("id") int id) {
+>        String key = "user" + id;
+>        String data = stringRedisTemplate.opsForValue().get(key);
+>        if (StringUtils.isEmpty(data)) {
+>            data = getCityFromDb(id);
+>            //校验从数据库返回的数据是否有效
+>            if (!StringUtils.isEmpty(data)) {
+>                stringRedisTemplate.opsForValue().set(key, data, 30, TimeUnit.SECONDS);
+>            }
+>            else {
+>                //如果无效，直接在缓存中设置一个NODATA，这样下次查询时即使是无效用户还是可以命中缓存
+>                stringRedisTemplate.opsForValue().set(key, "NODATA", 30, TimeUnit.SECONDS);
+>            }
+>        }
+>        return data;
+>    }
+>    //这种方式可能会把大量无效的数据加入缓存中，如果担心大量无效数据占满缓存的话还可以考虑方案二，即使用布隆过滤器做前置过滤。
+>    ```
+>    
 >    - 布隆过滤器， m 比特的位数组（bit array）与 k 个哈希函数（hash function）组成的数据结构，优点是节省空间、时间复杂度低，缺点准确率有误，不能删除元素
+>    
+>    ```java
+>    @RestController
+>    @Slf4j
+>    public class testRedis {
+>    
+>        @Autowired
+>        private StringRedisTemplate stringRedisTemplate;
+>        private AtomicInteger atomicInteger = new AtomicInteger();
+>        private BloomFilter<Integer> bloomFilter;
+>    
+>        @PostConstruct
+>        public void init() {
+>            Executors.newSingleThreadScheduledExecutor().scheduleAtFixedRate(() -> {
+>                log.info("DB QPS : {}", atomicInteger.getAndSet(0));
+>            }, 0, 1, TimeUnit.SECONDS);
+>    
+>            bloomFilter = BloomFilter.create(Funnels.integerFunnel(), 10000, 0.01);
+>            IntStream.rangeClosed(1, 10000).forEach(bloomFilter::put);
+>        }
+>    
+>        @GetMapping("city")
+>        public String right(@RequestParam("id") int id) {
+>            String data = "";
+>            if (bloomFilter.mightContain(id)) {
+>                String key = "user" + id;
+>                data = stringRedisTemplate.opsForValue().get(key);
+>                if (StringUtils.isEmpty(data)) {
+>                    data = getCityFromDb(id);
+>                    stringRedisTemplate.opsForValue().set(key, data, 30, TimeUnit.SECONDS);
+>                }
+>            }
+>            return data;
+>        }
+>    
+>        private String getCityFromDb(int id) {
+>            atomicInteger.incrementAndGet();
+>            //注意，只有ID介于0（不含）和10000（包含）之间的用户才是有效用户，可以查询到用户信息
+>            if (id > 0 && id <= 10000) {
+>                return "userdata";
+>            }
+>            //否则返回空字符串
+>            return "";
+>        }
+>    }
+>    ```
 
 ## 布隆过滤器
 
@@ -831,6 +1042,8 @@ Redis缓存，数据库发生更新，直接删除缓存的key即可，因为对
 
 3、定时任务刷新缓存.
 
+## 大 Key，以及如何在设计上实现大 Key 的拆分
+
 ## 热点key重建？问题？解决？
 
 开发的时候一般使用“缓存+过期时间”的策略，既可以加速数据读写，又保证数据的定期更新，这种模式基本能够满足绝大部分需求。
@@ -909,6 +1122,8 @@ Redis所用内存达到maxmemory上限时会触发相应的溢出控制策略，
 > 4. allkeys-random：随机删除所有键，直到腾出足够空间为止。
 > 5. volatile-random：随机删除过期键，直到腾出足够空间为止。
 > 6. volatile-ttl：根据键值对象的ttl属性，删除最近将要过期数据。如果 没有，回退到noeviction策略。
+> 6. **allkeys-lfu（Redis 4.0 以上），针对所有 Key，优先删除最少使用的 Key；**
+> 6. **volatile-lfu（Redis 4.0 以上），针对带有过期时间的 Key，优先删除最少使用的 Key。**
 
 ## Redis阻塞怎么解决
 
@@ -969,7 +1184,8 @@ Redis使用过程中，有时候会出现大key的情况， 比如：
 
 - **压缩和拆分key**
 
-- - 当vaule是string时，比较难拆分，则使用序列化、压缩算法将key的大小控制在合理范围内，但是序列化和反序列化都会带来更多时间上的消耗。
+  - 当vaule是string时，比较难拆分，则使用序列化、压缩算法将key的大小控制在合理范围内，但是序列化和反序列化都会带来更多时间上的消耗。
+
   - 当value是string，压缩之后仍然是大key，则需要进行拆分，一个大key分为不同的部分，记录每个部分的key，使用multiget等操作实现事务读取。
   - 当value是list/set等集合类型时，根据预估的数据规模来进行分片，不同的元素计算后分到不同的片。
 

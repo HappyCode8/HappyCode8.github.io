@@ -70,3 +70,27 @@ postman.setGlobalVariable("sign",strmd5)
 document.cookie
 ```
 
+# Jemeter
+
+- 启动
+
+  >bin目录下，./jmeter启动
+
+- HTTP接口压测
+
+  >添加线程组：add->threads->thread group
+  >
+  >在线程组下添加http请求：add->samper->http request
+  >
+  >在http请求下添加一个assertation：add->assertations->
+  >
+  >添加结果：add->listener->
+
+# wrk
+
+- 压测命令
+
+  >10线程50连接压测10秒
+  >
+  >wrk -t 10 -c 50 -d 10s http://localhost:8080/redis --latency
+

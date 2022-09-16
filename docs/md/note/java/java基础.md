@@ -327,6 +327,19 @@ set.add(e2);
 System.out.println(set.size());   // 2
 ```
 
+补充点：
+
+**对于自定义的类型，如果要实现Comparable，请记得equals、hashCode、compareTo三者逻辑一致**。
+
+```java
+//在一个搜索方法升级中，由于嫌弃indexOf慢转而使用binarySearch，但是binarySearch调用了compareTo方法，indexOf使用了equals，两个逻辑不一致导致indexOf
+int index1 = list.indexOf(student);
+Collections.sort(list);
+int index2 = Collections.binarySearch(list, student);
+```
+
+
+
 # java8升java11重要特性
 
 [原文](https://www.pdai.tech/md/java/java8up/java9-11.html#java-8-%E5%8D%87java-11-%E9%87%8D%E8%A6%81%E7%89%B9%E6%80%A7%E5%BF%85%E8%AF%BB)

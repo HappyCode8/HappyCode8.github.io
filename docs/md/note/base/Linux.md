@@ -363,12 +363,12 @@ run
 磁盘空间不足时：
 
 1. 使用df -h整体查看磁盘
-2. 使用du -sh * 查看 / 路径下的各个文件和目录的大小
+2. 使用du -sh * 查看当前路径下的各个文件和目录的大小
 3. 使用ls -lh命令查看文件占地大小
 
 CPU与内存使用过高
 
-1. top命令
+1. top命令，使用q退出
 2. 如果只看java使用jps找到PID，然后使用top -p 19063专门查看某个java进程的情况，如果要细化到线程可以加个top -p 19063 -H参数
 3. 如果想单独分析内存，使用free
 
@@ -376,10 +376,3 @@ CPU与内存使用过高
 
 1. netstat -a查看所有连接中的socket, netstat -tnpa命令可以查看所有 tcp 连接的信息，包括进程号
 2. 使用ps -ef命令查看进程相关信息
-
-查看java问题
-
-1. 使用jps -l查看java进程号
-2. 使用jmap -dump:live,format=b,file=heap.bin 进程号，导出堆快照
-3. jhsdb jmap --heap --pid 进程号 查看堆内存设置与当前使用情况
-4. jstack -l 进程号，用于生成虚拟机当前时刻线程快照，可以上传到fastthread.io网站直观查看

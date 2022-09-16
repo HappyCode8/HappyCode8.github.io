@@ -28,6 +28,9 @@
   - [Hive](/md/note/bigdata/Hive.md)
   - [Hbase](/md/note/bigdata/Hbase.md)
   - [Dories](/md/note/bigdata/Doris.md)
+  - [Flink](/md/note/bigdata/Flink.md)
+  - [Spark]((/md/note/bigdata/Spark.md))
+  - [数据建模]((/md/note/bigdata/数据建模.md))
 
 ### 📃系统设计
   - [基础](/md/note/system/基础.md)
@@ -38,7 +41,7 @@
   - [Git使用](/md/note/tool/git.md)
   - [Docker](/md/note/tool/Docker.md)
   - [IDEA](/md/note/tool/IDEA.md)
-  - [PostMan](/md/note/tool/PostMan.md)
+  - [测试与压测](/md/note/tool/RequestPressure.md)
 
 ### ⭐️️读书笔记
   - [java8新特性](/md/note/book/java8新特性.md)
@@ -47,7 +50,6 @@
   - [数据密集型应用系统](/md/note/book/数据密集型应用系统.md)
 
 ### 🎈开发规范
-  - [常见技巧](/md/note/coderule/常见技巧.md)
   - [设计模式](/md/note/coderule/设计模式.md)
   - [重构&整洁代码](/md/note/coderule/重构&整洁代码.md)
 

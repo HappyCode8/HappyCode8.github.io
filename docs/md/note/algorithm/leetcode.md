@@ -1,12 +1,17 @@
+>[仓库](https://github.com/github20131983/Algorithm)
+>
+>**链表**：
+>
+>1. [两数相加](https://leetcode-cn.com/problems/add-two-numbers)
+>2. [删除链表倒数第n个节点](https://leetcode-cn.com/problems/remove-nth-node-from-end-of-list/)
+>3. [两两交换链表中的节点](https://leetcode.cn/problems/swap-nodes-in-pairs/)
+>4. 
 
-
-[仓库](https://github.com/github20131983/Algorithm)
-
-## 链表
+# 链表
 
 ```java
 public class ListNode {
-    int val;
+   int val;
    ListNode next;
    ListNode(int x) { 
        val = x; 
@@ -14,91 +19,89 @@ public class ListNode {
 }
 ```
 
-1. 给你两个 非空 的链表，表示两个非负的整数。它们每位数字都是按照 逆序 的方式存储的，并且每个节点只能存储 一位 数字。请你将两个数相加，并以相同形式返回一个表示和的链表。你可以假设除了数字 0 之外，这两个数都不会以 0 开头。
-   链接：https://leetcode-cn.com/problems/add-two-numbers
-   
-   思路：这个链表从前到后实际上是个位、十位、百位.......，所以从前往后刚好是模拟了从个位加到最高位的过程，基本上只要模拟就行了。
-   
-   ```java
-   public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
-           ListNode sum=new ListNode(-1);
-           ListNode head=sum;
-           int sigleSum=0;
-           while(l1!=null||l2!=null){
-               sigleSum/=10;
-               if(l1!=null){
-                   sigleSum+=l1.val;
-                   l1=l1.next;
-               }
-               if(l2!=null){
-                   sigleSum+=l2.val;
-                   l2=l2.next;
-               }
-               sum.next=new ListNode(sigleSum%10);
-               sum=sum.next;
-           }
-           if(sigleSum>=10)sum.next=new ListNode(1);
-           return head.next;
-       }
-   ```
+## 两数相加
 
-2. 给你一个链表，删除链表的倒数第 `n` 个结点，并且返回链表的头结点。
-   
-   **进阶：**你能尝试使用一趟扫描实现吗？
-   
-   链接：https://leetcode-cn.com/problems/remove-nth-node-from-end-of-list/
-   
-   思路：双指针，快的先跑n个，慢的在开始跑，当快的跑到末尾时，慢的指的就是要删除的
-   
-   ```java
-   class Solution {
-       public ListNode removeNthFromEnd(ListNode head, int n) {
-           ListNode start=new ListNode(-1);
-           start.next=head;
-           ListNode slow=start,fast=start;
-           for(int i=1;i<=n;i++)
-               fast=fast.next;
-           while(fast.next!=null){
-               fast=fast.next;
-               slow=slow.next;
-           }
-           slow.next=slow.next.next;
-           return start.next;
-       }
-   }
-   ```
+> 给你两个非空的链表，表示两个非负的整数，数字逆序存储的，并且每个节点只能存储一位数字。请你将两个数相加，并以相同形式返回一个表示和的链表。
+> **输入**：2->4->3+5->6->4  
+> **输出**：7->0->8(**342 + 465 = 807**)
+> **思路**：这个链表从前到后实际上是个位、十位、百位.......，所以从前往后刚好是模拟了从个位加到最高位的过程，基本上只要模拟就行了。
+>
+> ```java
+> public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+>         ListNode sum=new ListNode(-1);
+>         ListNode head=sum;
+>         int sigleSum=0;
+>         while(l1!=null||l2!=null){
+>             sigleSum/=10;
+>             if(l1!=null){
+>                 sigleSum+=l1.val;
+>                 l1=l1.next;
+>             }
+>             if(l2!=null){
+>                 sigleSum+=l2.val;
+>                 l2=l2.next;
+>             }
+>             sum.next=new ListNode(sigleSum%10);
+>             sum=sum.next;
+>         }
+>         if(sigleSum>=10)sum.next=new ListNode(1);
+>         return head.next;
+>     }
+> ```
 
-3. 给定一个链表，两两交换其中相邻的节点，并返回交换后的链表。
-   
-   **你不能只是单纯的改变节点内部的值**，而是需要实际的进行节点交换。
-   
-   链接：https://leetcode-cn.com/problems/swap-nodes-in-pairs/
-   
-   思路：用三个指针，一个指向交换两节点的前方，其余指向要交换的两个，每次交换完三个指针前进两格
-   
-   ```java
-   public ListNode swapPairs2(ListNode head) {
-           ListNode start = new ListNode(-1);
-           start.next = head;
-           ListNode now=start, pre = start, prepre;
-           while (pre.next != null && pre.next.next != null) {
-               prepre = pre;
-               pre = pre.next;
-               now = pre.next;
-               prepre.next = now;
-               pre.next = now.next;
-               now.next = pre;
-           }
-           return start.next;
-       }
-   ```
+## 删除链表倒数第n个节点
 
-4. 给你一个链表的头节点 `head` ，旋转链表，将链表每个节点向右移动 `k` 个位置。
-   
+>给你一个链表，删除链表的倒数第 `n` 个结点，并且返回链表的头结点，使用一趟扫描实现
+>**输入**：head = [1,2,3,4,5], n = 2
+>**输出**：[1,2,3,5]
+>**思路**：双指针，快的先跑n个，慢的在开始跑，当快的跑到末尾时，慢的指的就是要删除的
+>
+>```java
+>class Solution {
+>    public ListNode removeNthFromEnd(ListNode head, int n) {
+>        ListNode start=new ListNode(-1);
+>        start.next=head;
+>        ListNode slow=start,fast=start;
+>        for(int i=1;i<=n;i++)
+>            fast=fast.next;
+>        while(fast.next!=null){
+>            fast=fast.next;
+>            slow=slow.next;
+>        }
+>        slow.next=slow.next.next;//删除
+>        return start.next;
+>    }
+>}
+>```
+
+## 两两交换链表中的节点
+
+> 给定一个链表，**两两交换** **(换节点而不是值)** 其中相邻的节点，并返回交换后的链表。
+> **思路**：用三个指针，一个指向交换两节点的前方，其余指向要交换的两个，每次交换完三个指针前进两格
+>
+> ```java
+> public ListNode swapPairs2(ListNode head) {
+>         ListNode start = new ListNode(-1);
+>         start.next = head;
+>         ListNode now=start, pre = start, prepre;
+>         while (pre.next != null && pre.next.next != null) {
+>             prepre = pre;
+>             pre = pre.next;
+>             now = pre.next;
+>             prepre.next = now;
+>             pre.next = now.next;
+>             now.next = pre;
+>         }
+>         return start.next;
+> }
+> ```
+
+1. 给你一个链表的头节点 `head` ，旋转链表，将链表每个节点向右移动 `k` 个位置。
+
    链接：https://leetcode-cn.com/problems/rotate-list/
-   
+
    思路：双指针，先让一个指针移到末尾，然后另一个指针移动k位，下一位断开，末尾指针接到头上
-   
+
    ```java
    class Solution {
        public ListNode rotateRight(ListNode head, int k) {
@@ -119,13 +122,13 @@ public class ListNode {
    }
    ```
 
-5. 存在一个按升序排列的链表，给你这个链表的头节点 head ，请你删除链表中所有存在数字重复情况的节点，只保留原始链表中 没有重复出现 的数字。
-   
+2. 存在一个按升序排列的链表，给你这个链表的头节点 head ，请你删除链表中所有存在数字重复情况的节点，只保留原始链表中 没有重复出现 的数字。
+
    返回同样按升序排列的结果链表。
-   
+
    来源：力扣（LeetCode）
    链接：https://leetcode-cn.com/problems/remove-duplicates-from-sorted-list-ii
-   
+
    ```java
    class Solution {
        public ListNode rotateRight(ListNode head, int k) {
@@ -146,13 +149,13 @@ public class ListNode {
    }
    ```
 
-6. 给你一个链表的头节点 head 和一个特定值 x ，请你对链表进行分隔，使得所有 小于 x 的节点都出现在 大于或等于 x 的节点之前。
-   
+3. 给你一个链表的头节点 head 和一个特定值 x ，请你对链表进行分隔，使得所有 小于 x 的节点都出现在 大于或等于 x 的节点之前。
+
    你应当 保留 两个分区中每个节点的初始相对位置。
    链接：https://leetcode-cn.com/problems/partition-list
-   
+
    思路：起两个新链表，拼起来
-   
+
    ```java
    public ListNode partition(ListNode head, int x) {
            ListNode fakeNode1=new ListNode(-1);
@@ -174,11 +177,11 @@ public class ListNode {
        }
    ```
 
-7. 给你单链表的头指针 head 和两个整数 left 和 right ，其中 left <= right 。请你反转从位置 left 到位置 right 的链表节点，返回 反转后的链表 。
-   
+4. 给你单链表的头指针 head 和两个整数 left 和 right ，其中 left <= right 。请你反转从位置 left 到位置 right 的链表节点，返回 反转后的链表 。
+
    来源：力扣（LeetCode）
    链接：https://leetcode-cn.com/problems/reverse-linked-list-ii
-   
+
    ```java
    public ListNode reverseBetween(ListNode head, int m, int n) {
            ListNode fakeNode=new ListNode(-1);
@@ -199,7 +202,7 @@ public class ListNode {
        }
    ```
 
-## 二叉树
+# 二叉树
 
 1. 二叉树层次遍历
    
@@ -561,7 +564,7 @@ public class InorderTraversal {
 }
 ```
 
-## DFS
+# DFS
 
 框架：
 
@@ -633,7 +636,7 @@ class Solution {
      }
      ```
 
-## 回文字符串
+# 回文字符串
 
 - [[LeetCode\] 9. Palindrome Number 验证回文数字](https://www.cnblogs.com/grandyang/p/4125510.html)
   
@@ -667,7 +670,7 @@ class Solution {
   
   - 使用双指针，遇到不是字符串的跳过即可-
 
-## 动态规划
+# 动态规划
 
 [5. 最长回文子串](https://leetcode-cn.com/problems/longest-palindromic-substring/)
 
@@ -994,5 +997,5 @@ public class testdama {
 }
 ```
 
-## 双指针
+# 双指针
 
