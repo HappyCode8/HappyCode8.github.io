@@ -17,6 +17,10 @@
 - [在线画图]https://app.diagrams.net
 
   >在线画图的工具，drawio开源
+  
+- [在线PS]https://www.photopea.com/
+
+  >在线PS工具
 
 # 学习类
 - [凤凰架构]  https://icyfenix.cn/summary/
@@ -69,8 +73,8 @@
 # 刷题类
 - [codetop]  https://codetop.cc/home
 > 分门别类的刷题网站
-- [Grandyang]  https://www.cnblogs.com/grandyang/
-> 一些刷题题解
+- [Grandyang]  https://www.cnblogs.com/grandyang/  一些刷题题解
+> - https://xiaochen1024.com/courseware/60b4f11ab1aa91002eb53b18
 
 - [尚硅谷] http://www.atguigu.com/mst/java/gaopin/17847.html
 
