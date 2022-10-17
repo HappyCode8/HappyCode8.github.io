@@ -121,7 +121,6 @@
 >
 >- [695岛屿最大面积](https://leetcode-cn.com/problems/max-area-of-island/)
 >- [733图像渲染](https://leetcode-cn.com/problems/flood-fill/)
->- [二叉树路径总和](https://leetcode-cn.com/problems/path-sum-ii/)
 >- [1091计算在网格中从原点到特定点的最短路径长度](https://leetcode-cn.com/problems/shortest-path-in-binary-matrix/)
 >- [279组成整数的最小平方数数量](https://leetcode-cn.com/problems/perfect-squares/description/)
 >- [127最短单词路径](https://leetcode-cn.com/problems/word-ladder/description/)
@@ -129,30 +128,28 @@
 >- [547好友关系的连通分量数目](https://leetcode-cn.com/problems/friend-circles/description/)
 >- [130填充封闭区域](https://leetcode-cn.com/problems/surrounded-regions/description/)
 >- [417能到达的太平洋和大西洋的区域](https://leetcode-cn.com/problems/pacific-atlantic-water-flow/description/)
->- [301. 删除无效的括号](https://leetcode-cn.com/problems/remove-invalid-parentheses/)
 >- [200. 岛屿数量](https://leetcode-cn.com/problems/number-of-islands/)
->- [297二叉树的序列化与反序列化](https://leetcode.cn/problems/serialize-and-deserialize-binary-tree/)
 >
 >2. 回溯&剪枝
 >
->- [22. 括号生成](https://leetcode-cn.com/problems/generate-parentheses/)
->- [51. N 皇后](https://leetcode-cn.com/problems/n-queens/)
->- [36. 有效的数独](https://leetcode-cn.com/problems/valid-sudoku/)
->- [37. 解数独](https://leetcode-cn.com/problems/sudoku-solver/)
->- [79. 单词搜索](https://leetcode-cn.com/problems/word-search/)
->- [46. 全排列](https://leetcode-cn.com/problems/permutations/)
->- [77. 组合](https://leetcode-cn.com/problems/combinations/)
->- [78. 子集](https://leetcode-cn.com/problems/subsets/)
->- [473. 火柴拼正方形](https://leetcode-cn.com/problems/matchsticks-to-square/)
->- [17电话号码的字母组合](https://leetcode-cn.com/problems/letter-combinations-of-a-phone-number/description/)
->- [93IP 地址划分](https://leetcode-cn.com/problems/restore-ip-addresses/description/)
->- [257输出二叉树中所有从根到叶子的路径](https://leetcode-cn.com/problems/binary-tree-paths/description/)
->- [47含有相同元素求排列](https://leetcode-cn.com/problems/permutations-ii/description/)
+>- [77组合](https://leetcode-cn.com/problems/combinations/)
 >- [39组合总和](https://leetcode-cn.com/problems/combination-sum/description/)
->- [40含有相同元素的组合求和](https://leetcode-cn.com/problems/combination-sum-ii/description/)
->- [216 1-9 数字的组合求和](https://leetcode-cn.com/problems/combination-sum-iii/description/)
->- [90含有相同元素求子集](https://leetcode-cn.com/problems/subsets-ii/description/)
->- [131分割字符串使得每个部分都是回文数](https://leetcode-cn.com/problems/palindrome-partitioning/description/)
+>- [40组合总和II](https://leetcode-cn.com/problems/combination-sum-ii/description/)
+>- [216组合总和 III](https://leetcode.cn/problems/combination-sum-iii/)
+>- [78子集](https://leetcode-cn.com/problems/subsets/)
+>- [90子集II](https://leetcode-cn.com/problems/subsets-ii/description/)
+>- [46全排列](https://leetcode-cn.com/problems/permutations/)
+>- [47全排列II](https://leetcode-cn.com/problems/permutations-ii/description/)
+>- [17电话号码的字母组合](https://leetcode-cn.com/problems/letter-combinations-of-a-phone-number/description/)
+>- [131分割回文串](https://leetcode-cn.com/problems/palindrome-partitioning/description/)
+>- [93复原IP地址](https://leetcode-cn.com/problems/restore-ip-addresses/description/)
+>- [491递增子序列](https://leetcode.cn/problems/increasing-subsequences/)
+>- [51N皇后](https://leetcode-cn.com/problems/n-queens/)
+>- [36有效的数独](https://leetcode-cn.com/problems/valid-sudoku/)
+>- [37解数独](https://leetcode-cn.com/problems/sudoku-solver/)
+>- [22括号生成](https://leetcode-cn.com/problems/generate-parentheses/)
+>- [301. 删除无效的括号](https://leetcode-cn.com/problems/remove-invalid-parentheses/)
+>- [79. 单词搜索](https://leetcode-cn.com/problems/word-search/)
 >
 >**双指针**
 >
@@ -166,6 +163,7 @@
 >- [88.归并两个有序数组](https://leetcode-cn.com/problems/merge-sorted-array/description/)
 >- [524.最长子序列](https://leetcode-cn.com/problems/longest-word-in-dictionary-through-deleting/description/)
 >- [11. 盛最多水的容器](https://leetcode.cn/problems/container-with-most-water/)
+>- [76最小覆盖子串](https://leetcode.cn/problems/minimum-window-substring/)
 >
 >**滑动窗口**
 >
@@ -325,6 +323,7 @@
 >   - [236二叉树的最近公共祖先](https://leetcode-cn.com/problems/lowest-common-ancestor-of-a-binary-tree/description/)
 >   - [114. 二叉树展开为链表](https://leetcode.cn/problems/flatten-binary-tree-to-linked-list/)
 >   - [538. 把二叉搜索树转换为累加树](https://leetcode.cn/problems/convert-bst-to-greater-tree/)
+>   - [297二叉树的序列化与反序列化](https://leetcode.cn/problems/serialize-and-deserialize-binary-tree/)
 >2. 层次遍历
 >   - [637一棵树每层节点的平均数](https://leetcode-cn.com/problems/average-of-levels-in-binary-tree/description/)
 >   - [513得到左下角的节点](https://leetcode-cn.com/problems/find-bottom-left-tree-value/description/)
@@ -472,7 +471,7 @@ public class ListNode {
 >
 >
 
-## 合并K个排序链表
+## 23合并K个排序链表
 
 >3种方法，1是在合并两个有序链表的基础上不断往上合，2是采用归并的方法，3是采用优先队列
 >
@@ -736,7 +735,7 @@ class Solution {
 >
 > 
 
-### 路径总和II
+### 113路径总和II
 
 > 求出每一条路径
 >
@@ -1033,6 +1032,54 @@ class Solution {
 >
 >
 
+### 297二叉树的序列化与反序列化
+
+>
+>
+>```java
+>public class Codec {
+>
+>    // Encodes a tree to a single string.
+>    public String serialize(TreeNode root) {
+>        return rserialize(root, "");
+>    }
+>  
+>    // Decodes your encoded data to tree.
+>    public TreeNode deserialize(String data) {
+>        String[] dataArray = data.split(",");
+>        List<String> dataList = new LinkedList<String>(Arrays.asList(dataArray));
+>        return rdeserialize(dataList);
+>    }
+>
+>    public String rserialize(TreeNode root, String str) {
+>        if (root == null) {
+>            str += "None,";
+>        } else {
+>            str += str.valueOf(root.val) + ",";
+>            str = rserialize(root.left, str);
+>            str = rserialize(root.right, str);
+>        }
+>        return str;
+>    }
+>  
+>    public TreeNode rdeserialize(List<String> dataList) {
+>        if (dataList.get(0).equals("None")) {
+>            dataList.remove(0);
+>            return null;
+>        }
+>  
+>        TreeNode root = new TreeNode(Integer.valueOf(dataList.get(0)));
+>        dataList.remove(0);
+>        root.left = rdeserialize(dataList);
+>        root.right = rdeserialize(dataList);
+>    
+>        return root;
+>    }
+>}
+>```
+>
+>
+
 ## 层次遍历
 
 ### 102. 二叉树的层序遍历
@@ -1246,108 +1293,6 @@ public int maxAreaOfIslandHelper(int[][] grid,int i,int j){
 }
 ```
 
-### 二叉树路径总和
-
-```java
-/**
- * Definition for a binary tree node.
- * public class TreeNode {
- *     int val;
- *     TreeNode left;
- *     TreeNode right;
- *     TreeNode(int x) { val = x; }
- * }
- */
-class Solution {
-   public List<List<Integer>> pathSum(TreeNode root, int sum) {
-        List<List<Integer>> result=new ArrayList<List<Integer>>();
-        backtrack(root, sum, new ArrayList<>(), result);
-        return result;
-    }    
-    public void backtrack(TreeNode start,int sum,List<Integer> tempList,List<List<Integer>> res){
-        if(start==null)return;
-        tempList.add(start.val);
-        if(start.left==null&&start.right==null&&sum==start.val)
-            res.add(new ArrayList<>(tempList));
-        backtrack(start.left, sum-start.val, tempList, res);
-        backtrack(start.right, sum-start.val, tempList, res);
-        tempList.remove(tempList.size()-1);
-    }
-}
-```
-
-### 301删除无效的括号
-
->给你一个由若干括号和字母组成的字符串 s ，删除最小数量的无效括号，使得输入的字符串有效。返回所有可能的结果。答案可以按 任意顺序 返回。
->
->输入：s = "()())()"
->输出：["(())()","()()()"]
->
->```java
->public class Solution {
->    public List<String> removeInvalidParentheses(String s) {
->        List<String> res = new ArrayList<>();
->        if (s == null) {
->            return res;
->        }
->
->        Set<String> visited = new HashSet<>();
->        visited.add(s);
->        Queue<String> queue = new LinkedList<>();
->        queue.add(s);
->
->        boolean found = false;
->        while (!queue.isEmpty()) {
->            int size = queue.size();
->            for (int i = 0; i < size; i++) {
->                String front = queue.poll();
->                if (isValid(front)) {
->                    res.add(front);
->                    found = true;
->                }
->
->                int currentWordLen = front.length();
->                char[] charArray = front.toCharArray();
->                for (int j = 0; j < currentWordLen; j++) {//依次删除这一层的每一个
->                    if (front.charAt(j) != '(' && front.charAt(j) != ')') {
->                        continue;
->                    }
->
->                    String next = new String(charArray, 0, j) + new String(charArray, j + 1, currentWordLen - j - 1);
->                    if (!visited.contains(next)) {//避免有重复
->                        queue.offer(next);
->                        visited.add(next);
->                    }
->                }
->            }
->
->            if (found) {//z之所以要break是因为要求删除最少的，当前这一层满足时下一层就不能满足了
->                break;
->            }
->        }
->        return res;
->    }
->
->    public boolean isValid(String s) {
->        char[] charArray = s.toCharArray();
->        int count = 0;
->        for (char c : charArray) {
->            if (c == '(') {
->                count++;
->            } else if (c == ')') {
->                count--;
->            }
->            if (count < 0) {
->                return false;
->            }
->        }
->        return count == 0;
->    }
->}
->```
->
->
-
 ### 200岛屿数量
 
 >输入：grid = [
@@ -1394,76 +1339,372 @@ class Solution {
 >
 >
 
-### 二叉树的序列化与反序列化
+## 回溯&剪枝
 
+框架
+
+>result = []
+>void backtrack(路径, 选择列表){
+>    if(满足结束条件){
+>        result.add(路径)
+>        return
+>    }
+>    for(选择:选择列表){               //搜索树的宽度
+>        做选择
+>        backtrack(路径, 选择列表)     //搜索树的深度，路径与选择列表分别给出了搜索目标与搜索范围（0还是index）
+>        撤销选择
+>    }
+>}
+>        
+>回溯四部曲：
+>回溯参数
+>终止条件
+>单层递归逻辑
+>选择其他分支（撤销选择 重置状态） 
 >
+>回溯算法能解决如下问题：
+>
+>- 组合问题：N个数里面按一定规则找出k个数的集合
+>- 排列问题：N个数按一定规则全排列，有几种排列方式
+>- 切割问题：一个字符串按一定规则有几种切割方式
+>- 子集问题：一个N个数的集合里有多少符合条件的子集
+>- 棋盘问题：N皇后，解数独等等
+
+### 77组合
+
+>输入: n = 4, k = 2
+>输出: [[2,4], [3,4], [2,3], [1,2],[1,3], [1,4]]
 >
 >```java
->public class Codec {
+>List<List<Integer>> res = new ArrayList<>();
+>    List<Integer> temp = new ArrayList<>();
 >
->    // Encodes a tree to a single string.
->    public String serialize(TreeNode root) {
->        return rserialize(root, "");
->    }
->  
->    // Decodes your encoded data to tree.
->    public TreeNode deserialize(String data) {
->        String[] dataArray = data.split(",");
->        List<String> dataList = new LinkedList<String>(Arrays.asList(dataArray));
->        return rdeserialize(dataList);
+>    public List<List<Integer>> combine(int n, int k) {
+>        backtrack(n, 1, k);
+>        return res;
 >    }
 >
->    public String rserialize(TreeNode root, String str) {
->        if (root == null) {
->            str += "None,";
->        } else {
->            str += str.valueOf(root.val) + ",";
->            str = rserialize(root.left, str);
->            str = rserialize(root.right, str);
+>    public void backtrack(int n, int start, int k) {
+>        if (k == temp.size()) {
+>            res.add(new ArrayList<>(temp));
 >        }
->        return str;
+>        for (int i = start; i <= n; i++) {
+>            temp.add(i);
+>            backtrack(n, i + 1, k);
+>            temp.remove(temp.size() - 1);
+>        }
 >    }
->  
->    public TreeNode rdeserialize(List<String> dataList) {
->        if (dataList.get(0).equals("None")) {
->            dataList.remove(0);
->            return null;
+>```
+>
+>
+
+### 39组合总和
+
+>给你一个 无重复元素 的整数数组 candidates 和一个目标整数 target ，找出 candidates 中可以使数字和为目标数 target 的 所有 不同组合 ，并以列表形式返回。你可以按 任意顺序 返回这些组合。candidates 中的 同一个 数字可以 无限制重复被选取 。如果至少一个数字的被选数量不同，则两种组合是不同的。 对于给定的输入，保证和为 target 的不同组合数少于 150 个。
+>
+>输入：candidates = [2,3,6,7], target = 7
+>输出：[[2,2,3],[7]]
+>解释：
+>2 和 3 可以形成一组候选，2 + 2 + 3 = 7 。注意 2 可以使用多次。
+>7 也是一个候选， 7 = 7 。
+>仅有这两种组合。
+>
+>```java
+>public class Solution {
+>    List<List<Integer>> result = new ArrayList<>();
+>	List<Integer> tempList=new ArrayList<>();
+>    public List<List<Integer>> combinationSum(int[] candidates, int target) {
+>        Arrays.sort(candidates);
+>        backtrack(candidates, target, 0);
+>        return result;
+>    }
+>
+>    public void backtrack(int[] nums, int remain, int start) {
+>        if (remain < 0) {
+>            return;
 >        }
->  
->        TreeNode root = new TreeNode(Integer.valueOf(dataList.get(0)));
->        dataList.remove(0);
->        root.left = rdeserialize(dataList);
->        root.right = rdeserialize(dataList);
->    
->        return root;
+>        if (remain == 0) {
+>            result.add(new ArrayList<>(tempList));
+>        }
+>        for (int i = start; i < nums.length; i++) {
+>            tempList.add(nums[i]);
+>            //下一次还是从当前位置搜，这里注意的是传start的原因是避免从开头重新搜重复，目标是remain - nums[i]
+>            backtrack(nums, remain - nums[i], i);
+>            tempList.remove(tempList.size() - 1);
+>        }
+>    }
+>
+>    public static void main(String[] args) {
+>        Solution s = new Solution();
+>        int[] test = {2, 3, 6, 7};
+>        List<List<Integer>> l = s.combinationSum(test, 7);
+>        System.out.print(l);
 >    }
 >}
 >```
 >
 >
 
-## 回溯&剪枝
+### 40组合总和II
 
-框架
+>给定一个候选编号的集合 candidates 和一个目标数 target ，找出 candidates 中所有可以使数字和为 target 的组合。candidates 中的每个数字在每个组合中只能使用 一次 。
+>
+>输入: candidates = [10,1,2,7,6,1,5], target = 8,
+>输出:
+>[
+>[1,1,6],
+>[1,2,5],
+>[1,7],
+>[2,6]
+>]
+>
+>```java
+>public class Solution {
+>    List<List<Integer>> result = new ArrayList<>();
+>    List<Integer> tempList = new ArrayList<>();
+>
+>    public List<List<Integer>> combinationSum2(int[] candidates, int target) {
+>        Arrays.sort(candidates);
+>        backtrack(candidates, target, 0);
+>        return result;
+>    }
+>
+>    public void backtrack(int[] nums, int remain, int start) {
+>        if (remain < 0) {
+>            return;
+>        }
+>        if (remain == 0) {
+>            result.add(new ArrayList<>(tempList));
+>        }
+>        for (int i = start; i < nums.length; i++) {
+>            //对同层的数据去重而不是对同一分支上的数据去重
+>            if (i > start && nums[i] == nums[i - 1]) {
+>				continue;
+>			}
+>            tempList.add(nums[i]);
+>            //下一次是从下一个位置搜，目标是remain - nums[i]
+>            backtrack(nums, remain - nums[i], i + 1);
+>            tempList.remove(tempList.size() - 1);
+>        }
+>    }
+>
+>    public static void main(String[] args) {
+>        Solution s = new Solution();
+>        int[] test = {10, 1, 2, 7, 6, 1, 5};
+>        List<List<Integer>> l = s.combinationSum2(test, 8);
+>        System.out.print(l);
+>    }
+>}
+>```
+>
+>
 
-```
-result = []
-def backtrack(路径, 选择列表):
-    if 满足结束条件:
-        result.add(路径)
-        return
+### 216组合总和III
 
-    for 选择 in 选择列表:
-        做选择
-        backtrack(路径, 选择列表)
-        撤销选择
-        
-回溯四部曲：
-回溯参数
-终止条件
-单层递归逻辑
-选择其他分支（撤销选择 重置状态）       
-```
+>只使用数字1到9,每个数字最多使用一次,取k个数组成和为n
+>
+>```java
+>public class Solution {
+>    List<List<Integer>> res = new ArrayList<>();
+>    List<Integer> temp = new ArrayList<>();
+>
+>    public List<List<Integer>> combinationSum3(int k, int n) {
+>        backtrack(1,  n, k);
+>        return res;
+>    }
+>
+>    public void backtrack(int start, int target, int k) {
+>        if (target < 0 || (temp.size() == k && target != 0)) {
+>            return;
+>        }
+>        if (temp.size() == k) {
+>            res.add(new ArrayList<>(temp));
+>            return;
+>        }
+>        for (int i = start; i <= 9; i++) {
+>            temp.add(i);
+>            backtrack(i + 1, target - i, k);
+>            temp.remove(temp.size() - 1);
+>        }
+>    }
+>
+>    public static void main(String[] args) {
+>        Solution s = new Solution();
+>        System.out.print(s.combinationSum3(3, 9));
+>    }
+>}
+>```
+>
+>
+
+### 78子集
+
+>输入：nums = [1,2,3]
+>输出：[[],[1],[2],[1,2],[3],[1,3],[2,3],[1,2,3]]
+>
+>```java
+>public class Solution {
+>    List<List<Integer>> result = new ArrayList<>();
+>    List<Integer> tempList = new ArrayList<>();
+>
+>    public List<List<Integer>> subsets(int[] nums) {
+>        backtrack(nums, 0);
+>        return result;
+>    }
+>
+>    public void backtrack(int nums[], int start) {
+>        result.add(new ArrayList<>(tempList));
+>        for (int i = start; i < nums.length; i++) {
+>            tempList.add(nums[i]);
+>            //从下一个位置搜
+>            backtrack(nums, i + 1);
+>            tempList.remove(tempList.size() - 1);
+>        }
+>    }
+>
+>    public static void main(String[] args) {
+>        Solution s = new Solution();
+>        System.out.print(s.subsets(new int[]{1, 2, 3}));
+>    }
+>}
+>```
+>
+>
+
+### 90子集II
+
+>给你一个整数数组 nums ，其中可能包含重复元素，请你返回该数组所有可能的子集（幂集）。解集 不能 包含重复的子集。返回的解集中，子集可以按 任意顺序 排列。
+>
+>输入：nums = [1,2,2]
+>输出：[[],[1],[1,2],[1,2,2],[2],[2,2]]
+>示例 2：
+>
+>```java
+>public class Solution {
+>    List<List<Integer>> res = new ArrayList<>();
+>    List<Integer> tempList = new ArrayList<Integer>();
+>
+>    public List<List<Integer>> subsetsWithDup(int[] nums) {
+>        Arrays.sort(nums);
+>        backtrack(nums, 0);
+>        return res;
+>    }
+>
+>    public void backtrack(int[] nums, int start) {
+>        res.add(new ArrayList<>(tempList));
+>        for (int i = start; i < nums.length; i++) {
+>            if (i > start && nums[i] == nums[i - 1]) {
+>                continue;
+>            }
+>            tempList.add(nums[i]);
+>            //从下一个位置搜
+>            backtrack(nums, i + 1);
+>            tempList.remove(tempList.size() - 1);
+>        }
+>    }
+>
+>    public static void main(String[] args) {
+>        Solution s = new Solution();
+>        int[] test = {1, 2, 2};
+>        System.out.print(s.subsetsWithDup(test));
+>    }
+>}
+>```
+>
+>
+
+### 46全排列
+
+>输入：nums = [1,2,3]
+>输出：[[1,2,3],[1,3,2],[2,1,3],[2,3,1],[3,1,2],[3,2,1]]
+>
+>```java
+>public class Solution {
+>    List<List<Integer>> result = new ArrayList<>();
+>    List<Integer> tempList = new ArrayList<>();
+>
+>    public List<List<Integer>> permute(int[] nums) {
+>        boolean[] used = new boolean[nums.length];
+>        backtrack(nums, used);
+>        return result;
+>    }
+>
+>    public void backtrack(int[] nums, boolean[] used) {
+>        if (tempList.size() == nums.length) {
+>            result.add(new ArrayList<>(tempList));
+>            return;
+>        }
+>        for (int i = 0; i < nums.length; i++) {
+>            if (used[i]) {
+>                continue;
+>            }
+>            used[i] = true;
+>            tempList.add(nums[i]);
+>            backtrack(nums, used);
+>            used[i] = false;
+>            tempList.remove(tempList.size() - 1);
+>        }
+>    }
+>
+>    public static void main(String[] args) {
+>        Solution s = new Solution();
+>        int[] test = {1, 2, 3};
+>        System.out.print(s.permute(test));
+>    }
+>}
+>```
+>
+>
+
+### 47全排列II
+
+>输入：nums = [1,1,2]
+>输出：
+>[[1,1,2],
+> [1,2,1],
+> [2,1,1]]
+>
+>```java
+>public class Solution {
+>    List<List<Integer>> result = new ArrayList<>();
+>    List<Integer> tempList = new ArrayList<>();
+>
+>    public List<List<Integer>> permuteUnique(int[] nums) {
+>        //注意这里要排序
+>        Arrays.sort(nums);
+>        backtrack(nums, new boolean[nums.length]);
+>        return result;
+>    }
+>
+>    public void backtrack(int[] nums, boolean[] used) {
+>        if (tempList.size() == nums.length) {
+>            result.add(new ArrayList<>(tempList));
+>            return;
+>        }
+>        for (int i = 0; i < nums.length; i++) {
+>            //1.想同数刚刚被使用 2.相同数刚刚被撤销
+>            // 要么这个数字被用过了，要么与前一个相等而且前一个也没被用过
+>            if (used[i] || (i > 0 && nums[i] == nums[i - 1] && !used[i - 1])) {
+>                continue;
+>            }
+>            used[i] = true;
+>            tempList.add(nums[i]);
+>            backtrack(nums, used);
+>            used[i] = false;
+>            tempList.remove(tempList.size() - 1);
+>        }
+>    }
+>
+>    public static void main(String[] args) {
+>        Solution s = new Solution();
+>        int[] test = {1, 2, 1};
+>        System.out.print(s.permuteUnique(test));
+>    }
+>}
+>
+>```
+>
+>
 
 ### 17电话号码的字母组合
 
@@ -1473,6 +1714,8 @@ def backtrack(路径, 选择列表):
 >输出：["ad","ae","af","bd","be","bf","cd","ce","cf"]
 >
 >```java
+>//采用一个队列，每次循环时将队列中长度等于当前长度的字符串拿出来然后拼接上新的字符串的每一个字符塞到队尾
+>//比如队列里边现在已经有了a,b,c然后新来了一个数字3，那就把队列里的都拼上3中的每一个字母塞回队列末尾
 >class Solution {
 >        public List<String> letterCombinations(String digits) {
 >            LinkedList<String> res = new LinkedList<String>();
@@ -1493,46 +1736,228 @@ def backtrack(路径, 选择列表):
 >```
 >
 >```java
->class Solution {
+>//这里的数是字母组成的数，数宽是第一个字母的宽度，数深是digits的长度，而不是数字组成的
+>public class Solution2 {
+>    public List<String> res = new ArrayList<>();
+>    public StringBuilder temp = new StringBuilder();
+>    String[] map = {"0", "1", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
+>
 >    public List<String> letterCombinations(String digits) {
->        List<String> combinations = new ArrayList<String>();
->        if (digits.length() == 0) {
->            return combinations;
+>        if(digits==null || digits.length()==0){
+>            return res;
 >        }
->        Map<Character, String> phoneMap = new HashMap<Character, String>() {{
->            put('2', "abc");
->            put('3', "def");
->            put('4', "ghi");
->            put('5', "jkl");
->            put('6', "mno");
->            put('7', "pqrs");
->            put('8', "tuv");
->            put('9', "wxyz");
->        }};
->        backtrack(combinations, phoneMap, digits, 0, new StringBuffer());
->        return combinations;
+>        backtrack(digits, 0);
+>        return res;
 >    }
->//结果集，<map，数字>，(迭代索引，迭代的字符串)
->    public void backtrack(List<String> combinations, Map<Character, String> phoneMap, String digits, int index, StringBuffer combination) {
->        if (index == digits.length()) {
->            combinations.add(combination.toString());
->        } else {
->            char digit = digits.charAt(index);
->            String letters = phoneMap.get(digit);
->            int lettersCount = letters.length();
->            for (int i = 0; i < lettersCount; i++) {
->                combination.append(letters.charAt(i));
->                backtrack(combinations, phoneMap, digits, index + 1, combination);
->                combination.deleteCharAt(index);
->            }
+>
+>    public void backtrack(String digits, int index) {
+>        if (temp.toString().length() == digits.length()) {
+>            res.add(temp.toString());
+>            return;
 >        }
+>        String str = map[digits.charAt(index) - '0'];
+>        for (int i = 0; i < str.length(); i++) {
+>            temp.append(str.charAt(i));
+>            backtrack(digits, index + 1);
+>            temp.deleteCharAt(temp.length() - 1);
+>        }
+>    }
+>
+>    public static void main(String[] args) {
+>        Solution2 solution = new Solution2();
+>        System.out.println(solution.letterCombinations(""));
 >    }
 >}
 >```
 >
 >
 
-### 括号生成
+### 131分割回文串
+
+>给你一个字符串 s，请你将 s 分割成一些子串，使每个子串都是 回文串 。返回 s 所有可能的分割方案。
+>
+>示例 1：
+>
+>输入：s = "aab"
+>输出：[["a","a","b"],["aa","b"]]
+>示例 2：
+>
+>输入：s = "a"
+>输出：[["a"]]
+>
+>```java
+>public class Solution {
+>    public List<List<String>> res = new ArrayList<>();
+>    public List<String> temp = new ArrayList<>();
+>
+>    public List<List<String>> partition(String s) {
+>        backtrack(0, s);
+>        return res;
+>    }
+>
+>    public void backtrack(int start, String s) {
+>        //当切割线切到了最后面，就说明找到了一种解法,start用以标记切割的位置
+>        if (start == s.length()) {
+>            res.add(new ArrayList<>(temp));
+>            return;
+>        }
+>        //从后边接续切
+>        for (int i = start; i < s.length(); i++) {
+>            if (isPalindrome(s, start, i)) {
+>                temp.add(s.substring(start, i + 1));
+>                backtrack(i+1, s);
+>                temp.remove(temp.size() - 1);
+>            }
+>        }
+>    }
+>
+>    private boolean isPalindrome(String s, int startIndex, int end) {
+>        for (int i = startIndex, j = end; i < j; i++, j--) {
+>            if (s.charAt(i) != s.charAt(j)) {
+>                return false;
+>            }
+>        }
+>        return true;
+>    }
+>
+>    public static void main(String[] args) {
+>        Solution s = new Solution();
+>        System.out.println(s.partition("aab"));
+>    }
+>}
+>```
+>
+>
+
+### 93恢复IP地址
+
+>示例 1：
+>
+>输入：s = "25525511135"
+>输出：["255.255.11.135","255.255.111.35"]
+>示例 2：
+>
+>输入：s = "0000"
+>输出：["0.0.0.0"]
+>示例 3：
+>
+>输入：s = "101023"
+>输出：["1.0.10.23","1.0.102.3","10.1.0.23","10.10.2.3","101.0.2.3"]
+>
+>```java
+>public class Solution {
+>    List<String> res = new ArrayList<>();
+>    StringBuilder temp = new StringBuilder();
+>
+>    public List<String> restoreIpAddresses(String s) {
+>        if (s.length() < 4 || s.length() > 12) {
+>            return res;
+>        }
+>        backtrack(s, 0, 0);
+>        return res;
+>    }
+>
+>    //s一直透传,start是从下一个位置开始搜,pointNum是增加的点数
+>    public void backtrack(String s, int start, int pointNum) {
+>        //点数量为4时，分隔结束
+>        if (pointNum == 4 && start == s.length()) {
+>            res.add(temp.substring(0, temp.length() - 1));
+>            return;
+>        }
+>        //点数已经到4了或者字符串已经到结尾了但是还不符合条件的结束
+>        if (start == s.length() || pointNum == 4) {
+>            return;
+>        }
+>        //向后最多截取3位
+>        for (int i = start; i < start + 3 && i < s.length(); i++) {
+>            String substr = s.substring(start, i + 1);
+>            if (isValid(substr)) {
+>                temp.append(substr).append(".");
+>                backtrack(s, i + 1, pointNum + 1);
+>                temp.delete(temp.length() - substr.length() - 1, temp.length());
+>            }
+>        }
+>    }
+>
+>    /*判断是不是合格的点分数*/
+>    public boolean isValid(String s) {
+>        if (s.charAt(0) == '0') {
+>            return s.equals("0");
+>        }
+>        int num = Integer.parseInt(s);
+>        return num <= 255 && num > 0;
+>    }
+>
+>    public static void main(String[] args) {
+>        Solution s = new Solution();
+>        String str = "25525511135";
+>        System.out.print(s.restoreIpAddresses(str));
+>    }
+>}
+>```
+>
+>
+
+### 491递增子序列
+
+>给你一个整数数组 `nums` ，找出并返回所有该数组中不同的递增子序列，递增子序列中 **至少有两个元素** 。你可以按 **任意顺序** 返回答案。数组中可能含有重复元素，如出现两个整数相等，也可以视作递增序列的一种特殊情况。
+>
+>**示例 1：**
+>
+>```
+>输入：nums = [4,6,7,7]
+>输出：[[4,6],[4,6,7],[4,6,7,7],[4,7],[4,7,7],[6,7],[6,7,7],[7,7]]
+>```
+>
+>**示例 2：**
+>
+>```
+>输入：nums = [4,4,3,2,1]
+>输出：[[4,4]]
+>```
+>
+>```java
+>class Solution {
+>    List<Integer> temp = new ArrayList<>();
+>    List<List<Integer>> res = new ArrayList<>();
+>
+>    public List<List<Integer>> findSubsequences(int[] nums) {
+>        backtrack(0, nums);
+>        return res;
+>    }
+>
+>    public void backtrack(int start, int[] nums) {
+>        if (temp.size() > 1) {
+>            res.add(new ArrayList<>(temp));
+>        }
+>        Set<Integer> brother = new HashSet<>();
+>        for (int i = start; i < nums.length; i++) {
+>            // 剪枝
+>            // 如果上一个加入子集的数比当前准备加入的数大，则接着尝试下一个数看能否找到比上一个数更大的数加入子集
+>            if (!temp.isEmpty() && temp.get(temp.size()-1) > nums[i]) {
+>                continue;
+>            }
+>            // 去重：如果父节点下面有2个一样的可能性则跳过后面的重复的子节点选择
+>            if (brother.contains(nums[i])) {
+>                continue;
+>            }
+>            temp.add(nums[i]);
+>            brother.add(nums[i]);
+>            backtrack(i+1,nums);
+>            temp.remove(temp.size()-1);
+>        }
+>    }
+>
+>    public static void main(String[] args) {
+>        Solution solution = new Solution();
+>        System.out.println(solution.findSubsequences(new int[]{4, 6, 7, 7}));
+>    }
+>}
+>```
+>
+>
+
+### 22括号生成
 
 >输入：n = 3
 >输出：["((()))","(()())","(())()","()(())","()()()"]
@@ -1561,91 +1986,83 @@ def backtrack(路径, 选择列表):
 >
 >
 
-### 组合总和
+### 301删除无效的括号
 
->给你一个 无重复元素 的整数数组 candidates 和一个目标整数 target ，找出 candidates 中可以使数字和为目标数 target 的 所有 不同组合 ，并以列表形式返回。你可以按 任意顺序 返回这些组合。candidates 中的 同一个 数字可以 无限制重复被选取 。如果至少一个数字的被选数量不同，则两种组合是不同的。 对于给定的输入，保证和为 target 的不同组合数少于 150 个。
+>给你一个由若干括号和字母组成的字符串 s ，删除最小数量的无效括号，使得输入的字符串有效。返回所有可能的结果。答案可以按 任意顺序 返回。
 >
->输入：candidates = [2,3,6,7], target = 7
->输出：[[2,2,3],[7]]
->解释：
->2 和 3 可以形成一组候选，2 + 2 + 3 = 7 。注意 2 可以使用多次。
->7 也是一个候选， 7 = 7 。
->仅有这两种组合。
+>示例 1：
+>
+>输入：s = "()())()"
+>输出：["(())()","()()()"]
+>示例 2：
+>
+>输入：s = "(a)())()"
+>输出：["(a())()","(a)()()"]
+>示例 3：
 >
 >```java
->class Solution {
->        public List<List<Integer>> combinationSum(int[] candidates, int target) {
->            List<List<Integer>> list = new ArrayList<List<Integer>>();
->            Arrays.sort(candidates);
->            backtrack(list, new ArrayList<>(), candidates, target, 0);
->            return list;
->        }
+>public class Solution {
+>    List<String> res = new ArrayList<>();
 >
->        public void backtrack(List<List<Integer>> list, List<Integer> tempList, int[] nums, int remain, int start) {
->            if (remain < 0) return;
->            else if (remain == 0) list.add(new ArrayList<>(tempList));
->            else {
->                for (int i = start; i < nums.length; i++) {
->                    tempList.add(nums[i]);
->                    backtrack(list, tempList, nums, remain - nums[i], i);
->                    tempList.remove(tempList.size() - 1);
+>    public List<String> removeInvalidParentheses(String s) {
+>        // 计算出要移除的左右括号数
+>        int lr = 0;
+>        int rr = 0;
+>        for (int i = 0; i < s.length(); i++) {
+>            if (s.charAt(i) == '(') {
+>                lr++;
+>            }
+>            if (s.charAt(i) == ')') {
+>                if (lr > 0) {
+>                    lr--;
+>                } else {
+>                    rr++;
 >                }
 >            }
 >        }
->    }
->```
->
->
-
-### 46全排列
-
->输入：nums = [1,2,3]
->输出：[[1,2,3],[1,3,2],[2,1,3],[2,3,1],[3,1,2],[3,2,1]]
->
->```java
->class Solution {
->    public List<List<Integer>> permute(int[] nums) {
->		List<List<Integer>> res=new ArrayList<>();
->		backtrack(res, new ArrayList<>(), nums);
+>        backTrack(0, lr, rr, s);
 >        return res;
 >    }
->	public void backtrack(List<List<Integer>> list,List<Integer> tempList,int[] nums){
->		if(tempList.size()==nums.length)
->			list.add(new ArrayList<Integer>(tempList));
->		else{
->			for(int i=0;i<nums.length;i++){
->          if(tempList.contains(nums[i]))continue;
->          tempList.add(nums[i]);
->          backtrack(list, tempList, nums);
->          tempList.remove(tempList.size()-1);
->			}
->		}
->	}
->}
->```
 >
->
-
-### 78子集
-
->输入：nums = [1,2,3]
->输出：[[],[1],[2],[1,2],[3],[1,3],[2,3],[1,2,3]]
->
->```java
->class Solution {
->    public List<List<Integer>> subsets(int[] nums) {
->		List<List<Integer>> list=new ArrayList<>();
->        backtrack(list, new ArrayList<>(), nums, 0);
->        return list;
+>    // 回溯，移除括号
+>    void backTrack(int start, int lr, int rr, String s) {
+>        // 完成条件
+>        if (lr == 0 && rr == 0 && isValid(s)) {
+>            res.add(s);
+>        }
+>        for (int i = start; i < s.length(); i++) {
+>            if (i > start && s.charAt(i) == s.charAt(i - 1)) {
+>                continue;
+>            }
+>            if (s.charAt(i) == '(' && lr > 0) {
+>                backTrack(i, lr - 1, rr, s.substring(0, i) + s.substring(i + 1));
+>            }
+>            if (s.charAt(i) == ')' && rr > 0) {
+>                backTrack(i, lr, rr - 1, s.substring(0, i) + s.substring(i + 1));
+>            }
+>        }
 >    }
->	public void backtrack(List<List<Integer>> res,List<Integer> temp,int nums[],int start){
->		res.add(new ArrayList<Integer>(temp));
->		for(int i=start;i<nums.length;i++){
->			temp.add(nums[i]);
->			backtrack(res, temp, nums, i+1);
->			temp.remove(temp.size()-1);
->		}
->	}
+>
+>    // 判定是否有效
+>    boolean isValid(String s) {
+>        Deque<Character> stack = new LinkedList<>();
+>        for (int i = 0; i < s.length(); i++) {
+>            if (!stack.isEmpty() && s.charAt(i) == ')' && stack.peek() == '(') {
+>                stack.pop();
+>                continue;
+>            }
+>            if (s.charAt(i) != '(' && s.charAt(i) != ')') {
+>                continue;
+>            }
+>            stack.push(s.charAt(i));
+>        }
+>        return stack.isEmpty();
+>    }
+>
+>    public static void main(String[] args) {
+>        Solution s = new Solution();
+>        System.out.print(s.removeInvalidParentheses("()())()"));
+>    }
 >}
 >```
 >
@@ -1663,37 +2080,226 @@ def backtrack(路径, 选择列表):
 >输出：true
 >
 >```java
->class Solution {
+>public class Solution {
 >    public boolean exist(char[][] board, String word) {
->        char[] w=word.toCharArray();
->        boolean[][] visited=new boolean[board.length][board[0].length];
->        for(int i=0;i<board.length;i++)
->        	for(int j=0;j<board[i].length;j++)
->        		if(exist(board,i,j,0,w,visited))
->        			return true;
+>        char[] w = word.toCharArray();
+>        boolean[][] visited = new boolean[board.length][board[0].length];
+>        for (int i = 0; i < board.length; i++) {
+>            for (int j = 0; j < board[i].length; j++) {
+>                if (exist(board, i, j, 0, w, visited)) {
+>                    return true;
+>                }
+>            }
+>        }
 >        return false;
 >    }
->	public boolean exist(char[][] board,int x,int y,int i,char[] word,boolean visited[][]){
->       if(x<0||y<0||x==board.length||y==board[x].length)
->			return false;
->		if(board[x][y]!=word[i]) 
->			return false;
->		if((i+=1)==word.length)
->			return true;
->		boolean res=false;
->		visited[x][y]=true;		
->		if(x>0&&!visited[x-1][y])
->			   res=res||exist(board,x-1,y,i,word,visited);
->		if(x+1<visited.length&&!visited[x+1][y])
->			   res=res||exist(board,x+1,y,i,word,visited);
->		if(y>0&&!visited[x][y-1])
->			   res=res||exist(board,x,y-1,i,word,visited);
->		if(y+1<visited[x].length&&!visited[x][y+1])
->			   res=res||exist(board,x,y+1,i,word,visited);
->		if(!res)		
->			visited[x][y]=false;
->		return res;
->	}
+>
+>    public boolean exist(char[][] board, int x, int y, int i, char[] word, boolean[][] visited) {
+>        if (x < 0 || y < 0 || x == board.length || y == board[x].length) {
+>            return false;
+>        }
+>        if (board[x][y] != word[i]) {
+>            return false;
+>        }
+>        if ((i += 1) == word.length) {
+>            return true;
+>        }
+>        boolean res = false;
+>        visited[x][y] = true;
+>        if (x > 0 && !visited[x - 1][y]) {
+>            res = res || exist(board, x - 1, y, i, word, visited);
+>        }
+>        if (x + 1 < visited.length && !visited[x + 1][y]) {
+>            res = res || exist(board, x + 1, y, i, word, visited);
+>        }
+>        if (y > 0 && !visited[x][y - 1]) {
+>            res = res || exist(board, x, y - 1, i, word, visited);
+>        }
+>        if (y + 1 < visited[x].length && !visited[x][y + 1]) {
+>            res = res || exist(board, x, y + 1, i, word, visited);
+>        }
+>        if (!res) {
+>            visited[x][y] = false;
+>        }
+>        return res;
+>    }
+>
+>    public static void main(String[] args) {
+>        char[][] board = {
+>                {'A', 'B', 'C', 'E'},
+>                {'S', 'F', 'C', 'S'},
+>                {'A', 'D', 'E', 'E'}
+>        };
+>        String[] strs = {"ABCCED", "A", "ABCB"};
+>        Solution s = new Solution();
+>        for (String str : strs) {
+>            System.out.println(s.exist(board, str));
+>        }
+>    }
+>}
+>```
+>
+>
+
+### 51N皇后
+
+>让棋盘上的横竖斜线都不攻击
+>
+>```java
+>public class Solution {
+>    List<List<String>> res = new ArrayList<>();
+>
+>    public List<List<String>> solveNQueens(int n) {
+>        char[][] chessboard = new char[n][n];
+>        for (char[] c : chessboard) {
+>            Arrays.fill(c, '.');
+>        }
+>        backTrack(n, 0, chessboard);
+>        return res;
+>    }
+>
+>    public void backTrack(int n, int row, char[][] chessboard) {
+>        if (row == n) {
+>            res.add(Array2List(chessboard));
+>            return;
+>        }
+>
+>        for (int col = 0;col < n; ++col) {
+>            if (isValid (row, col, n, chessboard)) {
+>                chessboard[row][col] = 'Q';
+>                backTrack(n, row+1, chessboard);
+>                chessboard[row][col] = '.';
+>            }
+>        }
+>    }
+>
+>    public List Array2List(char[][] chessboard) {
+>        List<String> list = new ArrayList<>();
+>        for (char[] c : chessboard) {
+>            list.add(String.copyValueOf(c));
+>        }
+>        return list;
+>    }
+>
+>    //检查棋盘是否合理，给出行、列、
+>    public boolean isValid(int row, int col, int n, char[][] chessboard) {
+>        // 放置一个以后，对之前的每一行的这一列做检查
+>        for (int i=0; i<row; i++) {
+>            if (chessboard[i][col] == 'Q') {
+>                return false;
+>            }
+>        }
+>
+>        // 检查45度对角线，往左下角检查
+>        for (int i=row-1, j=col-1; i>=0 && j>=0; i--, j--) {
+>            if (chessboard[i][j] == 'Q') {
+>                return false;
+>            }
+>        }
+>
+>        // 检查135度对角线，往右下角检查
+>        for (int i=row-1, j=col+1; i>=0 && j<=n-1; i--, j++) {
+>            if (chessboard[i][j] == 'Q') {
+>                return false;
+>            }
+>        }
+>        return true;
+>    }
+>
+>    public static void main(String[] args) {
+>        Solution s = new Solution();
+>        System.out.println(s.solveNQueens(4));
+>    }
+>}
+>```
+>
+>
+
+### 37解数独
+
+>行列九宫格都不重复
+>
+>```java
+>public class Solution {
+>    public void solveSudoku(char[][] board) {
+>        solveSudokuHelper(board);
+>    }
+>
+>    private boolean solveSudokuHelper(char[][] board){
+>        //「一个for循环遍历棋盘的行，一个for循环遍历棋盘的列，
+>        // 一行一列确定下来之后，递归遍历这个位置放9个数字的可能性！」
+>        for (int i = 0; i < 9; i++){ // 遍历行
+>            for (int j = 0; j < 9; j++){ // 遍历列
+>                if (board[i][j] != '.'){ // 跳过原始数字
+>                    continue;
+>                }
+>                for (char k = '1'; k <= '9'; k++){ // (i, j) 这个位置放k是否合适
+>                    if (isValidSudoku(i, j, k, board)){
+>                        board[i][j] = k;
+>                        if (solveSudokuHelper(board)){ // 如果找到合适一组立刻返回
+>                            return true;
+>                        }
+>                        board[i][j] = '.';
+>                    }
+>                }
+>                // 9个数都试完了，都不行，那么就返回false
+>                return false;
+>                // 因为如果一行一列确定下来了，这里尝试了9个数都不行，说明这个棋盘找不到解决数独问题的解！
+>                // 那么会直接返回， 「这也就是为什么没有终止条件也不会永远填不满棋盘而无限递归下去！」
+>            }
+>        }
+>        // 遍历完没有返回false，说明找到了合适棋盘位置了
+>        return true;
+>    }
+>
+>    //在row行col列填入val值是否合理
+>    private boolean isValidSudoku(int row, int col, char val, char[][] board){
+>        // 同行是否重复
+>        for (int i = 0; i < 9; i++){
+>            if (board[row][i] == val){
+>                return false;
+>            }
+>        }
+>        // 同列是否重复
+>        for (int j = 0; j < 9; j++){
+>            if (board[j][col] == val){
+>                return false;
+>            }
+>        }
+>        // 9宫格里是否重复
+>        int startRow = (row / 3) * 3;
+>        int startCol = (col / 3) * 3;
+>        for (int i = startRow; i < startRow + 3; i++){
+>            for (int j = startCol; j < startCol + 3; j++){
+>                if (board[i][j] == val){
+>                    return false;
+>                }
+>            }
+>        }
+>        return true;
+>    }
+>
+>    public static void main(String[] args) {
+>        Solution s = new Solution();
+>        char[][] board={
+>                {'5','3','.','.','7','.','.','.','.'},
+>                {'6','.','.','1','9','5','.','.','.'},
+>                {'.','9','8','.','.','.','.','6','.'},
+>                {'8','.','.','.','6','.','.','.','3'},
+>                {'4','.','.','8','.','3','.','.','1'},
+>                {'7','.','.','.','2','.','.','.','6'},
+>                {'.','6','.','.','.','.','2','8','.'},
+>                {'.','.','.','4','1','9','.','.','5'},
+>                {'.','.','.','.','8','.','.','7','9'}
+>        };
+>        s.solveSudoku(board);
+>        for (char[] bb : board) {
+>            for (char b : bb) {
+>                System.out.print(b);
+>            }
+>            System.out.println();
+>        }
+>    }
 >}
 >```
 >
@@ -3390,6 +3996,124 @@ def backtrack(路径, 选择列表):
 >
 >
 
+## 76最小覆盖子串
+
+>给你一个字符串 s 、一个字符串 t 。返回 s 中涵盖 t 所有字符的最小子串。如果 s 中不存在涵盖 t 所有字符的子串，则返回空字符串 "" 。
+>
+>示例 1：
+>输入：s = "ADOBECODEBANC", t = "ABC"
+>输出："BANC"
+>
+>```java
+>class Solution {
+>    public String minWindow(String s, String t) {
+>        if (s == null || s == "" || t == null || t == "" || s.length() < t.length()) {
+>            return "";
+>        }
+>        //维护两个数组，记录已有字符串指定字符的出现次数，和目标字符串指定字符的出现次数
+>        //ASCII表总长128
+>        int[] need = new int[128];
+>        int[] have = new int[128];
+>
+>        //将目标字符串指定字符的出现次数记录
+>        for (int i = 0; i < t.length(); i++) {
+>            need[t.charAt(i)]++;
+>        }
+>
+>        //分别为左指针，右指针，最小长度(初始值为一定不可达到的长度)
+>        //已有字符串中目标字符串指定字符的出现总频次以及最小覆盖子串在原字符串中的起始位置
+>        int left = 0, right = 0, min = s.length() + 1, count = 0, start = 0;
+>        while (right < s.length()) {
+>            char r = s.charAt(right);
+>            //说明该字符不被目标字符串需要，此时有两种情况
+>            // 1.循环刚开始，那么直接移动右指针即可，不需要做多余判断
+>            // 2.循环已经开始一段时间，此处又有两种情况
+>            //  2.1 上一次条件不满足，已有字符串指定字符出现次数不满足目标字符串指定字符出现次数，那么此时
+>            //      如果该字符还不被目标字符串需要，就不需要进行多余判断，右指针移动即可
+>            //  2.2 左指针已经移动完毕，那么此时就相当于循环刚开始，同理直接移动右指针
+>            if (need[r] == 0) {
+>                right++;
+>                continue;
+>            }
+>            //当且仅当已有字符串目标字符出现的次数小于目标字符串字符的出现次数时，count才会+1
+>            //是为了后续能直接判断已有字符串是否已经包含了目标字符串的所有字符，不需要挨个比对字符出现的次数
+>            if (have[r] < need[r]) {
+>                count++;
+>            }
+>            //已有字符串中目标字符出现的次数+1
+>            have[r]++;
+>            //移动右指针
+>            right++;
+>            //当且仅当已有字符串已经包含了所有目标字符串的字符，且出现频次一定大于或等于指定频次
+>            while (count == t.length()) {
+>                //挡窗口的长度比已有的最短值小时，更改最小值，并记录起始位置
+>                if (right - left < min) {
+>                    min = right - left;
+>                    start = left;
+>                }
+>                char l = s.charAt(left);
+>                //如果左边即将要去掉的字符不被目标字符串需要，那么不需要多余判断，直接可以移动左指针
+>                if (need[l] == 0) {
+>                    left++;
+>                    continue;
+>                }
+>                //如果左边即将要去掉的字符被目标字符串需要，且出现的频次正好等于指定频次，那么如果去掉了这个字符，
+>                //就不满足覆盖子串的条件，此时要破坏循环条件跳出循环，即控制目标字符串指定字符的出现总频次(count）-1
+>                if (have[l] == need[l]) {
+>                    count--;
+>                }
+>                //已有字符串中目标字符出现的次数-1
+>                have[l]--;
+>                //移动左指针
+>                left++;
+>            }
+>        }
+>        //如果最小长度还为初始值，说明没有符合条件的子串
+>        if (min == s.length() + 1) {
+>            return "";
+>        }
+>        //返回的为以记录的起始位置为起点，记录的最短长度为距离的指定字符串中截取的子串
+>        return s.substring(start, start + min);
+>    }
+>}
+>```
+>
+>
+
+## 环形链表II
+
+>找出环形链表的入口，一种解法是用哈希表，首次能在哈希表找到的即为入口节点，另一种是如下的双指针，相遇以后再次从开头出发再次相遇时即为入口点。
+>
+>```java
+>public class Solution {
+>    public ListNode detectCycle(ListNode head) {
+>        if (head == null) {
+>            return null;
+>        }
+>        ListNode slow = head, fast = head;
+>        while (fast != null) {
+>            slow = slow.next;
+>            if (fast.next != null) {
+>                fast = fast.next.next;
+>            } else {
+>                return null;
+>            }
+>            if (fast == slow) {
+>                ListNode ptr = head;
+>                while (ptr != slow) {
+>                    ptr = ptr.next;
+>                    slow = slow.next;
+>                }
+>                return ptr;
+>            }
+>        }
+>        return null;
+>    }
+>}
+>```
+>
+>
+
 # 贪心
 
 ## 买卖股票II
@@ -3850,7 +4574,7 @@ for (遍历这个数组)
 >
 >
 
-## 最大矩形
+## 85最大矩形
 
 >输入：matrix = [
 >["1","0","1","0","0"],
@@ -3910,6 +4634,52 @@ for (遍历这个数组)
 >            res = Math.max(res, (right[i] - left[i] - 1) * heights[i]);
 >        }
 >        return res;
+>    }
+>}
+>```
+>
+>
+
+## 239滑动窗口最大值
+
+>输入：nums = [1,3,-1,-3,5,3,6,7], k = 3
+>输出：[3,3,5,5,6,7]
+>解释：
+>滑动窗口的位置                最大值
+>
+>---------------               -----
+>[1  3  -1] -3  5  3  6  7       3
+> 1 [3  -1  -3] 5  3  6  7       3
+> 1  3 [-1  -3  5] 3  6  7       5
+> 1  3  -1 [-3  5  3] 6  7       5
+> 1  3  -1  -3 [5  3  6] 7       6
+> 1  3  -1  -3  5 [3  6  7]      7
+>
+>```java
+>class Solution {
+>    public int[] maxSlidingWindow(int[] nums, int k) {
+>        int n = nums.length;
+>        Deque<Integer> deque = new LinkedList<Integer>();
+>        for (int i = 0; i < k; ++i) {
+>            while (!deque.isEmpty() && nums[i] >= nums[deque.peekLast()]) {
+>                deque.pollLast();//加入一个比较大的值时，那些小的值都会被删除
+>            }
+>            deque.offerLast(i);
+>        }
+>
+>        int[] ans = new int[n - k + 1];//存储结果
+>        ans[0] = nums[deque.peekFirst()];
+>        for (int i = k; i < n; ++i) {
+>            while (!deque.isEmpty() && nums[i] >= nums[deque.peekLast()]) {
+>                deque.pollLast();//同上
+>            }
+>            deque.offerLast(i);
+>            while (deque.peekFirst() <= i - k) {
+>                deque.pollFirst();//如果已经不在窗口范围了，删除，注意栈顶的元素就是离当前最近的最小的元素
+>            }
+>            ans[i - k + 1] = nums[deque.peekFirst()];
+>        }
+>        return ans;
 >    }
 >}
 >```
@@ -3980,6 +4750,47 @@ for (遍历这个数组)
 >
 >
 
+## 最长连续序列
+
+>给定一个未排序的整数数组 nums ，找出数字连续的最长序列（不要求序列元素在原数组中连续）的长度。请你设计并实现时间复杂度为 O(n) 的算法解决此问题。
+>
+>示例 1：
+>
+>输入：nums = [100,4,200,1,3,2]
+>输出：4
+>解释：最长数字连续序列是 [1, 2, 3, 4]。它的长度为 4。
+>
+>```java
+>class Solution {
+>    public int longestConsecutive(int[] nums) {
+>        Set<Integer> num_set = new HashSet<Integer>();
+>        for (int num : nums) {
+>            num_set.add(num);
+>        }
+>
+>        int longestStreak = 0;
+>
+>        for (int num : num_set) {
+>            if (!num_set.contains(num - 1)) {
+>                int currentNum = num;
+>                int currentStreak = 1;
+>
+>                while (num_set.contains(currentNum + 1)) {
+>                    currentNum += 1;
+>                    currentStreak += 1;
+>                }
+>
+>                longestStreak = Math.max(longestStreak, currentStreak);
+>            }
+>        }
+>
+>        return longestStreak;
+>    }
+>}
+>```
+>
+>
+
 # 栈&队列
 
 ## 有效的括号
@@ -3988,7 +4799,7 @@ for (遍历这个数组)
 
 
 
-# 数组
+# 数组 & 矩阵
 
 ## 下一个排列
 
@@ -4034,6 +4845,40 @@ for (遍历这个数组)
 >
 >
 
+## 除自身以外数组的乘积
+
+>输入: nums = [1,2,3,4]
+>输出: [24,12,8,6]
+>
+>```java
+>class Solution {
+>    public int[] productExceptSelf(int[] nums) {
+>        int length = nums.length;
+>        int[] answer = new int[length];
+>
+>        // answer[i] 表示索引 i 左侧所有元素的乘积
+>        // 因为索引为 '0' 的元素左侧没有元素， 所以 answer[0] = 1
+>        answer[0] = 1;
+>        for (int i = 1; i < length; i++) {
+>            answer[i] = nums[i - 1] * answer[i - 1];
+>        }
+>
+>        // R 为右侧所有元素的乘积
+>        // 刚开始右边没有元素，所以 R = 1
+>        int R = 1;
+>        for (int i = length - 1; i >= 0; i--) {
+>            // 对于索引 i，左边的乘积为 answer[i]，右边的乘积为 R
+>            answer[i] = answer[i] * R;
+>            // R 需要包含右边所有的乘积，所以计算下一个结果时需要将当前值乘到 R 上
+>            R *= nums[i];
+>        }
+>        return answer;
+>    }
+>}
+>```
+>
+>
+
 # 字符串
 
 ## 回文字符串
@@ -4071,6 +4916,71 @@ for (遍历这个数组)
   - 使用双指针，遇到不是字符串的跳过即可-
 
 # 字典树
+
+## 208实现Trie
+
+>输入
+>["Trie", "insert", "search", "search", "startsWith", "insert", "search"]
+>[[], ["apple"], ["apple"], ["app"], ["app"], ["app"], ["app"]]
+>输出
+>[null, null, true, false, true, null, true]
+>
+>解释
+>Trie trie = new Trie();
+>trie.insert("apple");
+>trie.search("apple");   // 返回 True
+>trie.search("app");     // 返回 False
+>trie.startsWith("app"); // 返回 True
+>trie.insert("app");
+>trie.search("app");     // 返回 True
+>
+>```java
+>class Trie {
+>    private Trie[] children;
+>    private boolean isEnd;
+>
+>    public Trie() {
+>        children = new Trie[26];
+>        isEnd = false;
+>    }
+>    
+>    public void insert(String word) {
+>        Trie node = this;
+>        for (int i = 0; i < word.length(); i++) {
+>            char ch = word.charAt(i);
+>            int index = ch - 'a';
+>            if (node.children[index] == null) {
+>                node.children[index] = new Trie();
+>            }
+>            node = node.children[index];
+>        }
+>        node.isEnd = true;
+>    }
+>    
+>    public boolean search(String word) {
+>        Trie node = searchPrefix(word);
+>        return node != null && node.isEnd;
+>    }
+>    
+>    public boolean startsWith(String prefix) {
+>        return searchPrefix(prefix) != null;
+>    }
+>
+>    private Trie searchPrefix(String prefix) {
+>        Trie node = this;
+>        for (int i = 0; i < prefix.length(); i++) {
+>            char ch = prefix.charAt(i);
+>            int index = ch - 'a';
+>            if (node.children[index] == null) {
+>                return null;
+>            }
+>            node = node.children[index];
+>        }
+>        return node;
+>    }
+>```
+>
+>
 
 # 并查集&拓扑排序
 
@@ -4929,3 +5839,4 @@ Triangle（三角形最小路径和）
 3. 无重复字符的最长子串
 ```
 
+![脑图](https://pic.leetcode-cn.com/1630892220-MyzuIE-阿飞算法.png)

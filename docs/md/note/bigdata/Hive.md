@@ -4,6 +4,10 @@
 - 聚类时非聚类字段处理方式
 > 查询非聚类字段，可以使用`first()`或者`collect_set(template_name)[0]`来处理
 
+- 提取某个字符串出现两次
+
+  >`get_json_object(call_back, '$.history[*].source') REGEXP 'user.*user'`
+
 ## 开窗函数
 
 开窗函数的调用格式为：函数名(列名) OVER(partition by 列名 order by 列名 范围) 

@@ -1,3 +1,17 @@
+# 常见问题
+
+>redis有哪些数据结构？
+>
+>redis有哪些底层数据机构？高层数据结构分别在底层怎么实现的？
+>
+>为什么快？
+>
+>单线程与多线程？
+>
+>AOF?RDS?
+>
+>主从？哨兵？集群？
+
 # Redis命令
 
 ## 发布订阅
@@ -261,7 +275,7 @@ zinterstore，zunionstore执行类似于集合的交集、并集运算
     4. 带链表长度计数器：程序使用 list 结构的 len 属性来对 list 持有的链表节点进行计数，程序获取链表中节点数量的复杂度为 O（1）。
     5. 多态：链表节点使用 void* 指针来保存节点值，并且可以通过 list 结构的 dup、free、match 三个属性为节点值设置类型特定函数，所以链表可以用于保存各种不同类型的值。
   
-  - 压缩链表
+  - 压缩链表（新版本已经废弃，由listpack维护）
     
     1. 压缩列表包含了整个压缩列表的字节数、列表尾的偏移量、列表中entry个数、entry数组以及压缩列表的结尾
     2. 如果我们要查找定位第一个元素和最后一个元素，可以通过表头三个字段的长度直接定位，复杂度是 O(1)。而查找其他元素时，就没有这么高效了，只能逐个查找，此时的复杂度就是 O(N)
@@ -369,7 +383,7 @@ zinterstore，zunionstore执行类似于集合的交集、并集运算
 
 因为Redis是基于内存的操作，CPU成为Redis的瓶颈的情况很少见，Redis的瓶颈最有可能是内存的大小或者网络限制。如果想要最大程度利用CPU，可以在一台机器上启动多个Redis实例。
 
-PS：网上有这样的回答，吐槽官方的解释有些敷衍，其实就是历史原因，开发者嫌多线程麻烦，后来这个CPU的利用问题就被抛给了使用者。
+**PS：**网上有这样的回答，吐槽官方的解释有些敷衍，其实就是历史原因，开发者嫌多线程麻烦，后来这个CPU的利用问题就被抛给了使用者。
 
 同时FAQ里还提到了， Redis 4.0 之后开始变成多线程，除了主线程外，它也有后台线程在处理一些较为缓慢的操作，例如清理脏数据、无用连接的释放、大 Key 的删除等等。
 
@@ -403,7 +417,7 @@ Redis不是说用单线程的吗？怎么6.0成了多线程的？Redis6.0的多�
 
 ## RDB 和 AOF 各自有什么优缺点
 
-- RDB
+- RDB（Redis Database Backup file）
   
   > 优点：
   > 
@@ -416,7 +430,7 @@ Redis不是说用单线程的吗？怎么6.0成了多线程的？Redis6.0的多�
   > 1. **实时性低**，RDB 是间隔一段时间进行持久化，没法做到实时持久化/秒级持久化。如果在这一间隔事件发生故障，数据会丢失。
   > 2. **存在兼容问题**，Redis演进过程存在多个格式的RDB版本，存在老版本Redis无法兼容新版本RDB的问题。
 
-- AOF
+- AOF（Append Only File）
   
   > 优点
   > 
@@ -576,7 +590,7 @@ Redis Sentinel ，它由两部分组成，哨兵节点和数据节点：
   领导者选举出的Sentinel节点负责故障转移，过程如下：![图片](https://mmbiz.qpic.cn/mmbiz_png/PMZOEonJxWf5IyvQkjc4vibibgKwWma1iatgaXAicWYwiaVdF0ljoRyDtcsAVY2T6ejosguCF7doMfMJKEicpib4PPVSQ/640?wx_fmt=png&wxfrom=5&wx_lazy=1&wx_co=1)
 
 - 1. 在从节点列表中选出一个节点作为新的主节点，这一步是相对复杂一些的一步
-  2. Sentinel领导者节点会对第一步选出来的从节点执行slaveof no one命令让其成为主节点
+  2. Sentinel领导者节点会对第一步选出来的从节点执行slave of no one命令让其成为主节点
   3. Sentinel领导者节点会向剩余的从节点发送命令，让它们成为新主节点的从节点
   4. Sentinel节点集合会将原来的主节点更新为从节点，并保持着对其关注，当其恢复后命令它去复制新的主节点
 
@@ -640,11 +654,11 @@ Redis使用了Raft算法实 现领导者选举，大致流程如下：
 
 #### 方案三：虚拟槽分区
 
-这个方案 一致性哈希分区的基础上，引入了 **虚拟节点** 的概念。Redis 集群使用的便是该方案，其中的虚拟节点称为 **槽（slot）**。槽是介于数据和实际节点之间的虚拟概念，每个实际节点包含一定数量的槽，每个槽包含哈希值在一定范围内的数据。
+这个方案一致性哈希分区的基础上，引入了 **虚拟节点** 的概念。Redis 集群使用的便是该方案，其中的虚拟节点称为 **槽（slot）**。槽是介于数据和实际节点之间的虚拟概念，每个实际节点包含一定数量的槽，每个槽包含哈希值在一定范围内的数据。
 
 ![图片](https://img-blog.csdnimg.cn/img_convert/271fea31e638dbb4773e008b06229a26.png)
 
-在使用了槽的一致性哈希分区中，槽是数据管理和迁移的基本单位。槽解耦了数据和实际节点 之间的关系，增加或删除节点对系统的影响很小。仍以上图为例，系统中有 `4` 个实际节点，假设为其分配 `16` 个槽(0-15)；
+在使用了槽的一致性哈希分区中，槽是数据管理和迁移的基本单位。槽解耦了数据和实际节点 之间的关系，增加或删除节点对系统的影响很小。仍以上图为例，系统中有 4个实际节点，假设为其分配 `16` 个槽(0-15)；
 
 - 槽 0-3 位于 node1；4-7 位于 node2；以此类推....
 
@@ -829,21 +843,21 @@ Redis集群提供了灵活的节点扩容和收缩方案，可以在不影响集
 >
 >    ```java
 >    public class testRedis {
->    
+>       
 >        @Autowired
 >        private StringRedisTemplate stringRedisTemplate;
 >        private AtomicInteger atomicInteger = new AtomicInteger();
->    
+>       
 >        @PostConstruct
 >        public void init() {
 >            Executors.newSingleThreadScheduledExecutor().scheduleAtFixedRate(() -> {
 >                log.info("DB QPS : {}", atomicInteger.getAndSet(0));
 >            }, 0, 1, TimeUnit.SECONDS);
->    
+>       
 >            //bloomFilter = BloomFilter.create(Funnels.integerFunnel(), 10000, 0.01);
 >            //IntStream.rangeClosed(1, 10000).forEach(bloomFilter::put);
 >        }
->    
+>       
 >        @GetMapping("city")
 >        public String wrong(@RequestParam("id") int id) {
 >            String key = "user" + id;
@@ -855,7 +869,7 @@ Redis集群提供了灵活的节点扩容和收缩方案，可以在不影响集
 >            }
 >            return data;
 >        }
->    
+>       
 >        private String getCityFromDb(int id) {
 >            atomicInteger.incrementAndGet();
 >            //注意，只有ID介于0（不含）和10000（包含）之间的用户才是有效用户，可以查询到用户信息
@@ -871,7 +885,7 @@ Redis集群提供了灵活的节点扩容和收缩方案，可以在不影响集
 >    - 缓存空对象，如果有大量的 key 穿透，缓存空对象会占用宝贵的内存空间。空对象的 key 设置了过期时间，这段时间内可能数据库刚好有了该 key 的数据，从而导致数据不一致的情况。
 >    
 >    ```java
->    
+>       
 >    @GetMapping("right")
 >    public String right(@RequestParam("id") int id) {
 >        String key = "user" + id;
@@ -898,22 +912,22 @@ Redis集群提供了灵活的节点扩容和收缩方案，可以在不影响集
 >    @RestController
 >    @Slf4j
 >    public class testRedis {
->    
+>       
 >        @Autowired
 >        private StringRedisTemplate stringRedisTemplate;
 >        private AtomicInteger atomicInteger = new AtomicInteger();
 >        private BloomFilter<Integer> bloomFilter;
->    
+>       
 >        @PostConstruct
 >        public void init() {
 >            Executors.newSingleThreadScheduledExecutor().scheduleAtFixedRate(() -> {
 >                log.info("DB QPS : {}", atomicInteger.getAndSet(0));
 >            }, 0, 1, TimeUnit.SECONDS);
->    
+>       
 >            bloomFilter = BloomFilter.create(Funnels.integerFunnel(), 10000, 0.01);
 >            IntStream.rangeClosed(1, 10000).forEach(bloomFilter::put);
 >        }
->    
+>       
 >        @GetMapping("city")
 >        public String right(@RequestParam("id") int id) {
 >            String data = "";
@@ -927,7 +941,7 @@ Redis集群提供了灵活的节点扩容和收缩方案，可以在不影响集
 >            }
 >            return data;
 >        }
->    
+>       
 >        private String getCityFromDb(int id) {
 >            atomicInteger.incrementAndGet();
 >            //注意，只有ID介于0（不含）和10000（包含）之间的用户才是有效用户，可以查询到用户信息
@@ -1370,6 +1384,8 @@ set lock:fighter3 true ex 5 nx OK ... do something critical ... > del lock:codeh
 
 # 底层结构
 
+ [redis数据结构](https://mp.weixin.qq.com/s/CeuO2n1YZwBXw56WvafctA)
+
 ## Redis底层数据结构
 
 Redis有**动态字符串(sds)**、**链表(list)**、**字典(ht)**、**跳跃表(skiplist)**、**整数集合(intset)**、**压缩列表(ziplist)** 等底层数据结构。Redis并没有使用这些数据结构来直接实现键值对数据库，而是基于这些数据结构创建了一个对象系统，来表示所有的key-value。
@@ -1585,7 +1601,7 @@ Redis 中的有序集合支持的核心操作主要有下面这几个：
 
 ## 其它常见面试题总结
 
-[m1](https://mp.weixin.qq.com/s/SMkFzjSBvPvqA_ibFT6xCA)    [redis数据结构](https://mp.weixin.qq.com/s/CeuO2n1YZwBXw56WvafctA)
+[m1](https://mp.weixin.qq.com/s/SMkFzjSBvPvqA_ibFT6xCA)	[Redis 详解 五种数据结构（底层实现原理）、使用场景、淘汰策略、持久化、高可用、缓存的雪崩、击穿、穿透](https://copyfuture.com/blogs-details/20211203091032764J)
 
 ## 基于docker安装与启动
 

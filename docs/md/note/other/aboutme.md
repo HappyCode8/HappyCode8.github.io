@@ -18,14 +18,17 @@
 > https://www.z4a.net/
 > https://moetu.org/
 
-- markdown工具，目前使用typora，不过高版本的typora开始收费，可以使用开源替代品marktext https://github.com/marktext/marktext
+- markdown工具，目前使用typora，不过高版本的typora开始收费，可以使用开源替代品[marktext](https://github.com/marktext/marktext)
+
 - 文本编辑工具：sublime
+
 - 思维导图工具：幕布
+
 - [随机ACG图](https://www.dmoe.cc)
 
-<!--公众号-->
+  > https://www.cnblogs.com/ghgxj/p/14219047.html?ivk_sa=1024320u
 
-<!--[公众号](https://s2.loli.net/2022/03/19/LnABEtiMGPvuUcQ.jpg)-->
+<!--公众号-->
 
 - QQ及邮箱: 2594003600@qq.com
 
