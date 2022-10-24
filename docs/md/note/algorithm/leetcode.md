@@ -24,66 +24,66 @@
 >**动态规划**
 >
 >1. 斐波那契数列
-> - 爬楼梯
->   - [普通爬楼梯](https://leetcode.cn/problems/climbing-stairs/)
->   - [最小花费爬楼梯](https://leetcode.cn/problems/min-cost-climbing-stairs/)
->   - [变态爬楼梯](https://mp.weixin.qq.com/s/NZPaFsFrTybO3K3s7p7EVg)
-> - 强盗抢劫
->   - [打家劫舍](https://leetcode.cn/problems/house-robber/)
->   - [打家劫舍II(环形街区)](https://leetcode.cn/problems/house-robber-ii/)
->   - [打家劫舍III(二叉树街区)](https://leetcode.cn/problems/house-robber-iii/)
-> - 信件错排
-> - 母牛生产
+>- 爬楼梯
+>  - [普通爬楼梯](https://leetcode.cn/problems/climbing-stairs/)
+>  - [最小花费爬楼梯](https://leetcode.cn/problems/min-cost-climbing-stairs/)
+>  - [变态爬楼梯](https://mp.weixin.qq.com/s/NZPaFsFrTybO3K3s7p7EVg)
+>- 强盗抢劫
+>  - [打家劫舍](https://leetcode.cn/problems/house-robber/)
+>  - [打家劫舍II(环形街区)](https://leetcode.cn/problems/house-robber-ii/)
+>  - [打家劫舍III(二叉树街区)](https://leetcode.cn/problems/house-robber-iii/)
+>- 信件错排
+>- 母牛生产
 >2. 路径
-> - [矩阵最小路径和](https://leetcode.cn/problems/minimum-path-sum/submissions/)
-> - [矩阵总路径数](https://leetcode.cn/problems/unique-paths/)
-> - [矩阵总路径数II](https://leetcode.cn/problems/unique-paths-ii/)
-> - [最小三角路径和](https://leetcode.cn/problems/triangle/)
+>- [矩阵最小路径和](https://leetcode.cn/problems/minimum-path-sum/submissions/)
+>- [矩阵总路径数](https://leetcode.cn/problems/unique-paths/)
+>- [矩阵总路径数II](https://leetcode.cn/problems/unique-paths-ii/)
+>- [最小三角路径和](https://leetcode.cn/problems/triangle/)
 >3. 数组区间
-> - [数组区间和](https://leetcode.cn/problems/range-sum-query-immutable/)
-> - [数组中等差递增子区间的个数](https://leetcode.cn/problems/arithmetic-slices/)
+>- [数组区间和](https://leetcode.cn/problems/range-sum-query-immutable/)
+>- [数组中等差递增子区间的个数](https://leetcode.cn/problems/arithmetic-slices/)
 >4. 分割整数
-> - [分割整数的最大乘积](https://leetcode.cn/problems/integer-break/description/)
-> - [按平方数来分割整数](https://leetcode.cn/problems/perfect-squares/description/)
-> - [分割整数构成字母字符串](https://leetcode.cn/problems/decode-ways/description/)
+>- [分割整数的最大乘积](https://leetcode.cn/problems/integer-break/description/)
+>- [按平方数来分割整数](https://leetcode.cn/problems/perfect-squares/description/)
+>- [分割整数构成字母字符串](https://leetcode.cn/problems/decode-ways/description/)
 >5. 子序列与子串
-> - [最长递增子序列的长度](https://leetcode.cn/problems/longest-increasing-subsequence/description/)
-> - [最长递增子序列的个数](https://leetcode-cn.com/problems/number-of-longest-increasing-subsequence/)
-> - [最长摆动子序列](https://leetcode.cn/problems/wiggle-subsequence/)
-> - [最长公共子序列](https://leetcode.cn/problems/longest-common-subsequence/submissions/)
-> - [最长回文子串](https://leetcode.cn/problems/longest-palindromic-substring/)  动态规划、中心扩散
-> - [最长数对列](https://leetcode.cn/problems/maximum-length-of-pair-chain/description/)
-> - [最长公共子串](https://leetcode-cn.com/problems/maximum-length-of-repeated-subarray/)
-> - [最大数组和](https://leetcode.cn/problems/maximum-subarray/)
-> - [最大数组积](https://leetcode.cn/problems/maximum-product-subarray/)
-> - [最大正方形](https://leetcode-cn.com/problems/maximal-square)
+>- [最长递增子序列的长度](https://leetcode.cn/problems/longest-increasing-subsequence/description/)
+>- [最长递增子序列的个数](https://leetcode-cn.com/problems/number-of-longest-increasing-subsequence/)
+>- [最长摆动子序列](https://leetcode.cn/problems/wiggle-subsequence/)
+>- [最长公共子序列](https://leetcode.cn/problems/longest-common-subsequence/submissions/)
+>- [最长回文子串](https://leetcode.cn/problems/longest-palindromic-substring/)  动态规划、中心扩散
+>- [最长数对列](https://leetcode.cn/problems/maximum-length-of-pair-chain/description/)
+>- [最长公共子串](https://leetcode-cn.com/problems/maximum-length-of-repeated-subarray/)
+>- [最大数组和](https://leetcode.cn/problems/maximum-subarray/)
+>- [最大数组积](https://leetcode.cn/problems/maximum-product-subarray/)
+>- [最大正方形](https://leetcode-cn.com/problems/maximal-square)
 >6. 背包问题
-> - 简单背包
-> - [分割等和子集](https://leetcode.cn/problems/partition-equal-subset-sum/description/)
-> - [目标和](https://leetcode.cn/problems/target-sum/description/)
-> - [01 字符构成最多的字符串](https://leetcode.cn/problems/ones-and-zeroes/description/)
-> - [找零钱的最少硬币数](https://leetcode.cn/problems/ones-and-zeroes/description/)
-> - [找零钱的硬币数组合](https://leetcode.cn/problems/coin-change-2/description/)
-> - [字符串按单词列表分割](https://leetcode.cn/problems/word-break/description/)
-> - [组合总和](https://leetcode.cn/problems/combination-sum-iv/description/)
+>- 简单背包
+>- [分割等和子集](https://leetcode.cn/problems/partition-equal-subset-sum/description/)
+>- [目标和](https://leetcode.cn/problems/target-sum/description/)
+>- [01 字符构成最多的字符串](https://leetcode.cn/problems/ones-and-zeroes/description/)
+>- [找零钱的最少硬币数](https://leetcode.cn/problems/ones-and-zeroes/description/)
+>- [找零钱的硬币数组合](https://leetcode.cn/problems/coin-change-2/description/)
+>- [字符串按单词列表分割](https://leetcode.cn/problems/word-break/description/)
+>- [组合总和](https://leetcode.cn/problems/combination-sum-iv/description/)
 >7. 买卖股票
-> - [买卖股票I](https://leetcode.cn/problems/best-time-to-buy-and-sell-stock/)
-> - [买卖股票II](https://leetcode.cn/problems/best-time-to-buy-and-sell-stock-ii/)
-> - [买卖股票III](https://leetcode.cn/problems/best-time-to-buy-and-sell-stock-iii/)
-> - [买卖股票IV](https://leetcode.cn/problems/best-time-to-buy-and-sell-stock-iv/)
-> - [买卖股票V](https://leetcode.cn/problems/best-time-to-buy-and-sell-stock-with-cooldown/)
-> - [买卖股票VI](https://leetcode.cn/problems/best-time-to-buy-and-sell-stock-with-transaction-fee/)
+>- [买卖股票I](https://leetcode.cn/problems/best-time-to-buy-and-sell-stock/)
+>- [买卖股票II](https://leetcode.cn/problems/best-time-to-buy-and-sell-stock-ii/)
+>- [买卖股票III](https://leetcode.cn/problems/best-time-to-buy-and-sell-stock-iii/)
+>- [买卖股票IV](https://leetcode.cn/problems/best-time-to-buy-and-sell-stock-iv/)
+>- [买卖股票V](https://leetcode.cn/problems/best-time-to-buy-and-sell-stock-with-cooldown/)
+>- [买卖股票VI](https://leetcode.cn/problems/best-time-to-buy-and-sell-stock-with-transaction-fee/)
 >8. 字符串编辑
-> - [删除两个字符串的字符使它们相等](https://leetcode.cn/problems/delete-operation-for-two-strings/description/)
-> - [编辑距离](https://leetcode.cn/problems/delete-operation-for-two-strings/description/)
-> - [复制粘贴字符](https://leetcode.cn/problems/2-keys-keyboard/description/)
-> - [正则表达式](https://leetcode.cn/problems/regular-expression-matching/)
+>- [删除两个字符串的字符使它们相等](https://leetcode.cn/problems/delete-operation-for-two-strings/description/)
+>- [编辑距离](https://leetcode.cn/problems/delete-operation-for-two-strings/description/)
+>- [复制粘贴字符](https://leetcode.cn/problems/2-keys-keyboard/description/)
+>- [正则表达式](https://leetcode.cn/problems/regular-expression-matching/)
 >
 >8. 其他疑难问题
 >
-> - [312戳气球](https://leetcode.cn/problems/burst-balloons/)
-> - [接雨水](https://leetcode.cn/problems/trapping-rain-water/)
-> - [最长有效括号](https://leetcode.cn/problems/longest-valid-parentheses/) 动态规划、栈、两次遍历
+>- [312戳气球](https://leetcode.cn/problems/burst-balloons/)
+>- [接雨水](https://leetcode.cn/problems/trapping-rain-water/)
+>- [最长有效括号](https://leetcode.cn/problems/longest-valid-parentheses/) 动态规划、栈、两次遍历
 >
 >**贪心算法**
 >
@@ -297,59 +297,58 @@
 >**树**
 >
 >1. 递归
->   - [104二叉树的最大深度](https://leetcode-cn.com/problems/maximum-depth-of-binary-tree/description/)
->   - [110平衡树](https://leetcode-cn.com/problems/balanced-binary-tree/description/)
->   - [543二叉树的直径](https://leetcode-cn.com/problems/diameter-of-binary-tree/description/)
->   - [226翻转二叉树](https://leetcode-cn.com/problems/invert-binary-tree/description/)
->   - [617合并二叉树](https://leetcode-cn.com/problems/merge-two-binary-trees/description/)
->   - [112判断路径和是否等于一个数](https://leetcode-cn.com/problems/path-sum/description/)
->   - [437统计路径和等于一个数的路径数量](https://leetcode-cn.com/problems/path-sum-iii/description/)
->   - [572子树](https://leetcode-cn.com/problems/subtree-of-another-tree/description/)
->   - [101对称二叉树](https://leetcode-cn.com/problems/symmetric-tree/description/)
->   - [111最小路径](https://leetcode-cn.com/problems/minimum-depth-of-binary-tree/description/)
->   - [404统计左叶子节点的和](https://leetcode-cn.com/problems/sum-of-left-leaves/description/)
->   - [687相同节点值的最大路径长度](https://leetcode-cn.com/problems/longest-univalue-path/)
->   - [337间隔遍历](https://leetcode-cn.com/problems/house-robber-iii/description/)
->   - [671找出二叉树中第二小的节点](https://leetcode-cn.com/problems/second-minimum-node-in-a-binary-tree/description/)
->   - [127. 单词接龙](https://leetcode-cn.com/problems/word-ladder/)
->   - [100. 相同的树](https://leetcode-cn.com/problems/same-tree/)
->   - [112路径总和I](https://leetcode-cn.com/problems/path-sum)
->   - [113路径总和II](https://leetcode-cn.com/problems/path-sum-ii/)
->   - [437. 路径总和 III](https://leetcode-cn.com/problems/path-sum-iii/)
->   - [257. 二叉树的所有路径](https://leetcode-cn.com/problems/binary-tree-paths/)
->   - [199. 二叉树的右视图](https://leetcode-cn.com/problems/binary-tree-right-side-view/)
->   - [958. 二叉树的完全性检验](https://leetcode-cn.com/problems/check-completeness-of-a-binary-tree/)
->   - [662. 二叉树最大宽度](https://leetcode-cn.com/problems/maximum-width-of-binary-tree/)
->   - [236二叉树的最近公共祖先](https://leetcode-cn.com/problems/lowest-common-ancestor-of-a-binary-tree/description/)
->   - [114. 二叉树展开为链表](https://leetcode.cn/problems/flatten-binary-tree-to-linked-list/)
->   - [538. 把二叉搜索树转换为累加树](https://leetcode.cn/problems/convert-bst-to-greater-tree/)
->   - [297二叉树的序列化与反序列化](https://leetcode.cn/problems/serialize-and-deserialize-binary-tree/)
+>  - [104二叉树的最大深度](https://leetcode-cn.com/problems/maximum-depth-of-binary-tree/description/)
+>  - [110平衡树](https://leetcode-cn.com/problems/balanced-binary-tree/description/)
+>  - [543二叉树的直径](https://leetcode-cn.com/problems/diameter-of-binary-tree/description/)
+>  - [226翻转二叉树](https://leetcode-cn.com/problems/invert-binary-tree/description/)
+>  - [617合并二叉树](https://leetcode-cn.com/problems/merge-two-binary-trees/description/)
+>  - [112判断路径和是否等于一个数](https://leetcode-cn.com/problems/path-sum/description/)
+>  - [437统计路径和等于一个数的路径数量](https://leetcode-cn.com/problems/path-sum-iii/description/)
+>  - [572子树](https://leetcode-cn.com/problems/subtree-of-another-tree/description/)
+>  - [101对称二叉树](https://leetcode-cn.com/problems/symmetric-tree/description/)
+>  - [111最小深度](https://leetcode-cn.com/problems/minimum-depth-of-binary-tree/description/)
+>  - [404统计左叶子节点的和](https://leetcode-cn.com/problems/sum-of-left-leaves/description/)
+>  - [687相同节点值的最大路径长度](https://leetcode-cn.com/problems/longest-univalue-path/)
+>  - [337间隔遍历](https://leetcode-cn.com/problems/house-robber-iii/description/)
+>  - [671找出二叉树中第二小的节点](https://leetcode-cn.com/problems/second-minimum-node-in-a-binary-tree/description/)
+>  - [127. 单词接龙](https://leetcode-cn.com/problems/word-ladder/)
+>  - [100. 相同的树](https://leetcode-cn.com/problems/same-tree/)
+>  - [112路径总和I](https://leetcode-cn.com/problems/path-sum)
+>  - [113路径总和II](https://leetcode-cn.com/problems/path-sum-ii/)
+>  - [437. 路径总和 III](https://leetcode-cn.com/problems/path-sum-iii/)
+>  - [257. 二叉树的所有路径](https://leetcode-cn.com/problems/binary-tree-paths/)
+>  - [199. 二叉树的右视图](https://leetcode-cn.com/problems/binary-tree-right-side-view/)
+>  - [958. 二叉树的完全性检验](https://leetcode-cn.com/problems/check-completeness-of-a-binary-tree/)
+>  - [662. 二叉树最大宽度](https://leetcode-cn.com/problems/maximum-width-of-binary-tree/)
+>  - [236二叉树的最近公共祖先](https://leetcode-cn.com/problems/lowest-common-ancestor-of-a-binary-tree/description/)
+>  - [114. 二叉树展开为链表](https://leetcode.cn/problems/flatten-binary-tree-to-linked-list/)
+>  - [297二叉树的序列化与反序列化](https://leetcode.cn/problems/serialize-and-deserialize-binary-tree/)
 >2. 层次遍历
->   - [637一棵树每层节点的平均数](https://leetcode-cn.com/problems/average-of-levels-in-binary-tree/description/)
->   - [513得到左下角的节点](https://leetcode-cn.com/problems/find-bottom-left-tree-value/description/)
->   - [102. 二叉树的层序遍历](https://leetcode-cn.com/problems/binary-tree-level-order-traversal/)
->   - [129. 求根节点到叶节点数字之和](https://leetcode-cn.com/problems/sum-root-to-leaf-numbers/)
+>  - [513得到左下角的节点](https://leetcode-cn.com/problems/find-bottom-left-tree-value/description/)
+>  - [102二叉树的层序遍历](https://leetcode-cn.com/problems/binary-tree-level-order-traversal/)
+>  - [129求根节点到叶节点数字之和](https://leetcode-cn.com/problems/sum-root-to-leaf-numbers/)
+>
 >3. 前中后序遍历
->   - [144非递归实现二叉树的前序遍历](https://leetcode-cn.com/problems/binary-tree-preorder-traversal/description/)
->   - [145非递归实现二叉树的后序遍历](https://leetcode-cn.com/problems/binary-tree-postorder-traversal/description/)
->   - [94非递归实现二叉树的中序遍历](https://leetcode-cn.com/problems/binary-tree-inorder-traversal/description/)
->   - [105从前序与中序遍历构造二叉树](https://leetcode-cn.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/)
->   - [106中序与后续遍历恢复二叉树](https://leetcode-cn.com/problems/construct-binary-tree-from-inorder-and-postorder-traversal/submissions/)
+>  - [144非递归实现二叉树的前序遍历](https://leetcode-cn.com/problems/binary-tree-preorder-traversal/description/)
+>  - [145非递归实现二叉树的后序遍历](https://leetcode-cn.com/problems/binary-tree-postorder-traversal/description/)
+>  - [94非递归实现二叉树的中序遍历](https://leetcode-cn.com/problems/binary-tree-inorder-traversal/description/)
+>  - [105从前序与中序遍历构造二叉树](https://leetcode-cn.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/)
+>  - [106中序与后续遍历恢复二叉树](https://leetcode-cn.com/problems/construct-binary-tree-from-inorder-and-postorder-traversal/submissions/)
 >4. BST
->   - [669修剪二叉查找树](https://leetcode-cn.com/problems/trim-a-binary-search-tree/description/)
->   - [538把二叉查找树每个节点的值都加上比它大的节点的值](https://leetcode-cn.com/problems/convert-bst-to-greater-tree/description/)
->   - [235二叉查找树的最近公共祖先](https://leetcode-cn.com/problems/lowest-common-ancestor-of-a-binary-search-tree/description/)
->   - [108从有序数组中构造二叉查找树](https://leetcode-cn.com/problems/convert-sorted-array-to-binary-search-tree/description/)
->   - [109根据有序链表构造平衡的二叉查找树](https://leetcode-cn.com/problems/convert-sorted-list-to-binary-search-tree/description/)
->   - [653在二叉查找树中寻找两个节点，使它们的和为一个给定值](https://leetcode-cn.com/problems/two-sum-iv-input-is-a-bst/description/)
->   - [530在二叉查找树中查找两个节点之差的最小绝对值](https://leetcode-cn.com/problems/minimum-absolute-difference-in-bst/description/)
->   - [501寻找二叉查找树中出现次数最多的值](https://leetcode-cn.com/problems/find-mode-in-binary-search-tree/description/)
->   - [98. 验证二叉搜索树](https://leetcode-cn.com/problems/validate-binary-search-tree/)
->   - [230. 二叉搜索树中第K小的元素](https://leetcode-cn.com/problems/kth-smallest-element-in-a-bst/)
+>  - [98. 验证二叉搜索树](https://leetcode-cn.com/problems/validate-binary-search-tree/)
+>  - [669修剪二叉查找树](https://leetcode-cn.com/problems/trim-a-binary-search-tree/description/)
+>  - [230. 二叉搜索树中第K小的元素](https://leetcode-cn.com/problems/kth-smallest-element-in-a-bst/)
+>  - [538. 把二叉搜索树转换为累加树](https://leetcode.cn/problems/convert-bst-to-greater-tree/)
+>  - [235二叉查找树的最近公共祖先](https://leetcode-cn.com/problems/lowest-common-ancestor-of-a-binary-search-tree/description/)
+>  - [108从有序数组中构造二叉查找树](https://leetcode-cn.com/problems/convert-sorted-array-to-binary-search-tree/description/)
+>  - [109根据有序链表构造平衡的二叉查找树](https://leetcode-cn.com/problems/convert-sorted-list-to-binary-search-tree/description/)
+>  - [653两数之和IV](https://leetcode-cn.com/problems/two-sum-iv-input-is-a-bst/description/)
+>  - [530在二叉查找树中查找两个节点之差的最小绝对值](https://leetcode-cn.com/problems/minimum-absolute-difference-in-bst/description/)
+>  - [501寻找二叉查找树中出现次数最多的值](https://leetcode-cn.com/problems/find-mode-in-binary-search-tree/description/)
 >5. Trie
->   - [208实现一个 Trie](https://leetcode-cn.com/problems/implement-trie-prefix-tree/description/)
->   - [677实现一个 Trie，用来求前缀和](https://leetcode-cn.com/problems/map-sum-pairs/description/)
->   - [720. 词典中最长的单词](https://leetcode-cn.com/problems/longest-word-in-dictionary/)
+>  - [208实现一个 Trie](https://leetcode-cn.com/problems/implement-trie-prefix-tree/description/)
+>  - [677实现一个 Trie，用来求前缀和](https://leetcode-cn.com/problems/map-sum-pairs/description/)
+>  - [720. 词典中最长的单词](https://leetcode-cn.com/problems/longest-word-in-dictionary/)
 >
 >**并查集&图&拓扑排序**
 >
@@ -678,7 +677,7 @@ class Solution {
 
 ## 递归
 
-### 对称二叉树
+### 101对称二叉树
 
 >检查二叉树是否轴对称
 >
@@ -701,7 +700,7 @@ class Solution {
 >
 >
 
-### 二叉树的最大深度
+### 104二叉树的最大深度
 
 >```java
 >class Solution {
@@ -716,7 +715,101 @@ class Solution {
 >
 >
 
-### 路径总和I
+### 110平衡树
+
+>
+>
+>```java
+>public class Solution {
+>    public boolean isBalanced(TreeNode root) {
+>    	if(root==null) {
+>			return true;
+>		}
+>    	int nleft=treeDepth(root.left);
+>    	int nright=treeDepth(root.right);
+>    	if(nleft-nright>1||nleft-nright<-1) {
+>			return false;
+>		}
+>        return isBalanced(root.left)&&isBalanced(root.right);
+>    }
+>	public int treeDepth(TreeNode root){
+>			if(root==null) {
+>				return 0;
+>			}
+>			int leftDepth=treeDepth(root.left);
+>			int rightDepth=treeDepth(root.right);
+>			return leftDepth>rightDepth?leftDepth+1:rightDepth+1;
+>		} 	 
+>	 public static void main(String[] args){
+>		 TreeNode[] tr1=new TreeNode[7];
+>    	 tr1[0]=new TreeNode(1);
+>    	 tr1[1]=new TreeNode(2);
+>    	 tr1[2]=new TreeNode(2);
+>    	 tr1[3]=new TreeNode(3);
+>    	 tr1[4]=new TreeNode(4);
+>    	 tr1[5]=new TreeNode(4);
+>    	 tr1[6]=new TreeNode(3);
+>    	 tr1[0].left=tr1[1];
+>    	 //tr1[0].right=tr1[2];
+>    	 tr1[1].left=tr1[3];
+>    	 tr1[1].right=tr1[4];
+>    	// tr1[2].left=tr1[6];
+>    	 //tr1[2].right=tr1[5];
+>    	 Solution s=new Solution();
+>    	 System.out.println(s.isBalanced(tr1[0]));	 
+>	 }
+>}
+>```
+>
+>
+
+### 543两节点的最长路径
+
+>
+>
+>```java
+>public class Solution {
+>    int max = 0;
+>
+>    public int diameterOfBinaryTree(TreeNode root) {
+>        helper(root);
+>        return max;
+>    }
+>
+>    public int helper(TreeNode root) {
+>        if (root == null) {
+>            return 0;
+>        }
+>        int left = helper(root.left);
+>        int right = helper(root.right);
+>        max = Math.max(max, right + left);
+>        return Math.max(left, right) + 1;
+>    }
+>
+>    public static void main(String[] args) {
+>        TreeNode[] tr1 = new TreeNode[7];
+>        tr1[0] = new TreeNode(1);
+>        tr1[1] = new TreeNode(2);
+>        tr1[2] = new TreeNode(3);
+>        tr1[3] = new TreeNode(4);
+>        tr1[4] = new TreeNode(5);
+>        tr1[5] = new TreeNode(6);
+>        tr1[6] = new TreeNode(7);
+>        tr1[0].left = tr1[1];
+>        tr1[0].right = tr1[2];
+>        tr1[1].left = tr1[3];
+>        tr1[1].right = tr1[4];
+>	/* tr1[2].left=tr1[5];
+>	 tr1[2].right=tr1[6];*/
+>        Solution s = new Solution();
+>        System.out.println(s.diameterOfBinaryTree(tr1[0]));
+>    }
+>}
+>```
+>
+>
+
+### 112路径总和I
 
 > 给你二叉树的根节点 root 和一个表示目标和的整数 targetSum ，判断该树中是否存在 根节点到叶子节点 的路径，这条路径上所有节点值相加等于目标和 targetSum 。
 >
@@ -803,7 +896,7 @@ class Solution {
 >
 >
 
-### 二叉树的右视图
+### 199二叉树的右视图
 
 思路：本质是层次遍历的变种，放入队列时从右往左放，放入结果集时只放第一个就行
 
@@ -830,7 +923,7 @@ class Solution {
 }
 ```
 
-### 二叉树最大宽度
+### 662二叉树最大宽度
 
 ```java
 public int widthOfBinaryTree(TreeNode root) {
@@ -891,7 +984,7 @@ public int widthOfBinaryTree(TreeNode root) {
 >
 >
 
-### 二叉树的完全性检验
+### 958二叉树的完全性检验
 
 ```java
 class Solution {
@@ -957,50 +1050,26 @@ class Solution {
 >
 >
 
-### 538把二叉搜索树转换为累加树
-
->输入：[4,1,6,0,2,5,7,null,null,null,3,null,null,null,8]
->输出：[30,36,21,36,35,26,15,null,null,null,33,null,null,null,8]
->
->```java
->class Solution {
->    int sum=0;
->public TreeNode convertBST(TreeNode root) {
->       convert(root);  
->       return root;
->    }
->public void convert(TreeNode current){
->	if(current==null)return;
->	convert(current.right);
->	current.val+=sum;
->	sum=current.val;
->	convert(current.left);
->}
->}
->
->```
->
->
-
-### 二叉树的直径
+### 543二叉树的直径
 
 >示例 :
 >给定二叉树
 >
->          1
->         / \
->        2   3
->       / \     
->      4   5    
+>​	1
+>​	/ \
+>
+>   2   3
+>  / \     
+> 4   5    
 >返回 3, 它的长度是路径 [4,2,1,3] 或者 [5,2,1,3]。
 >
 >```java
 >class Solution {
->    int max=0;
+>int max=0;
 >public int diameterOfBinaryTree(TreeNode root) {
->        helper(root);
->        return max;
->    }
+>   helper(root);
+>   return max;
+>}
 >public int helper (TreeNode root) {
 >	if (root==null)return 0;
 >	int left=helper(root.left);
@@ -1080,9 +1149,261 @@ class Solution {
 >
 >
 
+### 572子树
+
+>
+>
+>```java
+>public class Solution {
+>    public boolean isSubtree(TreeNode s, TreeNode t) {
+>        if (s == null) {
+>            return false;
+>        }
+>        if (isSame(s, t)) {
+>            return true;
+>        }
+>        return isSubtree(s.left, t) || isSubtree(s.right, t);
+>    }
+>
+>    public boolean isSame(TreeNode s, TreeNode t) {
+>        if (s == null && t == null) {
+>            return true;
+>        }
+>        if (s == null || t == null) {
+>            return false;
+>        }
+>        if (s.val != t.val) {
+>            return false;
+>        }
+>        return isSame(s.left, t.left) && isSame(s.right, t.right);
+>    }
+>
+>    public static void main(String[] args) {
+>        TreeNode[] tr1 = new TreeNode[9];
+>        tr1[0] = new TreeNode(3);
+>        tr1[1] = new TreeNode(4);
+>        tr1[2] = new TreeNode(5);
+>        tr1[3] = new TreeNode(1);
+>        tr1[4] = new TreeNode(2);
+>        tr1[8] = new TreeNode(0);
+>        tr1[0].left = tr1[1];
+>        tr1[0].right = tr1[2];
+>        tr1[1].left = tr1[3];
+>        tr1[1].right = tr1[4];
+>        tr1[4].left = tr1[8];
+>
+>        tr1[5] = new TreeNode(4);
+>        tr1[6] = new TreeNode(1);
+>        tr1[7] = new TreeNode(2);
+>        tr1[5].left = tr1[6];
+>        tr1[5].right = tr1[7];
+>
+>        Solution s = new Solution();
+>        System.out.println(s.isSubtree(tr1[0], tr1[5]));
+>    }
+>}
+>```
+
+### 111最小深度
+
+>
+>
+>```java
+>public class Solution {
+>public int minDepth(TreeNode root) {
+>        if(root==null) {
+>			return 0;
+>		}
+>        if(root.left==null) {
+>			return minDepth(root.right)+1;
+>		}
+>        if(root.right==null) {
+>			return minDepth(root.left)+1;
+>		}
+>        return Math.min(minDepth(root.left),minDepth(root.right))+1;
+>    }
+>public static void main(String[] args){
+>	TreeNode[] tr1=new TreeNode[7];
+>	 tr1[0]=new TreeNode(1);
+>	 tr1[1]=new TreeNode(2);
+>	 tr1[2]=new TreeNode(2);
+>	 tr1[3]=new TreeNode(3);
+>	 tr1[4]=new TreeNode(4);
+>	 tr1[5]=new TreeNode(4);
+>	 tr1[6]=new TreeNode(3);
+>	 tr1[0].left=tr1[1];
+>	 tr1[0].right=tr1[2];
+>	 tr1[1].left=tr1[3];
+>	 tr1[1].right=tr1[4];
+>	 tr1[2].left=tr1[6];
+>	 tr1[2].right=tr1[5];
+>	 Solution s=new Solution();
+>	 System.out.println(s.minDepth(tr1[0]));
+>}
+>}
+>```
+>
+>
+
+### 404统计左叶子节点的和
+
+>
+>
+>```java
+>public class Solution {
+>public int sumOfLeftLeaves(TreeNode root) {
+>        int sum=0;
+>        if(root==null) {
+>         return sum;
+>      }
+>        if(root.left!=null){
+>           if(root.left.left==null&&root.left.right==null) {
+>            sum+=root.left.val;
+>         } else {
+>            sum+=sumOfLeftLeaves(root.left);
+>         }
+>        }
+>        sum+=sumOfLeftLeaves(root.right);
+>        return sum;
+>    }
+>public static void main(String[] args){
+>   Solution s=new Solution();
+>   TreeNode[] tr1=new TreeNode[7];
+>    tr1[0]=new TreeNode(1);
+>    tr1[1]=new TreeNode(2);
+>    tr1[2]=new TreeNode(2);
+>    tr1[3]=new TreeNode(3);
+>    tr1[4]=new TreeNode(4);
+>    tr1[5]=new TreeNode(4);
+>    tr1[6]=new TreeNode(3);
+>    tr1[0].left=null;
+>    tr1[0].right=tr1[2];
+>    tr1[1].left=tr1[3];
+>    tr1[1].right=tr1[4];
+>    tr1[2].left=null;
+>    tr1[2].right=null;
+>    System.out.println(s.sumOfLeftLeaves(tr1[0]));
+>}
+>}
+>```
+
+### 687相同节点值的最大路径长度
+
+>
+>
+>```java
+>public class Solution {
+>    int max = 0;
+>
+>    public int longestUnivaluePath(TreeNode root) {
+>        helper(root);
+>        return max;
+>    }
+>
+>    public int helper(TreeNode root) {
+>        if (root == null) {
+>            return 0;
+>        }
+>        int left = helper(root.left);
+>        int right = helper(root.right);
+>        int leftCount = 0, rightCount = 0;
+>        if (root.left != null && root.left.val == root.val) {
+>            leftCount = left + 1;
+>        }
+>        if (root.right != null && root.right.val == root.val) {
+>            rightCount = right + 1;
+>        }
+>        max = Math.max(max, leftCount + rightCount);
+>        return Math.max(leftCount, rightCount);
+>    }
+>
+>    public static void main(String[] args) {
+>        TreeNode[] tr1 = new TreeNode[6];
+>        tr1[0] = new TreeNode(5);
+>        tr1[1] = new TreeNode(4);
+>        tr1[2] = new TreeNode(5);
+>        tr1[3] = new TreeNode(1);
+>        tr1[4] = new TreeNode(1);
+>        tr1[5] = new TreeNode(5);
+>        tr1[0].left = tr1[1];
+>        tr1[0].right = tr1[2];
+>        tr1[1].left = tr1[3];
+>        tr1[1].right = tr1[4];
+>        tr1[2].right = tr1[5];
+>        Solution s = new Solution();
+>        System.out.println(s.longestUnivaluePath(tr1[0]));
+>    }
+>}
+>```
+>
+>
+
+### 671找出二叉树中第二小的节点
+
+>
+>
+>```java
+>public class Solution {
+>public int findSecondMinimumValue(TreeNode root) {
+>        if (root==null) {
+>			return -1;
+>		}
+>        return findHelper(root, root.val);
+>    }
+>public int findHelper(TreeNode root,int min){
+>	if(root==null) {
+>		return -1;
+>	}
+>	if(root.val>min) {
+>		return root.val;
+>	}
+>	int left=findHelper(root.left, min);
+>	int right=findHelper(root.right, min);
+>	return (left==-1||right==-1)?Math.max(left, right):Math.min(left, right);
+>}
+>	public static void main(String[] args) {
+>		TreeNode[] tr1=new TreeNode[7];
+>		 tr1[0]=new TreeNode(2);
+>		 tr1[1]=new TreeNode(2);
+>		 tr1[2]=new TreeNode(5);
+>		 tr1[3]=new TreeNode(5);
+>		 tr1[4]=new TreeNode(7);
+>		 tr1[0].left=tr1[1];
+>		 tr1[0].right=tr1[2];
+>		 tr1[2].left=tr1[3];
+>		 tr1[2].right=tr1[4];
+>		 Solution s=new Solution();
+>		 System.out.println(s.findSecondMinimumValue(tr1[0]));
+>	}
+>}
+>```
+>
+>
+
 ## 层次遍历
 
-### 102. 二叉树的层序遍历
+### 513得到左下角节点
+
+>```java
+>public int findBottomLeftValue(TreeNode root) {
+>        Queue<TreeNode> queue = new LinkedList<>();
+>        queue.add(root);
+>        while (!queue.isEmpty()) {
+>            root = queue.poll();
+>            if (root.right != null) {
+>                queue.add(root.right);
+>            }
+>            if (root.left != null) {
+>                queue.add(root.left);
+>            }
+>        }
+>        return root.val;
+>    }
+>```
+>
+>
+
+### 102.二叉树的层序遍历
 
 >**之字形遍历**时，只需要记一个标志然后翻转得到的数据或者使用双端队列头插或者尾插；
 >
@@ -1113,39 +1434,41 @@ class Solution {
 >
 >
 
-### 求根节点到叶节点数字之和
+### 129求根节点到叶节点数字之和
 
-仍然用层次遍历，每次将父节点的数乘10然后赋给子节点，当节点的左右子树都为null时将其加入求和
-
-```java
-class Solution {
-    public int sumNumbers(TreeNode root) {
-        if(root==null)return 0;
-         Queue<TreeNode> queue=new LinkedList<>();
-        queue.offer(root);
-        int sum=0;
-        while(!queue.isEmpty()){
-            int size=queue.size();           
-            for(int i=0;i<size;i++){
-                TreeNode temp=queue.poll();
-                if(temp.left==null&&temp.right==null)
-                    sum+=temp.val;
-                else{
-                    if(temp.left!=null){
-                        temp.left.val=10*temp.val+temp.left.val;
-                        queue.offer(temp.left);
-                    }
-                    if(temp.right!=null){
-                        temp.right.val=10*temp.val+temp.right.val;
-                        queue.offer(temp.right);
-                    }
-                }
-            }
-        }
-        return sum;
-    }
-}
-```
+> 仍然用层次遍历，每次将父节点的数乘10然后赋给子节点，当节点的左右子树都为null时将其加入求和
+>
+> ```java
+> class Solution {
+>     public int sumNumbers(TreeNode root) {
+>         if(root==null)return 0;
+>          Queue<TreeNode> queue=new LinkedList<>();
+>         queue.offer(root);
+>         int sum=0;
+>         while(!queue.isEmpty()){
+>             int size=queue.size();           
+>             for(int i=0;i<size;i++){
+>                 TreeNode temp=queue.poll();
+>                 if(temp.left==null&&temp.right==null)
+>                     sum+=temp.val;
+>                 else{
+>                     if(temp.left!=null){
+>                         temp.left.val=10*temp.val+temp.left.val;
+>                         queue.offer(temp.left);
+>                     }
+>                     if(temp.right!=null){
+>                         temp.right.val=10*temp.val+temp.right.val;
+>                         queue.offer(temp.right);
+>                     }
+>                 }
+>             }
+>         }
+>         return sum;
+>     }
+> }
+> ```
+>
+> 
 
 ## 前中后序遍历
 
@@ -1194,7 +1517,7 @@ class Solution {
 }
 ```
 
-### 二叉树的中序遍历
+### 94二叉树的中序遍历
 
 ```java
 public class InorderTraversal {
@@ -1230,43 +1553,571 @@ public class InorderTraversal {
 }
 ```
 
+### 145 二叉树的前序遍历
+
+```java
+public class PreOrder {
+    //递归
+    public List<Integer> preorderTraversal1(TreeNode root) {
+        List<Integer> list=new ArrayList<Integer>();
+        preorderTraversal(root,list);
+        return list;
+    }
+    public void preorderTraversal(TreeNode root,List<Integer> list) {
+        if(root!=null) {
+            list.add(root.val);
+            preorderTraversal(root.left,list);
+            preorderTraversal(root.right,list);
+        }
+    }
+    //非递归
+    public List<Integer> preorderTraversal2(TreeNode root) {
+        Stack<TreeNode> stack=new Stack<>();
+        List<Integer> res=new ArrayList<>();
+        if(root==null){
+            return res;
+        }
+        stack.push(root);
+        while(!stack.isEmpty()){
+            TreeNode node = stack.pop();
+            res.add(node.val);
+            if(node.right!=null){
+                stack.push(node.right);
+            }
+            if(node.left!=null){
+                stack.push(node.left);
+            }
+        }
+        return res;
+    }
+}
+```
+
+### 144 二叉树的后序遍历
+
+```java
+//前序遍历的顺序是根左右，后序遍历的顺序是左右根，要实现左右根可以先按前序遍历的方法实现根右左然后倒序一下变成左右根
+public class PostOrder {
+    //递归
+    public List<Integer>  postorderTraversal1(TreeNode root) {
+        List<Integer> list=new ArrayList<Integer>();
+        preorderTraversal(root,list);
+        return list;
+    }
+    public void preorderTraversal(TreeNode root,List<Integer> list) {
+        if(root!=null) {
+            preorderTraversal(root.left,list);
+            preorderTraversal(root.right,list);
+            list.add(root.val);
+        }
+    }
+    //非递归
+    public List<Integer> postorderTraversal2(TreeNode root) {
+        Stack<TreeNode> stack=new Stack<>();
+        List<Integer> res=new ArrayList<>();
+        if(root==null){
+            return res;
+        }
+        stack.push(root);
+        while(!stack.isEmpty()){
+            TreeNode node = stack.pop();
+            res.add(node.val);
+            if(node.left!=null){
+                stack.push(node.left);
+            }
+            if(node.right!=null){
+                stack.push(node.right);
+            }
+        }
+        Collections.reverse(res);
+        return res;
+    }
+}
+```
+
 ## BST
 
-### 验证二叉搜索树
+### 669修剪二叉搜索树
 
-```java
-class Solution {
-   public boolean isValidBST(TreeNode root) {
-        return isValidBST(root,Long.MIN_VALUE,Long.MAX_VALUE);
-    }
-    public boolean isValidBST(TreeNode root,long minVal,long maxVal){
-        if(root==null)return true;
-        if(root.val>=maxVal||root.val<=minVal)return false;
-        return isValidBST(root.left, minVal, root.val)&&isValidBST(root.right,root.val,maxVal);
-    }
-}
-```
+>给你二叉搜索树的根节点 root ，同时给定最小边界low 和最大边界 high。通过修剪二叉搜索树，使得所有节点的值在[low, high]中。修剪树 不应该 改变保留在树中的元素的相对结构
+>
+>```java
+>public TreeNode trimBST(TreeNode root, int L, int R) {
+>        if(root==null) {
+>			return null;
+>		}
+>        if(root.val<L) {
+>			return trimBST(root.right, L, R);
+>		}
+>        if(root.val>R) {
+>			return trimBST(root.left, L, R);
+>		}
+>        root.left=trimBST(root.left, L, R);
+>        root.right=trimBST(root.right, L, R);
+>        return root;
+>    }
+>```
+>
+>
 
-### 二叉搜索树中第K小的元素
+### 98验证二叉搜索树
 
-```java
-class Solution {
-    public int kthSmallest(TreeNode root, int k) {
-        if(count(root.left)==k-1)//如果左子树的节点刚好是K+1,那根节点就是要找的节点
-            return root.val;
-        else if(count(root.left)<k-1)//如果左子树的节点比K-1个要少，那就在右子树上找
-            return kthSmallest(root.right,k-count(root.left)-1);
-        else//否则在左子树上找
-            return kthSmallest(root.left,k);
-    }
-    public int count(TreeNode root){//左右子树一共有多少个节点
-        if(root==null)return 0;
-        return 1+count(root.left)+count(root.right);
-    }
-}
-```
+>验证一棵树是不是二叉搜索树
+>
+>```java
+>class Solution {
+>   public boolean isValidBST(TreeNode root) {
+>        return isValidBST(root,Long.MIN_VALUE,Long.MAX_VALUE);
+>    }
+>    public boolean isValidBST(TreeNode root,long minVal,long maxVal){
+>        if(root==null)return true;
+>        if(root.val>=maxVal||root.val<=minVal)return false;
+>        return isValidBST(root.left, minVal, root.val)&&isValidBST(root.right,root.val,maxVal);
+>    }
+>}
+>```
+>
+>
+
+### 230二叉搜索树中第K小的元素
+
+>```java
+>class Solution {
+>    public int kthSmallest(TreeNode root, int k) {
+>        if(count(root.left)==k-1)//如果左子树的节点数刚好是k-1,那根节点就是要找的节点
+>            return root.val;
+>        if(count(root.left)<k-1)//如果左子树的节点比k-1个要少，那就在右子树上找
+>            return kthSmallest(root.right,k-count(root.left)-1);
+>        return kthSmallest(root.left,k);//否则在左子树上找
+>    }
+>    public int count(TreeNode root){//左右子树一共有多少个节点
+>        if(root==null){
+>          return 0;
+>        }
+>        return 1+count(root.left)+count(root.right);
+>    }
+>}
+>
+>//或者使用中序遍历
+>class Solution{
+>    private int cnt = 0;
+>    private int val;
+>
+>    public int kthSmallest(TreeNode root, int k) {
+>        inOrder(root, k);
+>        return val;
+>    }
+>
+>    private void inOrder(TreeNode node, int k) {
+>        if (node == null) return;
+>        inOrder(node.left, k);
+>        cnt++;
+>        if (cnt == k) {
+>            val = node.val;
+>            return;
+>        }
+>        inOrder(node.right, k);
+>    }
+>}
+>```
+>
+>
+
+### 538把二叉搜索树转换为累加树
+
+>把每个节点的值都加上比他大的节点的值
+>
+>输入：root = [3,2,4,1]
+>输出：[7,9,4,10]
+>
+>```java
+>public class Solution {
+>    int sum = 0;
+>
+>    public TreeNode convertBST(TreeNode root) {
+>        convert(root);
+>        return root;
+>    }
+>
+>    public void convert(TreeNode current) {
+>        if (current == null) {
+>            return;
+>        }
+>        convert(current.right);
+>        current.val += sum;
+>        sum = current.val;
+>        convert(current.left);
+>    }
+>
+>    public static void main(String[] args) {
+>        Solution s = new Solution();
+>        TreeNode[] tr1 = new TreeNode[3];
+>        tr1[0] = new TreeNode(5);
+>        tr1[1] = new TreeNode(2);
+>        tr1[2] = new TreeNode(13);
+>        tr1[0].left = tr1[1];
+>        tr1[0].right = tr1[2];
+>        s.convertBST(tr1[0]);
+>        System.out.println(tr1[0].val + " " + tr1[1].val + " " + tr1[2].val);
+>    }
+>}
+>```
+>
+>
+
+### 235二叉查找树的最近公共祖先
+
+>```java
+>public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+>        if (root.val > p.val && root.val > q.val) {
+>            return lowestCommonAncestor(root.left, p, q);
+>        }
+>        if (root.val < p.val && root.val < q.val) {
+>            return lowestCommonAncestor(root.right, p, q);
+>        }
+>        return root;
+>}
+>```
+>
+>
+
+### 108从有序数组中构造二叉查找树
+
+>```java
+>public class Solution {
+>    public TreeNode sortedArrayToBST(int[] nums) {
+>        if (nums.length == 0) {
+>            return null;
+>        }
+>        TreeNode head = helper(nums, 0, nums.length - 1);
+>        return head;
+>    }
+>
+>    public TreeNode helper(int[] nums, int low, int high) {
+>        if (low > high) {
+>            return null;
+>        }
+>        int middle = low + (high - low + 1) / 2;
+>        System.out.println(middle);
+>        TreeNode node = new TreeNode(nums[middle]);
+>        node.left = helper(nums, low, middle - 1);
+>        node.right = helper(nums, middle + 1, high);
+>        return node;
+>    }
+>}
+>```
+>
+>
+
+### 109根据有序链表构造平衡的二叉查找树
+
+>与上边的根据数组构造类似，但是要找到链表的中间节点
+>
+>```java
+>public class Solution {
+>    public TreeNode sortedListToBST(ListNode head) {
+>        if (head == null) {
+>            return null;
+>        }
+>        return creatBST(head, null);
+>    }
+>
+>    public TreeNode creatBST(ListNode head, ListNode tail) {
+>        ListNode slow = head;
+>        ListNode fast = head;
+>        if (head == tail) {
+>            return null;
+>        }
+>        while (fast != tail && fast.next != tail) {
+>            slow = slow.next;
+>            fast = fast.next.next;
+>        }
+>        TreeNode root = new TreeNode(slow.val);
+>        root.left = creatBST(head, slow);
+>        root.right = creatBST(slow.next, tail);
+>        return root;
+>    }
+>}
+>```
+>
+>
+
+### 654两数之和IV
+
+>
+>
+>```java
+>class Solution {
+>    Set<Integer> s = new HashSet<>();
+>    public boolean findTarget(TreeNode root, int k) {
+>        
+>        return dfs(root, k);
+>    }
+>
+>    public boolean dfs(TreeNode root, int k) {
+>        if (root == null) {
+>            return false;
+>        }
+>        if (s.contains(k - root.val)) {
+>            return true;
+>        }
+>        s.add(root.val);
+>        return dfs(root.left, k) || dfs(root.right, k);
+>    }
+>}
+>
+>//或者可以直接将树中序遍历为数组然后二分查找
+>class Solution{
+>      public boolean findTarget(TreeNode root, int k) {
+>          List<Integer> nums = new ArrayList<>();
+>          inOrder(root, nums);
+>          int i = 0, j = nums.size() - 1;
+>          while (i < j) {
+>              int sum = nums.get(i) + nums.get(j);
+>              if (sum == k) return true;
+>              if (sum < k) i++;
+>              else j--;
+>          }
+>          return false;
+>      }
+>
+>      private void inOrder(TreeNode root, List<Integer> nums) {
+>          if (root == null) return;
+>          inOrder(root.left, nums);
+>          nums.add(root.val);
+>          inOrder(root.right, nums);
+>      }
+>}
+>```
+>
+>
+
+### 530在二叉查找树中查找两个节点之差的最小绝对值
+
+>利用二叉查找树的中序遍历为有序的性质，计算中序遍历中临近的两个节点之差的绝对值，取最小值。
+>
+>```java
+>public class Solution {
+>    int min = Integer.MAX_VALUE;
+>    Integer prev = null;
+>
+>    public int getMinimumDifference(TreeNode root) {
+>        if (root == null) {
+>            return min;
+>        }
+>        getMinimumDifference(root.left);
+>        if (prev != null) {
+>            min = Math.min(min, root.val - prev);
+>        }
+>        prev = root.val;
+>        getMinimumDifference(root.right);
+>        return min;
+>    }
+>
+>    public static void main(String[] args) {
+>        Solution s = new Solution();
+>        TreeNode[] tr1 = new TreeNode[3];
+>        tr1[0] = new TreeNode(1);
+>        tr1[1] = new TreeNode(3);
+>        tr1[2] = new TreeNode(2);
+>        tr1[0].right = tr1[1];
+>        tr1[1].left = tr1[2];
+>        System.out.println(s.getMinimumDifference(tr1[0]));
+>    }
+>}
+>```
+>
+>
+
+### 501寻找二叉查找树中出现次数最多的值
+
+>
+>
+>```java
+>public class Solution {
+>    TreeNode prev;
+>    int count = 0;
+>    int maxCount = -1;
+>
+>    public int[] findMode(TreeNode root) {
+>        List<Integer> modes = new ArrayList<Integer>();
+>        prev = root;
+>        inorder(root, modes);
+>        int[] ret = new int[modes.size()];
+>        for (int i = 0; i < modes.size(); i++) {
+>            ret[i] = modes.get(i);
+>        }
+>        return ret;
+>    }
+>
+>    public void inorder(TreeNode root, List<Integer> modes) {
+>        if (root == null) {
+>            return;
+>        }
+>        inorder(root.left, modes);
+>        count = prev.val == root.val ? count + 1 : 1;
+>        if (count == maxCount) {
+>            modes.add(root.val);
+>        } else if (count > maxCount) {
+>            modes.clear();
+>            modes.add(root.val);
+>            maxCount = count;
+>        }
+>        prev = root;
+>        inorder(root.right, modes);
+>    }
+>
+>    public static void main(String[] args) {
+>        TreeNode[] tr1 = new TreeNode[7];
+>        tr1[0] = new TreeNode(5);
+>        tr1[1] = new TreeNode(4);
+>        tr1[2] = new TreeNode(6);
+>        tr1[3] = new TreeNode(2);
+>        tr1[4] = new TreeNode(4);
+>        tr1[5] = new TreeNode(6);
+>        tr1[6] = new TreeNode(7);
+>        tr1[0].left = tr1[1];
+>        tr1[0].right = tr1[2];
+>        tr1[1].left = tr1[3];
+>        tr1[1].right = tr1[4];
+>        tr1[2].left = tr1[5];
+>        tr1[2].right = tr1[6];
+>        Solution s = new Solution();
+>        int[] a = s.findMode(tr1[0]);
+>        for (int aa : a) {
+>            System.out.println(aa);
+>        }
+>    }
+>}
+>```
+>
+>
 
 ## Trie
+
+### 208实现一个Trie
+
+>
+>
+>```java
+>class Trie {
+>
+>    private class Node {
+>        Node[] childs = new Node[26];
+>        boolean isLeaf;
+>    }
+>
+>    private Node root = new Node();
+>
+>    public Trie() {
+>    }
+>
+>    public void insert(String word) {
+>        insert(word, root);
+>    }
+>
+>    private void insert(String word, Node node) {
+>        if (node == null) return;
+>        if (word.length() == 0) {
+>            node.isLeaf = true;
+>            return;
+>        }
+>        int index = indexForChar(word.charAt(0));
+>        if (node.childs[index] == null) {
+>            node.childs[index] = new Node();
+>        }
+>        insert(word.substring(1), node.childs[index]);
+>    }
+>
+>    public boolean search(String word) {
+>        return search(word, root);
+>    }
+>
+>    private boolean search(String word, Node node) {
+>        if (node == null) return false;
+>        if (word.length() == 0) return node.isLeaf;
+>        int index = indexForChar(word.charAt(0));
+>        return search(word.substring(1), node.childs[index]);
+>    }
+>
+>    public boolean startsWith(String prefix) {
+>        return startWith(prefix, root);
+>    }
+>
+>    private boolean startWith(String prefix, Node node) {
+>        if (node == null) return false;
+>        if (prefix.length() == 0) return true;
+>        int index = indexForChar(prefix.charAt(0));
+>        return startWith(prefix.substring(1), node.childs[index]);
+>    }
+>
+>    private int indexForChar(char c) {
+>        return c - 'a';
+>    }
+>}
+>```
+>
+>
+
+### 677用Trie求前缀和
+
+>
+>
+>```java
+>class MapSum {
+>
+>    private class Node {
+>        Node[] child = new Node[26];
+>        int value;
+>    }
+>
+>    private Node root = new Node();
+>
+>    public MapSum() {
+>
+>    }
+>
+>    public void insert(String key, int val) {
+>        insert(key, root, val);
+>    }
+>
+>    private void insert(String key, Node node, int val) {
+>        if (node == null) return;
+>        if (key.length() == 0) {
+>            node.value = val;
+>            return;
+>        }
+>        int index = indexForChar(key.charAt(0));
+>        if (node.child[index] == null) {
+>            node.child[index] = new Node();
+>        }
+>        insert(key.substring(1), node.child[index], val);
+>    }
+>
+>    public int sum(String prefix) {
+>        return sum(prefix, root);
+>    }
+>
+>    private int sum(String prefix, Node node) {
+>        if (node == null) return 0;
+>        if (prefix.length() != 0) {
+>            int index = indexForChar(prefix.charAt(0));
+>            return sum(prefix.substring(1), node.child[index]);
+>        }
+>        int sum = node.value;
+>        for (Node child : node.child) {
+>            sum += sum(prefix, child);
+>        }
+>        return sum;
+>    }
+>
+>    private int indexForChar(char c) {
+>        return c - 'a';
+>    }
+>}
+>```
+>
+>
 
 # 搜索
 
@@ -3951,16 +4802,16 @@ public int maxAreaOfIslandHelper(int[][] grid,int i,int j){
 >
 >   ```
 >   525、53、560、152、238、724、1477、713、1352、801、673、300、1143、115、940、1425、121、122、309、714、123、188、873、1027、1055、368、413、91、639、338、801、583、32、132、871、818、120、64、221、931、343、85、363
->       
+>         
 >   区间问题
 >   5、647、1000、516、1147、730、1312、312、546、1039
->       
+>         
 >   背包问题
 >   5、647、1000、516、1147、730、1312、312、546、1039
->       
+>         
 >   方案总数问题
 >   62、63、96、95、1155、940
->       
+>         
 >   复杂问题
 >   887、1067、600、1012
 >   ```

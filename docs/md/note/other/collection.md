@@ -24,6 +24,7 @@
 | **国外社区** | [DZone](https://dzone.com/)                                  |                                                              |                                                              |                                               |
 | **code刷题** | [分类刷题](https://codetop.cc/home)                          | [刷题题解](https://www.cnblogs.com/grandyang/)               | [分类讲解](https://xiaochen1024.com/courseware/60b4f11ab1aa91002eb53b18) | [代码随想录](https://www.programmercarl.com/) |
 | **英语学习** | [美国之音](m.51voa.com)                                      | [英文杂志](magazinelib.com)                                  | [中国新闻](http://www.chinadaily.com.cn/)                    |                                               |
+| **Java**     | [Spring官网](https://spring.io/)                             |                                                              |                                                              |                                               |
 
 # 🔖 开源类
 
