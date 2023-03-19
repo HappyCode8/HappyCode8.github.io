@@ -3,6 +3,12 @@
 ## 为什么要用消息队列
 
 > 解耦、异步、削峰
+>
+> 削峰：高低峰日志收集
+>
+> 解耦：通话数据对接多个业务方
+>
+> 异步：复杂操作打点，核心逻辑赶紧返回
 
 ## 消息队列有什么缺点
 
@@ -23,6 +29,36 @@
 >  A 系统处理完了直接返回成功了，人都以为你这个请求就成功了；但是问题是，要是 BCD 三个
 >
 >  系统那里，BD 两个系统写库成功了，结果 C 系统写库失败了，数据就不一致了。
+
+## kafka的基本概念
+
+>生产者（producer）
+>
+>消费者（consumer）
+>
+>消费者组（consumer group）：对于同一个topic，会广播给不同的group,一个group中，只有一个consumer可以消费该信息。
+>
+>broker：kafak集群中每个kafka的节点
+>
+>broker组：按照broker进行分组，同一个partition不会被多个broker同时保存。当一个partiiton非常大的时候，可以通过多个broker同时保存，但不会被保存多份。
+>
+>主题（topic）：一类消息
+>
+>分区（partion）：数据存储的基本单元。一个topic数据会被分散到多个partition,每一个partition都是有序的。消费者数目<= partition的数目
+>
+>集群（cluster）：broker的组合
+>
+>副本（repliaction）：基本单位是partition，所有读和写都从leader进，follower只做备份，且follower必须能够及时复制keader的数据；
+>
+>可用副本（AR）：分区中所有副本,ISR+OR
+>
+>同步中的副本（ISR，In-Sync Replicas）：所有与leader副本保持一定程度同步的副本，超过一段时间未复制数据就会从ISR中移除
+>
+>同步外的副本（OSR，Out-Sync Replicas）：与leader副本滞后过多的副本
+>
+>高水位（HW）:消费者只能拉取这个offset之前的消息
+>
+>日志尾端：（LEO，log end offset）：下一条待写入消息的offset，ISR中每一个都有自己的LEO，最小的LEO为分区的HW
 
 ## 如何保证kafka高可用
 
@@ -58,13 +94,14 @@
 
 ## 如何保证消息顺序性
 
+>- 只设置一个partion（不推荐）
 >- 多生产者生产
 >
->  指定某个 id 作为 key，那么这个订单相关的数据，一定会被分发到同一个 partition 中去，而且这个 partition 中的数据一定是有顺序的。
+> 指定某个 id 作为 key，那么这个订单相关的数据，一定会被分发到同一个 partition 中去，而且这个 partition 中的数据一定是有顺序的。可能的问题是ab交替发其中一个失败后重试成功但是落后另一个，可以设置broker在响应请求之前client不能再向同一个broker发送请求
 >
 >- 多线程消费
 >
->  写 N 个内存 queue，具有相同 key 的数据都到同一个内存 queue；然后对于 N 个线程，每个线程分别消费一个内存 queue 即可，这样就能保证顺序性。
+> 写 N 个内存 queue，具有相同 key 的数据都到同一个内存 queue；然后对于 N 个线程，每个线程分别消费一个内存 queue 即可，这样就能保证顺序性。
 
 ## 线上出问题导致消息大量积压
 
@@ -82,36 +119,8 @@
 >- 怎么落磁盘
 >- 支持可用性
 >- 支持数据零丢失
-
-## kafka的基本概念
-
->生产者（producer）
->
->消费者（consumer）
->
->消费者组（consumer group）：对于同一个topic，会广播给不同的group,一个group中，只有一个consumer可以消费该信息。
->
->broker：kafak集群中每个kafka的节点
->
->broker组：按照broker进行分组，同一个partition不会被多个broker同时保存。当一个partiiton非常大的时候，可以通过多个broker同时保存，但不会被保存多份。
->
->主题（topic）：一类消息
->
->分区（partion）：数据存储的基本单元。一个topic数据会被分散到多个partition,每一个partition都是有序的。消费者数目<= partition的数目
->
->集群（cluster）：broker的组合
->
->副本（repliaction）：基本单位是partition，所有读和写都从leader进，follower只做备份，且follower必须能够及时复制keader的数据；
->
->可用副本（AR）：分区中所有副本,ISR+OR
->
->同步中的副本（ISR，In-Sync Replicas）：所有与leader副本保持一定程度同步的副本，超过一段时间未复制数据就会从ISR中移除
->
->同步外的副本（OSR，Out-Sync Replicas）：与leader副本滞后过多的副本
->
->高水位（HW）:消费者只能拉取这个offset之前的消息
->
->日志尾端：（LEO，log end offset）：下一条待写入消息的offset，ISR中每一个都有自己的LEO，最小的LEO为分区的HW
+>- 怎么尽可能快
+>- 连接，客户端等
 
 ## kafka的消费语义
 
@@ -193,18 +202,6 @@
 >   
 > - 文件分段
 
-## Kafka中的消息是否会丢失和重复消费？
-
-> 生产时：
->
-> ack=0，网络、缓存区满了可能会丢
->
-> ack=1，leader宕机而没有及时同步到副本会丢
->
-> 消费时：
->
-> 如果使用高级接口High-level API，可能存在一个问题就是当消息消费者从集群中把消息取出来、并提交了新的消息offset值后，还没来得及消费就挂掉了，那么下次再消费时之前没消费成功的消息就“诡异”的消失了；
-
 ## 消费者提交消费位移时提交的是当前消费到的最新消息的offset还是offset+1?
 
 > offset+1
@@ -233,15 +230,23 @@
 >
 >3. 主题创建
 >
->   当消费者订阅主题时使用的是正则表达式，例如 “test.*”，表示订阅所有以 test 开头的主题，当有新的以 test 开头的主题被创建时，则需要通过再均衡将该主题的分区分配给消费者。
+>  当消费者订阅主题时使用的是正则表达式，例如 “test.*”，表示订阅所有以 test 开头的主题，当有新的以 test 开头的主题被创建时，则需要通过再均衡将该主题的分区分配给消费者。
 >
 >平衡策略：
 >
 >1. Round Robin：会采用轮询的方式将当前所有的分区依次分配给所有的consumer；
 >2. Range：首先会计算每个consumer可以消费的分区个数，然后按照顺序将指定个数范围的分区分配给各个consumer；
 >3. Sticky：这种分区策略是最新版本中新增的一种策略，其主要实现了两个目的：
->     -- 将现有的分区尽可能均衡的分配给各个consumer，存在此目的的原因在于Round Robin和Range分配策略实际上都会导致某几个consumer承载过多的分区，从而导致消费压力不均衡；
->     -- 如果发生再平衡，那么在重新分配前的基础上会尽力保证当前未宕机的consumer所消费的分区不会被分配给其他的consumer上；
+>    -- 将现有的分区尽可能均衡的分配给各个consumer，存在此目的的原因在于Round Robin和Range分配策略实际上都会导致某几个consumer承载过多的分区，从而导致消费压力不均衡；
+>    -- 如果发生再平衡，那么在重新分配前的基础上会尽力保证当前未宕机的consumer所消费的分区不会被分配给其他的consumer上；
+>
+>尽量避免reblance：
+>
+>首先，Rebalance过程对Consumer Group消费过程有极大的影响。如果你了解JVM的垃圾回收机制，你一定听过万物静止的收集方式，即著名的stop the world，简称STW。在STW期间，所有应用线程都会停止工作，表现为整个应用程序僵在那边一动不动。Rebalance过程也和这个类似，在Rebalance过程中，所有Consumer实例都会停止消费，等待Rebalance完成。这是Rebalance为人诟病的一个方面。
+>
+>其次，目前Rebalance的设计是所有Consumer实例共同参与，全部重新分配所有分区。其实更高效的做法是尽量减少分配方案的变动。例如实例A之前负责消费分区1、2、3，那么Rebalance之后，如果可能的话，最好还是让实例A继续消费分区1、2、3，而不是被重新分配其他的分区。这样的话，实例A连接这些分区所在Broker的TCP连接就可以继续用，不用重新创建连接其他Broker的Socket资源。
+>
+>最后，Rebalance实在是太慢了。曾经，有个国外用户的Group内有几百个Consumer实例，成功Rebalance一次要几个小时！这完全是不能忍受的。最悲剧的是，目前社区对此无能为力，至少现在还没有特别好的解决方案。所谓“本事大不如不摊上”，也许最好的解决方案就是避免Rebalance的发生吧。
 
 ## 待处理笔记：
 
@@ -499,12 +504,50 @@ bin/zookeeper-server-stop.sh
 >7. 确保replication.factor > min.insync.replicas。如果两者相等，那么只要有一个副本挂机，整个分区就无法正常工作了。我们不仅要改善消息的持久性，防止数据丢失，还要在不降低可用性的基础上完成。推荐设置成replication.factor = min.insync.replicas + 1。
 >8. 确保消息消费完成再提交。Consumer端有个参数enable.auto.commit，最好把它设置成false，并采用手动提交位移的方式。就像前面说的，这对于单Consumer多线程处理的场景而言是至关重要的。
 
-## reblance
 
+
+>为什么用消息队列？
+>
+>消息队列有什么优缺点？
+>
+>如何保证kafka高可用？
+>
+>消息是否会丢？如何保证消息不重不丢？
+>
+>如何保证消费顺序性？消费幂等性？
+>
+>消息积压怎么处理？
+>
+>如何设计消息队列？
+>
+>kafka基本概念
+>
+>kafka消费语义
+>
+>offset手动提交与自动提交
+>
+>优化kafka写入速度
+>
+>ack为0,1，-1含义
+>
+>unclean配置
+>
+>leader崩溃时，ISR为空怎么办
+>
+>message格式
+>
+>kafka为什么快
+>
+>提交消费位移是offset还是offset+1
+>
+>kafka是pull还是push
+>
+>zk在kafka中的作用
+>
+>kafka的reblance
+>
+>消息队列技术选型
+>
+>自己设计消息队列
 >
 >
->首先，Rebalance过程对Consumer Group消费过程有极大的影响。如果你了解JVM的垃圾回收机制，你一定听过万物静止的收集方式，即著名的stop the world，简称STW。在STW期间，所有应用线程都会停止工作，表现为整个应用程序僵在那边一动不动。Rebalance过程也和这个类似，在Rebalance过程中，所有Consumer实例都会停止消费，等待Rebalance完成。这是Rebalance为人诟病的一个方面。
->
->其次，目前Rebalance的设计是所有Consumer实例共同参与，全部重新分配所有分区。其实更高效的做法是尽量减少分配方案的变动。例如实例A之前负责消费分区1、2、3，那么Rebalance之后，如果可能的话，最好还是让实例A继续消费分区1、2、3，而不是被重新分配其他的分区。这样的话，实例A连接这些分区所在Broker的TCP连接就可以继续用，不用重新创建连接其他Broker的Socket资源。
->
->最后，Rebalance实在是太慢了。曾经，有个国外用户的Group内有几百个Consumer实例，成功Rebalance一次要几个小时！这完全是不能忍受的。最悲剧的是，目前社区对此无能为力，至少现在还没有特别好的解决方案。所谓“本事大不如不摊上”，也许最好的解决方案就是避免Rebalance的发生吧。

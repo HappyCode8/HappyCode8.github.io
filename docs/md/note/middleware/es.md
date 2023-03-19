@@ -84,7 +84,7 @@
 ## ES 写入数据的过程
 
 - 客户端选择一个 node 发送请求过去，这个 node 就是 coordinating node (协调节点)。
-- coordinating node 对 document 进行 ，将请求转发给对应的 node(有 primary shard)。
+- coordinating node 对 document 进行路由 ，将请求转发给对应的 node(有 primary shard)。
 - 实际的node上的primary shard处理请求，然后将数据同步到replica node。
 - coordinating node如果发现primary node 和所有 replica node都搞定之后，就返回响应结果给客户端。
 

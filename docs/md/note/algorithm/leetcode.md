@@ -664,6 +664,84 @@ class Solution {
        }
    ```
 
+## 25k个一组翻转链表
+
+```java
+class Solution {
+    public ListNode reverseKGroup(ListNode head, int k) {
+        ListNode hair = new ListNode(0);
+        hair.next = head;
+        ListNode pre = hair;
+
+        while (head != null) {
+            ListNode tail = pre;
+            // 查看剩余部分长度是否大于等于 k
+            for (int i = 0; i < k; ++i) {
+                tail = tail.next;
+                if (tail == null) {
+                    return hair.next;
+                }
+            }
+            ListNode nex = tail.next;
+            ListNode[] reverse = myReverse(head, tail);
+            head = reverse[0];
+            tail = reverse[1];
+            // 把子链表重新接回原链表
+            pre.next = head;
+            tail.next = nex;
+            pre = tail;
+            head = tail.next;
+        }
+
+        return hair.next;
+    }
+
+    //翻转从head到tail的链表，并且返回翻转后的头和尾
+    public ListNode[] myReverse(ListNode head, ListNode tail) {
+        ListNode prev = tail.next;
+        ListNode p = head;
+        while (prev != tail) {
+            ListNode nex = p.next;
+            p.next = prev;
+            prev = p;
+            p = nex;
+        }
+        return new ListNode[]{tail, head};
+    }
+}
+```
+
+## 环形链表&相交链表
+
+```java
+//环形链表
+public class Solution {
+    public boolean hasCycle(ListNode head) {
+        if(head==null)return false;
+        ListNode walker=head;
+        ListNode runner=head;
+        while(walker.next!=null&&runner.next!=null&&runner.next.next!=null){
+        	walker=walker.next;
+        	runner=runner.next.next;
+        	if(walker==runner)return true;
+        }
+        return false;
+    }
+}
+//相交链表
+public class Solution {
+    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        ListNode p=headA;
+        ListNode q=headB;
+        while(p!=q){
+            p=p==null?headB:p.next;
+            q=q==null?headA:q.next;
+        }
+        return p;
+    }
+}
+```
+
 # 树
 
 ```java
@@ -1247,43 +1325,43 @@ class Solution {
 
 ### 404统计左叶子节点的和
 
->
+>对于一个节点，如果左叶子节点没有子节点了，那么这个值就是最终的值要加上，否则需要递归
 >
 >```java
 >public class Solution {
 >public int sumOfLeftLeaves(TreeNode root) {
 >        int sum=0;
 >        if(root==null) {
->         return sum;
->      }
+>         		return sum;
+>      		}
 >        if(root.left!=null){
->           if(root.left.left==null&&root.left.right==null) {
->            sum+=root.left.val;
->         } else {
->            sum+=sumOfLeftLeaves(root.left);
->         }
+>          	 if(root.left.left==null&&root.left.right==null) {
+>            			sum+=root.left.val;
+>             } else {
+>                 sum+=sumOfLeftLeaves(root.left);
+>             }
 >        }
 >        sum+=sumOfLeftLeaves(root.right);
 >        return sum;
 >    }
 >public static void main(String[] args){
->   Solution s=new Solution();
->   TreeNode[] tr1=new TreeNode[7];
->    tr1[0]=new TreeNode(1);
->    tr1[1]=new TreeNode(2);
->    tr1[2]=new TreeNode(2);
->    tr1[3]=new TreeNode(3);
->    tr1[4]=new TreeNode(4);
->    tr1[5]=new TreeNode(4);
->    tr1[6]=new TreeNode(3);
->    tr1[0].left=null;
->    tr1[0].right=tr1[2];
->    tr1[1].left=tr1[3];
->    tr1[1].right=tr1[4];
->    tr1[2].left=null;
->    tr1[2].right=null;
->    System.out.println(s.sumOfLeftLeaves(tr1[0]));
->}
+>             Solution s=new Solution();
+>             TreeNode[] tr1=new TreeNode[7];
+>              tr1[0]=new TreeNode(1);
+>              tr1[1]=new TreeNode(2);
+>              tr1[2]=new TreeNode(2);
+>              tr1[3]=new TreeNode(3);
+>              tr1[4]=new TreeNode(4);
+>              tr1[5]=new TreeNode(4);
+>              tr1[6]=new TreeNode(3);
+>              tr1[0].left=null;
+>              tr1[0].right=tr1[2];
+>              tr1[1].left=tr1[3];
+>              tr1[1].right=tr1[4];
+>              tr1[2].left=null;
+>              tr1[2].right=null;
+>              System.out.println(s.sumOfLeftLeaves(tr1[0]));
+>				}
 >}
 >```
 
@@ -1304,7 +1382,7 @@ class Solution {
 >        if (root == null) {
 >            return 0;
 >        }
->        int left = helper(root.left);
+>        int left = helper(root.left);//这里是关键，在计算每个节点的值的时候已经算出了其左右节点
 >        int right = helper(root.right);
 >        int leftCount = 0, rightCount = 0;
 >        if (root.left != null && root.left.val == root.val) {
@@ -1340,7 +1418,7 @@ class Solution {
 
 ### 671找出二叉树中第二小的节点
 
->
+>给定一个非空特殊的二叉树，每个节点都是正数，并且每个节点的子节点数量只能为 `2` 或 `0`。如果一个节点有两个子节点的话，那么该节点的值等于两个子节点中较小的一个。
 >
 >```java
 >public class Solution {
@@ -2123,15 +2201,18 @@ public class PostOrder {
 
 ## 深度优先&广度优先
 
-### 岛屿最大面积
+### 695岛屿最大面积
 
 ```java
 class Solution {
     public int maxAreaOfIsland(int[][] grid) {
         int maxArea=0;
         for(int i=0;i<grid.length;i++)
-            for(int j=0;j<grid[0].length;j++)
-                if(grid[i][j]==1)maxArea=Math.max(maxArea, maxAreaOfIslandHelper(grid,i,j));
+            for(int j=0;j<grid[0].length;j++){
+                if(grid[i][j]==1){
+                  maxArea=Math.max(maxArea, maxAreaOfIslandHelper(grid,i,j));
+                }
+            }
         return maxArea;
   }
 public int maxAreaOfIslandHelper(int[][] grid,int i,int j){
@@ -2932,61 +3013,70 @@ public int maxAreaOfIslandHelper(int[][] grid,int i,int j){
 >
 >```java
 >public class Solution {
->    public boolean exist(char[][] board, String word) {
->        char[] w = word.toCharArray();
->        boolean[][] visited = new boolean[board.length][board[0].length];
->        for (int i = 0; i < board.length; i++) {
->            for (int j = 0; j < board[i].length; j++) {
->                if (exist(board, i, j, 0, w, visited)) {
->                    return true;
->                }
->            }
->        }
->        return false;
->    }
+>public boolean exist(char[][] board, String word) {
+>   char[] w = word.toCharArray();
+>   boolean[][] visited = new boolean[board.length][board[0].length];
+>   for (int i = 0; i < board.length; i++) {
+>       for (int j = 0; j < board[i].length; j++) {
+>           if (exist(board, i, j, 0, w, visited)) {
+>               return true;
+>           }
+>       }
+>   }
+>   return false;
+>}
 >
->    public boolean exist(char[][] board, int x, int y, int i, char[] word, boolean[][] visited) {
->        if (x < 0 || y < 0 || x == board.length || y == board[x].length) {
->            return false;
->        }
->        if (board[x][y] != word[i]) {
->            return false;
->        }
->        if ((i += 1) == word.length) {
->            return true;
->        }
->        boolean res = false;
->        visited[x][y] = true;
->        if (x > 0 && !visited[x - 1][y]) {
->            res = res || exist(board, x - 1, y, i, word, visited);
->        }
->        if (x + 1 < visited.length && !visited[x + 1][y]) {
->            res = res || exist(board, x + 1, y, i, word, visited);
->        }
->        if (y > 0 && !visited[x][y - 1]) {
->            res = res || exist(board, x, y - 1, i, word, visited);
->        }
->        if (y + 1 < visited[x].length && !visited[x][y + 1]) {
->            res = res || exist(board, x, y + 1, i, word, visited);
->        }
->        if (!res) {
->            visited[x][y] = false;
->        }
->        return res;
->    }
+>  //i用来标记搜到了单词的第i个位置
+>public boolean exist(char[][] board, int x, int y, int i, char[] word, boolean[][] visited) {
+>  //不合法的除掉
+>   if (x < 0 || y < 0 || x == board.length || y == board[x].length) {
+>       return false;
+>   }
+>  //xy未知的字母不等于单词的第i个字母除掉
+>   if (board[x][y] != word[i]) {
+>       return false;
+>   }
+>  //长度等于单词长度时找到了返回，顺带给i加一个计数
+>   if ((i += 1) == word.length) {
+>       return true;
+>   }
+>   boolean res = false;
+>   visited[x][y] = true;
+>  //向左找
+>   if (x > 0 && !visited[x - 1][y]) {
+>       res = res || exist(board, x - 1, y, i, word, visited);
+>   }
+>  //向右找
+>   if (x + 1 < visited.length && !visited[x + 1][y]) {
+>       res = res || exist(board, x + 1, y, i, word, visited);
+>   }
+>  //向上找
+>   if (y > 0 && !visited[x][y - 1]) {
+>       res = res || exist(board, x, y - 1, i, word, visited);
+>   }
+>  //向下找
+>   if (y + 1 < visited[x].length && !visited[x][y + 1]) {
+>       res = res || exist(board, x, y + 1, i, word, visited);
+>   }
+>  //四个方向都没找到
+>   if (!res) {
+>       visited[x][y] = false;
+>   }
+>   return res;
+>}
 >
->    public static void main(String[] args) {
->        char[][] board = {
->                {'A', 'B', 'C', 'E'},
->                {'S', 'F', 'C', 'S'},
->                {'A', 'D', 'E', 'E'}
->        };
->        String[] strs = {"ABCCED", "A", "ABCB"};
->        Solution s = new Solution();
->        for (String str : strs) {
->            System.out.println(s.exist(board, str));
->        }
->    }
+>public static void main(String[] args) {
+>   char[][] board = {
+>           {'A', 'B', 'C', 'E'},
+>           {'S', 'F', 'C', 'S'},
+>           {'A', 'D', 'E', 'E'}
+>   };
+>   String[] strs = {"ABCCED", "A", "ABCB"};
+>   Solution s = new Solution();
+>   for (String str : strs) {
+>       System.out.println(s.exist(board, str));
+>   }
+>}
 >}
 >```
 >
@@ -3041,14 +3131,14 @@ public int maxAreaOfIslandHelper(int[][] grid,int i,int j){
 >            }
 >        }
 >
->        // 检查45度对角线，往左下角检查
+>        // 检查45度对角线，往左上角检查
 >        for (int i=row-1, j=col-1; i>=0 && j>=0; i--, j--) {
 >            if (chessboard[i][j] == 'Q') {
 >                return false;
 >            }
 >        }
 >
->        // 检查135度对角线，往右下角检查
+>        // 检查135度对角线，往右上角检查
 >        for (int i=row-1, j=col+1; i>=0 && j<=n-1; i--, j++) {
 >            if (chessboard[i][j] == 'Q') {
 >                return false;
@@ -3261,7 +3351,7 @@ public int maxAreaOfIslandHelper(int[][] grid,int i,int j){
 >        int[] left = robInternal(root.left);
 >        int[] right = robInternal(root.right);
 >        //0代表不偷当前节点，1代表偷当前节点
->            //不偷当前节点,左孩子能偷到的钱 + 右孩子能偷到的钱
+>        //不偷当前节点,左孩子能偷到的钱 + 右孩子能偷到的钱
 >        result[0] = Math.max(left[0], left[1]) + Math.max(right[0], right[1]);
 >        //偷当前节点,左孩子选择自己不偷时能得到的钱 + 右孩子选择不偷时能得到的钱 + 当前节点的钱数
 >        result[1] = left[0] + right[0] + root.val;
@@ -3454,10 +3544,10 @@ public int maxAreaOfIslandHelper(int[][] grid,int i,int j){
 >        int[] dp=new int[n+1];
 >        dp[1]=1;
 >        for(int i=2;i<=n;i++)
->          for(int j=1;j<=i-1;j++){//注意至少要拆成2个数，那就是每个数都在1~n-1之间
+>          for(int j=1;j<=i-1;j++){//注意至少要拆成2个数，那就是每个数都在1~i-1之间
 >            //看看是之前形成的分割更大还是新形成的分割更大
 >            //新形成的分割看看是j*(i-j), j*dp[i-j]哪个更大
->            //比如分割10的时候，刚刚算完了j=6为分割点的最大值，现在到7为分割点了，看是7*3大还是7*dp[3]大
+>            //比如分割10的时候，刚刚算完了j=6为分割点的最大值，现在到7为分割点了，看是7*3大还是7*dp[3]大还是之前某一次的分割大
 >            dp[i]=Math.max(dp[i],Math.max(j*(i-j), j*dp[i-j]));
 >          }
 >        return dp[n];
@@ -3478,7 +3568,7 @@ public int maxAreaOfIslandHelper(int[][] grid,int i,int j){
 >    public int numSquares(int n) {
 >        int[] dp = new int[n + 1];
 >        for (int i = 1; i <= n; i++) {//对于1-n的每一个数都算出组成它的最小平方分割数
->            dp[i] = i;
+>            dp[i] = i;//大不了都切为1
 >            for (int j = 1; j * j <= i; j++) {
 >                //对于1到j*j小于i的j，切为一个值的平方与i - j * j的最小切割,加的1是可以用切为的那个平方
 >                dp[i] = Math.min(dp[i], dp[i - j * j] + 1);
@@ -3728,6 +3818,75 @@ public int maxAreaOfIslandHelper(int[][] grid,int i,int j){
 >| 2b       |      |      | T    |      |      |
 >| 3a       |      |      |      | T    |      |
 >| 4d       |      |      |      |      | T    |
+
+### 最长回文子序列
+
+>```java
+>class Solution {
+>    public int longestPalindromeSubseq(String s) {
+>        if (s == null || s.length() == 0) {
+>            return 0;
+>        }
+>        int[][] dp = new int[s.length()][s.length()];
+>        int maxLen = 1;
+>        for (int i = s.length() - 1; i >= 0; i--) {
+>            for (int j = i; j < s.length(); j++) {
+>                if (j == i) {
+>                    dp[i][j] = 1;
+>                } else if (j == i + 1) {
+>                    dp[i][j] = s.charAt(i) == s.charAt(j) ? 2 : 1;
+>                    if (dp[i][j] > maxLen) {
+>                        maxLen = dp[i][j];
+>                    }
+>                } else {
+>                    dp[i][j] = s.charAt(i) == s.charAt(j) ? dp[i + 1][j - 1] + 2 :
+>                            Math.max(Math.max(dp[i + 1][j - 1],dp[i+1][j]),dp[i][j-1]);
+>                    if (dp[i][j] > maxLen) {
+>                        maxLen = dp[i][j];
+>                    }
+>                }
+>            }
+>        }
+>        /*for (int[] ints : dp) {
+>            for (int anInt : ints) {
+>                System.out.print(anInt + " ");
+>            }
+>            System.out.println();
+>        }*/
+>        return maxLen;
+>    }
+>}
+>```
+>
+>
+
+### 回文子串数目
+
+>```java
+>class Solution {
+>    public int countSubstrings(String s) {
+>        int res = 0;
+>        boolean[][] dp = new boolean[s.length()][s.length()];
+>        for (int i = s.length() - 1; i >= 0; i--) {
+>            for (int j = i; j < s.length(); j++) {
+>                if (j == i) {
+>                    dp[i][j] = true;
+>                    res += 1;
+>                } else if (j == i + 1 && s.charAt(i) == s.charAt(j)) {
+>                    dp[i][j] = true;
+>                    res += 1;
+>                } else if (s.charAt(i) == s.charAt(j) && dp[i + 1][j - 1]) {
+>                    dp[i][j] = true;
+>                    res += 1;
+>                }
+>            }
+>        }
+>        return res;
+>    }
+>}
+>```
+>
+>
 
 ### 最长数对列
 
@@ -3980,29 +4139,29 @@ public int maxAreaOfIslandHelper(int[][] grid,int i,int j){
 >```java
 >//可以看成一个背包大小为 sum/2 的 0-1 背包问题，就是在数组中挑几个数看他的和是不是能等于sum/2，剩下的另一半自然也等于sum/2。
 >public boolean canPartition(int[] nums) {
->int sum = computeArraySum(nums);
->if (sum % 2 != 0) {
->   return false;
->}
->int W = sum / 2;
->boolean[] dp = new boolean[W + 1];//存不存在这种组合
->dp[0] = true;
->for (int num : nums) {// 0-1 背包一个物品只能用一次
+>        int sum = computeArraySum(nums);
+>        if (sum % 2 != 0) {
+>               return false;
+>        }
+>        int W = sum / 2;
+>        boolean[] dp = new boolean[W + 1];//存不存在这种组合
+>        dp[0] = true;
+>        for (int num : nums) {// 0-1 背包一个物品只能用一次
 >   //顺序计算的话会覆盖前边的值，只计算到num是为了使i - num不越界
->   for (int i = W; i >= num; i--) {   // 从后往前，先计算 dp[i] 再计算 dp[i-num]
->       dp[i] = dp[i] || dp[i - num];
->   }
->}
->return dp[W];
->}
+>               for (int i = W; i >= num; i--) {   // 从后往前，先计算 dp[i] 再计算 dp[i-num]
+>                     dp[i] = dp[i] || dp[i - num];
+>               }
+>        }
+>        return dp[W];
+>    }
 >
->private int computeArraySum(int[] nums) {
->int sum = 0;
->for (int num : nums) {
->   sum += num;
->}
->return sum;
->}
+>    private int computeArraySum(int[] nums) {
+>        int sum = 0;
+>        for (int num : nums) {
+>               sum += num;
+>        }
+>        return sum;
+>    }
 >```
 >
 >
@@ -4020,31 +4179,34 @@ public int maxAreaOfIslandHelper(int[][] grid,int i,int j){
 >
 >```java
 >/*
->假设存在这种方法，取一些数出来，加正号他们的和是X,另一些加符号他们的和是Y,X-Y=taregt(1),Y=sum(nums)-X(2),由(1),(2)式可得X=(target + sum(nums))/2,因此只需要找到一个子集，令它们都取正号，并且和等于 (target + sum(nums))/2，就证明存在解。问题转化为Subset Sum，求其中可不可以找到多少组数使得其和为(target + sum(nums))/2
+>假设存在这种方法，取一些数出来，加正号他们的和是X,另一些加符号他们的和是Y,
+>X-Y=taregt        ....(1)
+>Y=sum(nums)-X     ....(2)
+>由(1),(2)式可得X=(target + sum(nums))/2,因此只需要找到一个子集，令它们都取正号，并且和等于 (target + sum(nums))/2，就证明存在解。问题转化为Subset Sum，求其中可不可以找到多少组数使得其和为(target + sum(nums))/2
 >*/
 >public int findTargetSumWays(int[] nums, int S) {
->int sum = computeArraySum(nums);
->if (sum <  Math.abs(target) || (sum + S) % 2 == 1) {
->   return 0;
->}
->int W = (sum + S) / 2;
->int[] dp = new int[W + 1];//和为i的有多少种方法，已有的方法加上对nums[i]取差的方法
->dp[0] = 1;
->for (int num : nums) {
->   for (int i = W; i >= num; i--) {
->       dp[i] = dp[i] + dp[i - num];
->   }
->}
->return dp[W];
->}
+>        int sum = computeArraySum(nums);
+>        if (sum < Math.abs(target) || (sum + S) % 2 == 1) {
+>            return 0;
+>        }
+>        int W = (sum + S) / 2;
+>        int[] dp = new int[W + 1];//和为i的有多少种方法，已有的方法加上对nums[i]取差的方法
+>        dp[0] = 1;
+>        for (int num : nums) {
+>            for (int i = W; i >= num; i--) {
+>                dp[i] = dp[i] + dp[i - num];
+>            }
+>        }
+>        return dp[W];
+>    }
 >
->private int computeArraySum(int[] nums) {
->int sum = 0;
->for (int num : nums) {
->   sum += num;
->}
->return sum;
->}
+>    private int computeArraySum(int[] nums) {
+>        int sum = 0;
+>        for (int num : nums) {
+>            sum += num;
+>        }
+>        return sum;
+>    }
 >```
 >
 >
@@ -4802,16 +4964,16 @@ public int maxAreaOfIslandHelper(int[][] grid,int i,int j){
 >
 >   ```
 >   525、53、560、152、238、724、1477、713、1352、801、673、300、1143、115、940、1425、121、122、309、714、123、188、873、1027、1055、368、413、91、639、338、801、583、32、132、871、818、120、64、221、931、343、85、363
->         
+>               
 >   区间问题
 >   5、647、1000、516、1147、730、1312、312、546、1039
->         
+>               
 >   背包问题
 >   5、647、1000、516、1147、730、1312、312、546、1039
->         
+>               
 >   方案总数问题
 >   62、63、96、95、1155、940
->         
+>               
 >   复杂问题
 >   887、1067、600、1012
 >   ```
@@ -5647,6 +5809,27 @@ for (遍历这个数组)
 ## 有效的括号
 
 >使用栈的入栈出栈模拟即可
+>
+>```java
+>class Solution {
+>    public boolean isValid(String s) {
+>        Stack<Character> stack=new Stack<Character>();
+>        for(char c:s.toCharArray()){
+>        if(c=='(')
+>        	stack.push(')');
+>        else if(c=='[')
+>        	stack.push(']');
+>        else if(c=='{')
+>        	stack.push('}');
+>        else if(stack.isEmpty()||stack.pop()!=c)
+>        	return false;
+>        }
+>        return stack.isEmpty();
+>    }
+>}
+>```
+>
+>
 
 
 
@@ -5730,6 +5913,132 @@ for (遍历这个数组)
 >
 >
 
+## 169多数元素
+
+>给定一个大小为 `n` 的数组 `nums` ，返回其中的多数元素。多数元素是指在数组中出现次数 **大于** `⌊ n/2 ⌋` 的元素。你可以假设数组是非空的，并且给定的数组总是存在多数元素。采用投票算法解决。
+>
+>```java
+>//使用投票算法
+>class Solution {
+>    public int majorityElement(int[] nums) {
+>        int temp=nums[0];
+>	int count=0;
+>	for(int i=0;i<nums.length;i++){
+>		if(count==0){
+>			count=1;
+>			temp=nums[i];
+>		}
+>		else if(nums[i]!=temp){
+>			count--;
+>		}
+>		else 
+>			count++;
+>	}
+>	return temp;   
+>    }
+>}
+>```
+>
+>
+
+## 283移动零
+
+>把零移到一起
+>
+>```java
+>class Solution {
+>    public void moveZeroes(int[] nums) {
+>        int left = 0, right = 0;
+>        while (right < nums.length) {
+>            if (nums[right] != 0) {
+>                swap(nums, left, right);
+>                left++;
+>            }
+>            right++;
+>        }
+>        System.out.println(Arrays.toString(nums));
+>    }
+>
+>    public void swap(int[] nums, int i, int j) {
+>        int temp = nums[i];
+>        nums[i] = nums[j];
+>        nums[j] = temp;
+>    }
+>}
+>```
+>
+>
+
+## 缺失数字
+
+>输入：nums = [9,6,4,2,3,5,7,0,1]
+>输出：8
+>
+>将这些数字分别与从1到n做个异或，存在的会被异或抵消
+>
+>```java
+>class Solution {
+>    public int missingNumber(int[] nums) {
+>        int result=0;
+>       for(int i=0;i<nums.length;i++){
+>    	  result^=i;
+>    	  result^=nums[i];
+>       }
+>       return result^nums.length;
+>    }
+>}
+>```
+>
+>所有缺失的数字
+>
+>输入：nums = [4,3,2,7,8,2,3,1]
+>输出：[5,6]
+>
+>```java
+>class Solution {
+>    public List<Integer> findDisappearedNumbers(int[] nums) {
+>        List<Integer> result=new ArrayList<Integer>();
+>		for(int i=0;i<nums.length;i++)
+>			if(nums[Math.abs(nums[i])-1]>0)
+>			   nums[Math.abs(nums[i])-1]=-nums[Math.abs(nums[i])-1];
+>		for(int i=0;i<nums.length;i++)
+>			if(nums[i]>0)
+>			    result.add(i+1);
+>		return result;	
+>    }
+>}
+>```
+>
+>
+
+## 重复数字
+
+>把每个数字换到对应的位置上，给你一个整数数组 `nums` 。如果任一值在数组中出现 **至少两次** ，返回 `true` ；如果数组中每个元素互不相同，返回 `false` 。
+>
+>```java
+>class Solution {
+>    public int findRepeatNumber(int[] nums) {
+>        for(int i=0;i<nums.length;i++){
+>            while(i!=nums[i]){
+>                if(nums[i]==nums[nums[i]]){
+>                    return nums[i];
+>                }
+>                swap(nums, nums[i], i);
+>            }
+>        }
+>        return -1;
+>    }
+>
+>    private void swap(int[] nums, int i, int j) {
+>        int temp = nums[i];
+>        nums[i] = nums[j];
+>        nums[j] = temp;
+>    }
+>}
+>```
+>
+>
+
 # 字符串
 
 ## 回文字符串
@@ -5761,10 +6070,35 @@ for (遍历这个数组)
 - [LeetCode\] Valid Palindrome 验证回文字符串](https://www.cnblogs.com/grandyang/p/4030114.html)
 
   - "A man, a plan, a canal: Panama"是回文字符串`"race a car"` 不是回文字符串
-
   - 给定一个字符串，判断是否为回文字符串
-
   - 使用双指针，遇到不是字符串的跳过即可-
+
+## 压缩字符串
+
+>输入："aabcccccaaa"
+>输出："a2b1c5a3"
+>
+>```java
+>class Solution {
+>    public String compressString(String S) {
+>        int index = 0;
+>        char c;
+>        String res = "";
+>        while (index < S.length()) {
+>            int count = 0;
+>            c=S.charAt(index);
+>            while (index<S.length() && c == S.charAt(index)) {
+>                count++;
+>                index++;
+>            }
+>            res += String.valueOf(c) + count;
+>        }
+>        return S.length() > res.length() ? res : S;
+>    }
+>}
+>```
+>
+>
 
 # 字典树
 
@@ -6496,198 +6830,116 @@ public class TopKMin3 {
 }
 ```
 
-# 七天练
-
-## 1
-
-数组
-
->实现一个支持动态扩容的数组
->
->实现一个大小固定的有序数组，支持动态增删改操作
->
->实现两个有序数组合并为一个有序数组
-
-链表
-
->实现单链表、循环链表、双向链表，支持增删操作
->
->实现单链表反转
->
->实现两个有序的链表合并为一个有序链表
->
->实现求链表的中间结点
-
-Three Sum（求三数之和）
-
-Majority Element（求众数）
-
-Missing Positive（求缺失的第一个正数）
-
-Linked List Cycle I（环形链表）
-
-Merge k Sorted Lists（合并 k 个排序链表）
-
-## 2
-
-关于栈、队列和递归的几个必知必会的代码实现
-
-栈
-
-> 用数组实现一个顺序栈用链表
->
-> 实现一个链式栈
->
-> 编程模拟实现一个浏览器的前进、后退功能
->
-> Valid Parentheses（有效的括号）
->
-> Longest Valid Parentheses（最长有效的括号）
->
-> Evaluate Reverse Polish Notatio（逆波兰表达式求值）
-
-队列
-
-> 用数组实现一个顺序队列
->
-> 用链表实现一个链式队列
->
-> 实现一个循环队列
->
-> Design Circular Deque（设计一个双端队列）
-
-递归
-
->编程实现斐波那契数列求值 f(n)=f(n-1)+f(n-2)
->
->编程实现求阶乘 n!
->
->编程实现一组数据集合的全排列
->
->Sliding Window Maximum（滑动窗口最大值）
->
->Climbing Stairs（爬楼梯）
-
-## 3
-
-排序
-
-> 实现归并排序、快速排序、插入排序、冒泡排序、选择排序
->
-> 编程实现找到一组数据的第 K 大元素
-
-二分查找
-
-> 实现一个有序数组的二分查找算法
->
-> 实现模糊二分查找算法（比如大于等于给定值的第一个元素）
->
-> Sqrt(x) （x 的平方根）
-
-## 4
-
-散列表
-
-> 实现一个基于链表法解决冲突问题的散列表
->
-> 实现一个 LRU 缓存淘汰算法
-
-字符串
-
-> 实现一个字符集，只包含 a～z 这 26 个英文字母的 Trie 树
->
-> 实现朴素的字符串匹配算法
->
-> Reverse String （反转字符串）
->
-> Reverse Words in a String（翻转字符串里的单词）
->
-> String to Integer (atoi)（字符串转换整数 (atoi)）
-
-## 5
-
-二叉树
-
-> 实现一个二叉查找树，并且支持插入、删除、查找操作
->
-> 实现查找二叉查找树中某个节点的后继、前驱节点
->
-> 实现二叉树前、中、后序以及按层遍历
-
-堆
-
-> 实现一个小顶堆、大顶堆、优先级队列
->
-> 实现堆排序利用优先级队列合并 K 个有序数组
->
-> 求一组动态数据集合的最大 Top K
-
-Invert Binary Tree（翻转二叉树）
-
-Maximum Depth of Binary Tree（二叉树的最大深度）
-
-Validate Binary Search Tree（验证二叉查找树）
-
-Path Sum（路径总和）
-
-## 6
-
-实现有向图、无向图、有权图、无权图的邻接矩阵和邻接表表示方法
-
-实现图的深度优先搜索、广度优先搜索
-
-实现 Dijkstra 算法、A* 算法
-
-实现拓扑排序的 Kahn 算法、DFS 算法
-
-Number of Islands（岛屿的个数）
-
-Valid Sudoku（有效的数独）
-
-## 7
-
-回溯
-
-> 利用回溯算法求解八皇后问题
->
-> 利用回溯算法求解 0-1 背包问题
-
-分治
-
-> 利用分治算法求一组数据的逆序对个数
-
-动态规划
-
-> 0-1 背包问题
->
-> 最小路径和
->
-> 编程实现莱文斯坦最短编辑距离
->
-> 编程实现查找两个字符串的最长公共子序列
->
-> 编程实现一个数据序列的最长递增子序列
-
-Regular Expression Matching（正则表达式匹配）
-
-Minimum Path Sum（最小路径和）
-
-Coin Change （零钱兑换）
-
-Best Time to Buy and Sell Stock（买卖股票的最佳时机）
-
-Maximum Product Subarray（乘积最大子序列）
-
-Triangle（三角形最小路径和）
-
 # Top 100
 
 [题目](https://leetcode.cn/problem-list/2cktkvj/)
 
 ```
-1. 两数之和
-2. 两数相加
-3. 无重复字符的最长子串
+easy：
+1. 两数之和(hashmap)
+20. 有效的括号(栈)
+21. 合并两个有序链表(递归或者迭代)
+70. 爬楼梯(菲波)
+94. 二叉树的中序遍历(递归加迭代)
+101. 对称二叉树(递归)
+104. 二叉树的最大深度(迭代)
+121. 买卖股票的最佳时机(贪心或者动归)
+136. 只出现一次的数字(异或)
+141. 环形链表(快慢指针)
+160. 相交链表(双指针两次遍历)
+169. 多数元素(投票算法)
+206. 反转链表(递归或者迭代)
+226. 翻转二叉树(递归或者迭代)
+234. 回文链表(复制到数组或者快慢指针+翻转链表)
+283. 移动零(双指针)
+338. 比特位计数(动态规划) bits[i] = bits[i >> 1] + (i & 1);//偶数就是一半，奇数是一半+1
+448. 找到所有数组中消失的数字(对对应位置赋负数，大于0的位置就是没有存在的负数)
+461. 汉明距离(每次右移一位然后&1运算可判断低位是不是1，是的话加起来)
+543. 二叉树的直径(递归或者迭代)
+617. 合并二叉树(递归或者迭代)
+
+medium:
+2. 两数相加(链表迭代)
+3. 无重复字符的最长子串(滑动窗口)
+5. 最长回文子串(动态规划)
+11. 盛最多水的容器(双指针)
+15. 三数之和(排序+双指针)
+17. 电话号码的字母组合(回溯)
+19. 删除链表的倒数第 N 个结点(双指针)
+22. 括号生成(回溯)
+31. 下一个排列(两遍扫描)
+33. 搜索旋转排序数组(自下而上自左而右)
+34. 在排序数组中查找元素的第一个和最后一个位置(二分)
+39. 组合总和(回溯)
+46. 全排列(回溯)
+48. 旋转图像(纯数学推导)
+49. 字母异位词分组(单词排序+map)
+53. 最大子数组和(动态规划)
+55. 跳跃游戏(贪心)
+56. 合并区间(数组排序)
+62. 不同路径(动态规划)
+64. 最小路径和(动态规划)
+75. 颜色分类(双指针)
+78. 子集(回溯)
+79. 单词搜索(回溯)
+96. 不同的二叉搜索树(动态规划+数学推导)
+98. 验证二叉搜索树(递归验证)
+102. 二叉树的层序遍历(广搜)
+105. 从前序与中序遍历序列构造二叉树(递归构造)
+114. 二叉树展开为链表(迭代)
+128. 最长连续序列(哈希表)
+139. 单词拆分(动态规划)
+142. 环形链表II(双指针)
+146. LRU缓存(借助linkedlist实现)
+148. 排序链表(归并排序)
+152. 乘积最大子数组(动态规划)
+155. 最小栈(栈设计)
+198. 打家劫舍(动态规划)
+200. 岛屿数量(搜索)
+207. 课程表(搜索)
+208. 实现 Trie (前缀树)
+215. 数组中的第K个最大元素(堆)
+221. 最大正方形(动态规划)
+236. 二叉树的最近公共祖先(递归)
+238. 除自身以外数组的乘积(前缀和)
+240. 搜索二维矩阵II(查找)
+253. 会议室II(贪心)
+279. 完全平方数(动态规划)
+287. 寻找重复数(位运算)
+300. 最长递增子序列(动态规划)
+309. 最佳买卖股票时机含冷冻期(动态规划)
+322. 零钱兑换(动态规划)
+337. 打家劫舍III(树+动态规划)
+347. 前 K 个高频元素(哈希表)
+394. 字符串解码()
+399. 除法求值(搜索)
+406. 根据身高重建队列(贪心)
+416. 分割等和子集(动态规划)
+437. 路径总和III(搜索)
+438. 找到字符串中所有字母异位词(哈希表)
+494. 目标和(动态规划)
+538. 把二叉搜索树转换为累加树(搜索)
+560. 和为K的子数组()
+581. 最短无序连续子数组(可能是升序排序)
+621. 任务调度器(贪心)
+647. 回文子串(动态规划)
+739. 每日温度()
+
+hard：
+4. 寻找两个正序数组的中位数(二分)
+10. 正则表达式匹配()动态规划
+23. 合并K个升序链表(分治)
+32. 最长有效括号(动态规划)
+42. 接雨水(双指针)
+72. 编辑距离(动态规划)
+76. 最小覆盖子串(滑动窗口)
+84. 柱状图中最大的矩形(单调栈)
+85. 最大矩形(动态规划)
+124. 二叉树中的最大路径和(动态规划)
+239. 滑动窗口最大值(滑动窗口)
+297. 二叉树的序列化与反序列化(搜索)
+301. 删除无效的括号(回溯)
+312. 戳气球(动态规划)
 ```
 
 ![脑图](https://pic.leetcode-cn.com/1630892220-MyzuIE-阿飞算法.png)

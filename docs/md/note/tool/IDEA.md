@@ -30,6 +30,22 @@
 
 - 使用插件无限使用，但是注意使用2021.2.2以下版本，以上的需要登录才能使用
 
+- 过期以后使用下面方法
+
+  ```
+  IntelliJIdea
+  
+  1.打开目录
+  /Users/**/Library/Application Support/JetBrains/IntelliJIdea2021.2/eval
+  删除一下文件就行
+  rm -f idea212.evaluation.key
+  
+  同理：
+  PyCharm
+  /Users/**/Library/Application Support/JetBrains/PyCharm2021.2/eval
+  rm -f PyCharm212.evaluation.key
+  ```
+
 # 快捷键
 
 - 格式化所有代码：option+command+L
