@@ -637,13 +637,54 @@ class Solution {
        }
    ```
 
+   ## 翻转链表
+
+   ```java
+    public ListNode reverseList(ListNode head) {
+           if (head == null || head.next == null) {
+               return head;
+           }
+           ListNode fakeNode = new ListNode(-1);
+           fakeNode.next = head;
+           ListNode p = head.next;
+           while (p != null) {
+               //head与p对调
+               head.next = p.next;
+               p.next = fakeNode.next;
+               //fake重新指向节点头
+               fakeNode.next = p;
+               //p指向新的节点开始下一轮
+               p = head.next;
+           }
+           return fakeNode.next;
+       }
+   
+       //递归方法
+       /**
+        * head next
+        *   □→  □→   □→□→□→□→□→□→□→
+        * */
+       public ListNode reverseList2(ListNode head) {
+           if (head == null || head.next == null) {
+               return head;
+           }
+           ListNode next = head.next;
+           ListNode newHead = reverseList2(next);
+           next.next = head;
+           head.next = null;
+           return newHead;
+       }
+   ```
+   
+   
+   
    ## 92翻转链表II
-
+   
    给你单链表的头指针 head 和两个整数 left 和 right ，其中 left <= right 。请你反转从位置 left 到位置 right 的链表节点，返回 反转后的链表 。
-
+   
    来源：力扣（LeetCode）
    链接：https://leetcode-cn.com/problems/reverse-linked-list-ii
-
+   
    ```java
    public ListNode reverseBetween(ListNode head, int m, int n) {
            ListNode fakeNode=new ListNode(-1);
@@ -3502,34 +3543,6 @@ public int maxAreaOfIslandHelper(int[][] grid,int i,int j){
 >
 >
 
-### 最大数组积
-
->```
->输入: nums = [2,3,-2,4]
->输出: 6
->解释: 子数组 [2,3] 有最大乘积 6。
->```
->
->```java
->class Solution {
->    public int maxProduct(int[] nums) {
->        int min=nums[0];//维持一个最小的负数
->        int max=nums[0];
->        int result=nums[0];
->        for(int i=1;i<nums.length;i++){
->            int temp1=nums[i]*max;
->            int temp2=nums[i]*min;
->            min=Math.min(nums[i],Math.min(temp1, temp2));
->            max=Math.max(nums[i], Math.max(temp1, temp2));
->            result=Math.max(result, max);
->        }
->        return result;
->    }
->}
->```
->
->
-
 ## 分割整数
 
 ### 整数拆分
@@ -3992,33 +4005,51 @@ public int maxAreaOfIslandHelper(int[][] grid,int i,int j){
 >
 >```java
 >public class testdama {
->    public static void main(String[] args) {
->        int[] nums=new int[]{2,3,-2,4};
->        int[] dpMax=new int[nums.length];
->        int[] dpMin=new int[nums.length];
->        if(nums.length<=1)
->            System.out.println(nums[0]);
->        dpMax[0]=dpMin[0]=nums[0];
->        for(int i=1;i<nums.length;i++){
->            dpMax[i]=Math.max(dpMax[i - 1] * nums[i], Math.max(nums[i], dpMin[i - 1] * nums[i]));
->            dpMin[i]=Math.min(dpMin[i - 1] * nums[i], Math.min(nums[i], dpMax[i - 1] * nums[i]));
->        }
+>public static void main(String[] args) {
+>   int[] nums=new int[]{2,3,-2,4};
+>   int[] dpMax=new int[nums.length];
+>   int[] dpMin=new int[nums.length];
+>   if(nums.length<=1)
+>       System.out.println(nums[0]);
+>   dpMax[0]=dpMin[0]=nums[0];
+>   for(int i=1;i<nums.length;i++){
+>       dpMax[i]=Math.max(dpMax[i - 1] * nums[i], Math.max(nums[i], dpMin[i - 1] * nums[i]));
+>       dpMin[i]=Math.min(dpMin[i - 1] * nums[i], Math.min(nums[i], dpMax[i - 1] * nums[i]));
+>   }
 >
->        for (int i = 0; i < nums.length; ++i) {
->            System.out.print(dpMax[i]+" ");
->        }
->        System.out.println();
->        for (int i = 0; i < nums.length; ++i) {
->            System.out.print(dpMin[i]+" ");
->        }
->        System.out.println();
+>   for (int i = 0; i < nums.length; ++i) {
+>       System.out.print(dpMax[i]+" ");
+>   }
+>   System.out.println();
+>   for (int i = 0; i < nums.length; ++i) {
+>       System.out.print(dpMin[i]+" ");
+>   }
+>   System.out.println();
 >
->        int ans = dpMax[0];
->        for (int i = 1; i < nums.length; ++i) {
->            ans = Math.max(ans, dpMax[i]);
->        }
->        System.out.println(ans);
->    }
+>   int ans = dpMax[0];
+>   for (int i = 1; i < nums.length; ++i) {
+>       ans = Math.max(ans, dpMax[i]);
+>   }
+>   System.out.println(ans);
+>}
+>}
+>```
+>
+>```java
+>class Solution {
+>public int maxProduct(int[] nums) {
+>   int min=nums[0];//维持一个最小的负数
+>   int max=nums[0];
+>   int result=nums[0];
+>   for(int i=1;i<nums.length;i++){
+>       int temp1=nums[i]*max;
+>       int temp2=nums[i]*min;
+>       min=Math.min(nums[i],Math.min(temp1, temp2));
+>       max=Math.max(nums[i], Math.max(temp1, temp2));
+>       result=Math.max(result, max);
+>   }
+>   return result;
+>}
 >}
 >```
 >
