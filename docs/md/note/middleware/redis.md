@@ -842,21 +842,21 @@ Redis集群提供了灵活的节点扩容和收缩方案，可以在不影响集
 >
 >    ```java
 >    public class testRedis {
->             
+>                
 >        @Autowired
 >        private StringRedisTemplate stringRedisTemplate;
 >        private AtomicInteger atomicInteger = new AtomicInteger();
->             
+>                
 >        @PostConstruct
 >        public void init() {
 >            Executors.newSingleThreadScheduledExecutor().scheduleAtFixedRate(() -> {
 >                log.info("DB QPS : {}", atomicInteger.getAndSet(0));
 >            }, 0, 1, TimeUnit.SECONDS);
->             
+>                
 >            //bloomFilter = BloomFilter.create(Funnels.integerFunnel(), 10000, 0.01);
 >            //IntStream.rangeClosed(1, 10000).forEach(bloomFilter::put);
 >        }
->             
+>                
 >        @GetMapping("city")
 >        public String wrong(@RequestParam("id") int id) {
 >            String key = "user" + id;
@@ -868,7 +868,7 @@ Redis集群提供了灵活的节点扩容和收缩方案，可以在不影响集
 >            }
 >            return data;
 >        }
->             
+>                
 >        private String getCityFromDb(int id) {
 >            atomicInteger.incrementAndGet();
 >            //注意，只有ID介于0（不含）和10000（包含）之间的用户才是有效用户，可以查询到用户信息
@@ -884,7 +884,7 @@ Redis集群提供了灵活的节点扩容和收缩方案，可以在不影响集
 >    - 缓存空对象，如果有大量的 key 穿透，缓存空对象会占用宝贵的内存空间。空对象的 key 设置了过期时间，这段时间内可能数据库刚好有了该 key 的数据，从而导致数据不一致的情况。
 >    
 >    ```java
->             
+>                
 >    @GetMapping("right")
 >    public String right(@RequestParam("id") int id) {
 >        String key = "user" + id;
@@ -911,22 +911,22 @@ Redis集群提供了灵活的节点扩容和收缩方案，可以在不影响集
 >    @RestController
 >    @Slf4j
 >    public class testRedis {
->             
+>                
 >        @Autowired
 >        private StringRedisTemplate stringRedisTemplate;
 >        private AtomicInteger atomicInteger = new AtomicInteger();
 >        private BloomFilter<Integer> bloomFilter;
->             
+>                
 >        @PostConstruct
 >        public void init() {
 >            Executors.newSingleThreadScheduledExecutor().scheduleAtFixedRate(() -> {
 >                log.info("DB QPS : {}", atomicInteger.getAndSet(0));
 >            }, 0, 1, TimeUnit.SECONDS);
->             
+>                
 >            bloomFilter = BloomFilter.create(Funnels.integerFunnel(), 10000, 0.01);
 >            IntStream.rangeClosed(1, 10000).forEach(bloomFilter::put);
 >        }
->             
+>                
 >        @GetMapping("city")
 >        public String right(@RequestParam("id") int id) {
 >            String data = "";
@@ -940,7 +940,7 @@ Redis集群提供了灵活的节点扩容和收缩方案，可以在不影响集
 >            }
 >            return data;
 >        }
->             
+>                
 >        private String getCityFromDb(int id) {
 >            atomicInteger.incrementAndGet();
 >            //注意，只有ID介于0（不含）和10000（包含）之间的用户才是有效用户，可以查询到用户信息
@@ -1157,10 +1157,10 @@ Redis发生阻塞，可以从以下几个方面排查：
   
   针对这种情况，处理步骤一般如下：
 
-- 1. 判断当前Redis并发量是否已经达到极限，可以使用统计命令redis-cli-h{ip}-p{port}--stat获取当前 Redis使用情况
+  1. 判断当前Redis并发量是否已经达到极限，可以使用统计命令redis-cli-h{ip}-p{port}--stat获取当前 Redis使用情
   2. 如果Redis的请求几万+，那么大概就是Redis的OPS已经到了极限，应该做集群化水品扩展来分摊OPS压力
   3. 如果只有几百几千，那么就得排查命令和内存的使用
-
+  
 - **持久化相关的阻塞**
   
   对于开启了持久化功能的Redis节点，需要排查是否是持久化导致的阻塞。
@@ -1234,7 +1234,7 @@ brpop是rpop的阻塞版本，list为空的时候，它会一直阻塞，直到l
 
 - **使用zset，利用排序实现**
 
-可以使用 zset这个结构，用设置好的时间戳作为score进行排序，使用 zadd score1 value1 ....命令就可以一直往内存中生产消息。再利用 zrangebysocre 查询符合条件的所有待处理的任务，通过循环执行队列任务即可。ABQABh6FO1AAAAABJRU5ErkJggg==)
+可以使用 zset这个结构，用设置好的时间戳作为score进行排序，使用 zadd score1 value1 ....命令就可以一直往内存中生产消息。再利用 zrangebysocre 查询符合条件的所有待处理的任务，通过循环执行队列任务即可。
 
 ## Redis 支持事务吗？
 
@@ -1599,7 +1599,7 @@ Redis 中的有序集合支持的核心操作主要有下面这几个：
 
 ## 线上情况
 
-20主，40从，单机10G，总量200G，使用的volatile-lru（在设置了过期时间的key种使用LRU），配置单节点QPS大于6W告警（实际见过200wQPS没有明显问题），平时高峰期也就40w，2.5亿key（占用60%），集群上又逻辑划分catogory，每个人在自己的category下存取数据。
+20主，40从，单机10G，总量200G，使用的volatile-lru（在设置了过期时间的key种使用LRU），配置单节点QPS大于6W告警（实际见过200wQPS（单节点10w）没有明显问题），平时高峰期也就40w，2.5亿key（占用60%），集群上又逻辑划分catogory，每个人在自己的category下存取数据。
 
 对于Lua脚本的要求
 

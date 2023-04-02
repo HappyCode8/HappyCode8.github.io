@@ -3412,7 +3412,7 @@ public int maxAreaOfIslandHelper(int[][] grid,int i,int j){
 >        int col = obstacleGrid[0].length;
 >        int dp[] = new int[col];//压缩状态
 >        int index=0;
->        for(int i=0;i<col;i++){
+>        for(int i=0;i<col;i++){//给首行赋值
 >            if(obstacleGrid[0][i]==0){
 >                dp[i]=1;
 >            }else{
@@ -3547,7 +3547,7 @@ public int maxAreaOfIslandHelper(int[][] grid,int i,int j){
 >          for(int j=1;j<=i-1;j++){//注意至少要拆成2个数，那就是每个数都在1~i-1之间
 >            //看看是之前形成的分割更大还是新形成的分割更大
 >            //新形成的分割看看是j*(i-j), j*dp[i-j]哪个更大
->            //比如分割10的时候，刚刚算完了j=6为分割点的最大值，现在到7为分割点了，看是7*3大还是7*dp[3]大还是之前某一次的分割大
+>            //比如分割10的时候，刚刚算完了j=6为分割点的最大值，现在到7为分割点了，看是7*3大还是7*dp[3]大还是之前已经算好的最大分割大
 >            dp[i]=Math.max(dp[i],Math.max(j*(i-j), j*dp[i-j]));
 >          }
 >        return dp[n];
@@ -3568,7 +3568,7 @@ public int maxAreaOfIslandHelper(int[][] grid,int i,int j){
 >    public int numSquares(int n) {
 >        int[] dp = new int[n + 1];
 >        for (int i = 1; i <= n; i++) {//对于1-n的每一个数都算出组成它的最小平方分割数
->            dp[i] = i;//大不了都切为1
+>            dp[i] = i;//最差情况下都切为1
 >            for (int j = 1; j * j <= i; j++) {
 >                //对于1到j*j小于i的j，切为一个值的平方与i - j * j的最小切割,加的1是可以用切为的那个平方
 >                dp[i] = Math.min(dp[i], dp[i - j * j] + 1);
@@ -3640,7 +3640,7 @@ public int maxAreaOfIslandHelper(int[][] grid,int i,int j){
 >                }
 >            }
 >            if(dp[i]==0){
->                dp[i]=1;
+>                dp[i]=1;//就算递减序列最短长度也是1
 >            }
 >            max=Math.max(dp[i],max);
 >        }
@@ -3763,6 +3763,42 @@ public int maxAreaOfIslandHelper(int[][] grid,int i,int j){
 >        }
 >        System.out.println(dp[text1.length()][text2.length()]);
 >    }
+>```
+>
+>
+
+### 最长公共子串
+
+>给两个整数数组 nums1 和 nums2 ，返回 两个数组中 公共的 、长度最长的子数组的长度 。
+>
+>输入：nums1 = [1,2,3,2,1], nums2 = [3,2,1,4,7]
+>输出：3
+>解释：长度最长的公共子数组是 [3,2,1] 。
+>
+>```java
+>public static void main(String[] args) {
+>   int[] nums1 = new int[]{1, 2, 3, 2, 1};
+>   int[] nums2 = new int[]{3, 2, 1, 4, 7};
+>   int dp[][] = new int[nums1.length + 1][nums2.length + 1];
+>   int max=0;
+>   for (int i = 1; i <= nums1.length; i++) {
+>       for (int j = 1; j <= nums2.length; j++) {
+>           if (nums1[i - 1] == nums2[j - 1]) {
+>               dp[i][j] = dp[i - 1][j - 1] + 1;
+>               max=Math.max(max, dp[i][j]);
+>           } else {
+>               dp[i][j] = 0;
+>           }
+>       }
+>   }
+>   for (int i = 1; i <= nums1.length; i++) {
+>       for (int j = 1; j <= nums2.length; j++) {
+>           System.out.print(dp[i][j] + " ");
+>       }
+>       System.out.println();
+>   }
+>   System.out.println(max);
+>}
 >```
 >
 >
@@ -3912,42 +3948,6 @@ public int maxAreaOfIslandHelper(int[][] grid,int i,int j){
 >    }
 >    return Arrays.stream(dp).max().orElse(0);
 >}
->```
->
->
-
-### 最长公共子串
-
->给两个整数数组 nums1 和 nums2 ，返回 两个数组中 公共的 、长度最长的子数组的长度 。
->
->输入：nums1 = [1,2,3,2,1], nums2 = [3,2,1,4,7]
->输出：3
->解释：长度最长的公共子数组是 [3,2,1] 。
->
->```java
->public static void main(String[] args) {
->        int[] nums1 = new int[]{1, 2, 3, 2, 1};
->        int[] nums2 = new int[]{3, 2, 1, 4, 7};
->        int dp[][] = new int[nums1.length + 1][nums2.length + 1];
->        int max=0;
->        for (int i = 1; i <= nums1.length; i++) {
->            for (int j = 1; j <= nums2.length; j++) {
->                if (nums1[i - 1] == nums2[j - 1]) {
->                    dp[i][j] = dp[i - 1][j - 1] + 1;
->                    max=Math.max(max, dp[i][j]);
->                } else {
->                    dp[i][j] = 0;
->                }
->            }
->        }
->        for (int i = 1; i <= nums1.length; i++) {
->            for (int j = 1; j <= nums2.length; j++) {
->                System.out.print(dp[i][j] + " ");
->            }
->            System.out.println();
->        }
->        System.out.println(max);
->    }
 >```
 >
 >
@@ -4964,16 +4964,16 @@ public int maxAreaOfIslandHelper(int[][] grid,int i,int j){
 >
 >   ```
 >   525、53、560、152、238、724、1477、713、1352、801、673、300、1143、115、940、1425、121、122、309、714、123、188、873、1027、1055、368、413、91、639、338、801、583、32、132、871、818、120、64、221、931、343、85、363
->               
+>                 
 >   区间问题
 >   5、647、1000、516、1147、730、1312、312、546、1039
->               
+>                 
 >   背包问题
 >   5、647、1000、516、1147、730、1312、312、546、1039
->               
+>                 
 >   方案总数问题
 >   62、63、96、95、1155、940
->               
+>                 
 >   复杂问题
 >   887、1067、600、1012
 >   ```

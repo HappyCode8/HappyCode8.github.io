@@ -613,29 +613,18 @@ public class DefaultAdvisorAutoProxyCreator implements InstantiationAwareBeanPos
   <img src="https://s2.loli.net/2022/07/03/VkKNp3nYQPAqmXe.png" alt="spring生命周期.png" style="zoom:25%;" />
   
   > 1. 对象的实例化（相当于new了出来）
-  > 
   > 2. 填充属性
-  > 
   > 3. 调用BeanNameAware的setBeanName方法
-  > 
   > 4. 调用BeanFactoryAware的setBeanFacotry方法
-  > 
   > 5. 调用ApplicationContextAware的setApplicationContext方法
-  > 
   > 6. 调用BeanPostProcessor的postProcessBeforeInitialization方法
-  > 
   > 7. 调用InitializingBean的afterPropertySet方法
-  > 
   > 8. 调用自定义的初始化方法
-  > 
   > 9. 调用BeanPostProcessor的postProcessAfterInitialization方法
-  > 
   > 10. bean可以使用了
-  > 
   > 11. 容器关闭时调用DisposableBean的destroy方法
-  > 
   > 12. 调用自定义的销毁方法
-
+  
 - AbstractAutoProxyCreator创建代理的流程
   
   > 1. 先确认是否已经创建过代理对象(earlyProxyReferences，避免对代理对象在进行代理)
@@ -645,6 +634,20 @@ public class DefaultAdvisorAutoProxyCreator implements InstantiationAwareBeanPos
   > 5. 如果找到了Advisor，说明需要创建代理，进入createProxy
   > 6. 首先会创建ProxyFactory,这个工厂是用来创建AopProxy的，而AopProxy才是用来创建代理对象的。因为底层代理方式有两种(JDK动态代理和CGLIB，对应到AopProxy的实现就是JdkDynamicAopProxy和ObjenesisCglibAopProxy)，所以这里使用了一个简单工厂的设计。ProxyFactory会设置此次代理的属性，然后根据这些属性选择合适的代理方式，创建代理对象。
   > 7. 创建的对象会替换掉被代理对象(Target)，被保存在BeanFactory.singletonObjects,因此当有其他Bean希望注入Target时，其实已经被注入了Proxy。以上就是Spring实现动态代理的过程。
+  
+- Spring的生命周期
+  
+  >1. 注册阶段
+  >   - 首先解析文件转为BeanDefinition，此阶段实现了FactoryPostProcessor接口的Bean可以通过重写BeanFactoryPostProcessor的postProcessBeanFactory方法改写Bean的定义，典型的就是占位符字符串的替换
+  >2. 实例化阶段
+  >   - 调用构造方法实例化，填充属性，调用BeanNameAware的setBeanName方法，调用BeanFactoryAware的setBeanFacotry方法，调用ApplicationContextAware的setApplicationContext方法（**非懒加载的此阶段一次性加载，懒加载的调用时加载**）
+  >3. 初始化阶段
+  >   - 调用BeanPostProcessor的postProcessBeforeInitialization方法，调用InitializingBean的afterPropertySet方法，调用自定义的初始化方法，调用BeanPostProcessor的postProcessAfterInitialization方法
+  >   - 实现AOP的原理是用BeanPostProcessor在对象初始化之前执行方法
+  >4. 销毁阶段
+  >   - 容器关闭时调用DisposableBean的destroy方法，调用自定义的销毁方法
+  >
+  >
 
 # Spring
 
@@ -692,37 +695,35 @@ public class DefaultAdvisorAutoProxyCreator implements InstantiationAwareBeanPos
   @Service
   public  class PersonService3 implements ApplicationListener<ContextRefreshedEvent> {
       private ApplicationContext applicationContext;
-  ```
-
-      @Override
+    @Override
       public void onApplicationEvent(ContextRefreshedEvent event) {
           applicationContext = event.getApplicationContext();
       }
-        
+  
       public void add() {
           Person person = (Person) applicationContext.getBean("person");
       }
+  }	
+  ```
 
-  }
 
-```
-## 初始化bean
+## 初始化Bean
 
 - 使用@PostConstruct注解
 
-```java
-@Service
-public  class AService {
-
-    @PostConstruct
-    public void init() {
-        System.out.println("===初始化===");
-    }
-}
-```
+  ```java
+  @Service
+  public  class AService {
+  
+      @PostConstruct
+      public void init() {
+          System.out.println("===初始化===");
+      }
+  }
+  ```
 
 - 实现InitializingBean接口
-  
+
   ```java
   @Service
   public  class BService implements InitializingBean {
@@ -832,7 +833,7 @@ public  class CService {
 
 ```java
 @Component
-public  class MyFactoryBean implements FactoryBean {
+public class MyFactoryBean implements FactoryBean {
 
     @Override
     public Object getObject() throws Exception {
@@ -1675,7 +1676,7 @@ public class Main {
   >    @Component
   >    @ConfigurationProperties("jump.threadpool")
   >    public class ThreadPoolProperties {
-  >       
+  >          
   >      private int corePoolSize;
   >      private int maxPoolSize;
   >      private int keepAliveSeconds;
@@ -1877,12 +1878,29 @@ globalSession：同一个全局Session共享一个Bean，只用于基于Protlet�
 
 ## 循环引用
 
-- spring解决不了构造方法参数的循环依赖，A的构造方法里调用了B的方法，B的构造方法里调用了A的方法，谁也解决不了，能解决的，只是类成员变量（具有set方法）的循环依赖。A里有B，B里有A，并且各自都有set方法。
+- 二级缓存可以解决吗
 
-- 实例化，放到二级缓存，初始化，放到一级缓存，完事。
+  >可以解决但是只能解决不带AOP的
+  >
+  >- spring解决不了构造方法参数的循环依赖，A的构造方法里调用了B的方法，B的构造方法里调用了A的方法，谁也解决不了，能解决的，只是类成员变量（具有set方法）的循环依赖。A里有B，B里有A，并且各自都有set方法。
+  >- 实例化，放到二级缓存，初始化，放到一级缓存，完事。
+  >- 如果类型A与B发生了循环依赖，那它的创建过程就是：实例化A，放到二级缓存，实例化B，放到二级缓存，初始化B（从二级缓存拿到A的引用），将B放到一级缓存，初始化A，将A放到一级缓存，完事！
 
-- 如果类型A与B发生了循环依赖，那它的创建过程就是：实例化A，放到二级缓存，实例化B，放到二级缓存，初始化B（从二级缓存拿到A的引用），将B放到一级缓存，初始化A，将A放到一级缓存，完事！
+- 三级缓存缓存的是什么?
 
+  | 等级 | 名称                  | 说明                         |
+  | ---- | --------------------- | ---------------------------- |
+  | 一级 | singletonObjects      | 可以理解为单例池,已完成      |
+  | 二级 | earlySingletonObjects | 早期单例对象缓存,未完成已AOP |
+  | 三级 | singletonFactories    | 单例工厂缓存,未完成未AOP     |
+
+- 三级缓存过程是什么？
+  
+  >- A对象先实例化，注入属性，放入三级缓存
+  >- B对象实例化，注入属性，A对象创建代理（如果有的话），移出三级缓存移入二级缓存
+  >- B对象初始化，创建完成
+  >- A对象初始化，创建完成，移出二级缓存移入一级缓存
+  
 - 关于三级引用，如果使用了三级缓存，A中有代理的情况下创建bean的过程如下[参考](https://www.jianshu.com/p/abda18eaa848)
   
   ```
@@ -1897,7 +1915,7 @@ globalSession：同一个全局Session共享一个Bean，只用于基于Protlet�
   
   上面两个流程的唯一区别在于为A对象创建代理的时机不同，在使用了三级缓存的情况下为A创建代理的时机是在B中需要注入A的时候，而不使用三级缓存的话在A实例化后就需要马上为A创建代理然后放入到二级缓存中去。对于整个A、B的创建过程而言，消耗的时间是一样的（所以常见的三级缓存提高了效率这种说法都是错误的）
   
-  上述这种情况下，差别就是在哪里创建代理。如果不用三级缓存，使用二级缓存，违背了Spring在结合AOP跟Bean的生命周期的设计！Spring结合AOP跟Bean的生命周期本身就是通过AbstractAutoProxyCreator这个后置处理器来完成的，在这个后置处理的postProcessAfterInitialization方法中对初始化后的Bean完成AOP代理。如果出现了循环依赖，那没有办法，只有给Bean先创建代理，但是没有出现循环依赖的情况下，设计之初就是让Bean在生命周期的最后一步完成代理而不是在实例化后就立马完成代理。
+  上述这种情况下，差别就是在哪里创建代理。如果不用三级缓存，使用二级缓存，违背了Spring在结合AOP跟Bean的生命周期的设计！Spring结合AOP跟Bean的生命周期本身就是通过AbstractAutoProxyCreator这个后置处理器来完成的，在这个后置处理的postProcessAfterInitialization方法中对初始化后的Bean完成AOP代理。如果出现了循环依赖，那没有办法，只有给Bean先创建代理，但是没有出现循环依赖的情况下，设计之初就是让Bean在生命周期的最后一步完成代理而不是在实例化后就立马完成代理。**所以，三级缓存的意义就是既能提前曝光对象，但是又能不提前进行AOP，维护对象的生命周期。**
 
 - Spring可以解决哪些情况的循环依赖？
   
