@@ -842,21 +842,21 @@ Redis集群提供了灵活的节点扩容和收缩方案，可以在不影响集
 >
 >    ```java
 >    public class testRedis {
->                
+>                   
 >        @Autowired
 >        private StringRedisTemplate stringRedisTemplate;
 >        private AtomicInteger atomicInteger = new AtomicInteger();
->                
+>                   
 >        @PostConstruct
 >        public void init() {
 >            Executors.newSingleThreadScheduledExecutor().scheduleAtFixedRate(() -> {
 >                log.info("DB QPS : {}", atomicInteger.getAndSet(0));
 >            }, 0, 1, TimeUnit.SECONDS);
->                
+>                   
 >            //bloomFilter = BloomFilter.create(Funnels.integerFunnel(), 10000, 0.01);
 >            //IntStream.rangeClosed(1, 10000).forEach(bloomFilter::put);
 >        }
->                
+>                   
 >        @GetMapping("city")
 >        public String wrong(@RequestParam("id") int id) {
 >            String key = "user" + id;
@@ -868,7 +868,7 @@ Redis集群提供了灵活的节点扩容和收缩方案，可以在不影响集
 >            }
 >            return data;
 >        }
->                
+>                   
 >        private String getCityFromDb(int id) {
 >            atomicInteger.incrementAndGet();
 >            //注意，只有ID介于0（不含）和10000（包含）之间的用户才是有效用户，可以查询到用户信息
@@ -884,7 +884,7 @@ Redis集群提供了灵活的节点扩容和收缩方案，可以在不影响集
 >    - 缓存空对象，如果有大量的 key 穿透，缓存空对象会占用宝贵的内存空间。空对象的 key 设置了过期时间，这段时间内可能数据库刚好有了该 key 的数据，从而导致数据不一致的情况。
 >    
 >    ```java
->                
+>                   
 >    @GetMapping("right")
 >    public String right(@RequestParam("id") int id) {
 >        String key = "user" + id;
@@ -911,22 +911,22 @@ Redis集群提供了灵活的节点扩容和收缩方案，可以在不影响集
 >    @RestController
 >    @Slf4j
 >    public class testRedis {
->                
+>                   
 >        @Autowired
 >        private StringRedisTemplate stringRedisTemplate;
 >        private AtomicInteger atomicInteger = new AtomicInteger();
 >        private BloomFilter<Integer> bloomFilter;
->                
+>                   
 >        @PostConstruct
 >        public void init() {
 >            Executors.newSingleThreadScheduledExecutor().scheduleAtFixedRate(() -> {
 >                log.info("DB QPS : {}", atomicInteger.getAndSet(0));
 >            }, 0, 1, TimeUnit.SECONDS);
->                
+>                   
 >            bloomFilter = BloomFilter.create(Funnels.integerFunnel(), 10000, 0.01);
 >            IntStream.rangeClosed(1, 10000).forEach(bloomFilter::put);
 >        }
->                
+>                   
 >        @GetMapping("city")
 >        public String right(@RequestParam("id") int id) {
 >            String data = "";
@@ -940,7 +940,7 @@ Redis集群提供了灵活的节点扩容和收缩方案，可以在不影响集
 >            }
 >            return data;
 >        }
->                
+>                   
 >        private String getCityFromDb(int id) {
 >            atomicInteger.incrementAndGet();
 >            //注意，只有ID介于0（不含）和10000（包含）之间的用户才是有效用户，可以查询到用户信息
@@ -1124,6 +1124,10 @@ Redis 内存不足有这么几种处理方式：
 - 定期删除
   
   > 定期删除指的是Redis每隔⼀段时间对数据库做⼀次检查，删除⾥⾯的过期key。由于不可能对所有key去做轮询来删除，所以Redis会每次随机取⼀些key去做检查和删除
+  
+- 定时删除
+  
+  >每个设置过期时间的key都需要创建一个定时器，到过期时间就会立即对key进行清除。该策略可以立即清除过期的数据，对内存很友好；但是会占用大量的CPU资源去处理过期的数据，从而影响缓存的响应时间和吞吐量。
 
 ## Redis有哪些内存溢出控制/内存淘汰策略
 

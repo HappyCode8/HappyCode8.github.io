@@ -448,25 +448,65 @@ public class ListNode {
 > **思路**：用三个指针，一个指向交换两节点的前方，其余指向要交换的两个，每次交换完三个指针前进两格
 >
 > ```java
-> public ListNode swapPairs2(ListNode head) {
->         ListNode start = new ListNode(-1);
->         start.next = head;
->         ListNode now=start, pre = start, prepre;
->         while (pre.next != null && pre.next.next != null) {
->             prepre = pre;
->             pre = pre.next;
->             now = pre.next;
->             prepre.next = now;
->             pre.next = now.next;
->             now.next = pre;
->         }
->         return start.next;
+> public ListNode swapPairs(ListNode head) {
+>     if (head == null || head.next == null) {
+>       return head;
+>     }
+>     ListNode start = new ListNode(-1);
+>     start.next = head;
+>     ListNode end = start.next.next.next, fake = start;
+>     while (end != null && end.next != null) {
+>       //交换，然后跳到下一个区间交换
+>       reversePartNode(start, end);
+>       start = start.next.next;
+>       end = end.next.next;
+>     }
+>     reversePartNode(start, end);
+>     return fake.next;
+> }
+> 
+>    //交换start与end之间的内容
+> public void reversePartNode(ListNode startNode, ListNode endNode) {
+>     ListNode firstNode = startNode.next;
+>     ListNode secondNode = startNode.next.next;
+>     startNode.next = secondNode;
+>     secondNode.next = firstNode;
+>     firstNode.next = endNode;
 > }
 > ```
 
 ## 合并两个有序列表
 
 >模拟即可，可以使用迭代+递归两种方法
+>
+>```java
+>public ListNode mergeTwoLists(ListNode list1, ListNode list2) {
+>        if (list1 == null) {
+>            return list2;
+>        }
+>        if (list2 == null) {
+>            return list1;
+>        }
+>        ListNode virtualNode = new ListNode(-1);
+>        ListNode preNode=virtualNode;
+>        while (list1 != null && list2 != null) {
+>            if (list1.val < list2.val) {
+>                preNode.next = list1;
+>                list1=list1.next;
+>            }else{
+>                preNode.next = list2;
+>                list2=list2.next;
+>            }
+>            preNode=preNode.next;
+>        }
+>        if (list1 != null) {
+>            preNode.next=list1;
+>        }else if(list2 != null){
+>            preNode.next=list2;
+>        }
+>        return virtualNode.next;
+>}
+>```
 >
 >
 
@@ -552,236 +592,304 @@ public class ListNode {
 
 ## 61旋转链表
 
-给你一个链表的头节点 `head` ，旋转链表，将链表每个节点向右移动 `k` 个位置。
-
-链接：https://leetcode-cn.com/problems/rotate-list/
-
-思路：双指针，先让一个指针移到末尾，然后另一个指针移动k位，下一位断开，末尾指针接到头上
-
-```java
-class Solution {
-    public ListNode rotateRight(ListNode head, int k) {
-        if (head==null||head.next==null) return head;
-        ListNode dummy=new ListNode(-1);
-        dummy.next=head;
-        ListNode fast=dummy,slow=dummy;
-        int length;
-        for(length=0;fast.next!=null;length++)
-            fast=fast.next;
-        for(int i=length-k%length;i>0;i--)
-            slow=slow.next;
-        fast.next=dummy.next;
-        dummy.next=slow.next;
-        slow.next=null;
-        return dummy.next;
-    }
-}
-```
+> 给你一个链表的头节点 `head` ，旋转链表，将链表每个节点向右移动 `k` 个位置。
+>
+> 链接：https://leetcode-cn.com/problems/rotate-list/
+>
+> 思路：双指针，先让一个指针移到末尾，然后另一个指针移动k位，下一位断开，末尾指针接到头上
+>
+> ```java
+> class Solution {
+>     public ListNode rotateRight(ListNode head, int k) {
+>         if (head==null||head.next==null) return head;
+>         ListNode dummy=new ListNode(-1);
+>         dummy.next=head;
+>         ListNode fast=dummy,slow=dummy;
+>         int length;
+>         for(length=0;fast.next!=null;length++)
+>             fast=fast.next;
+>         for(int i=length-k%length;i>0;i--)
+>             slow=slow.next;
+>         fast.next=dummy.next;
+>         dummy.next=slow.next;
+>         slow.next=null;
+>         return dummy.next;
+>     }
+> }
+> ```
+>
+> 
 
 ## 82删除排序链表中的重复元素 II
 
-存在一个按升序排列的链表，给你这个链表的头节点 head ，请你删除链表中所有存在数字重复情况的节点，只保留原始链表中 没有重复出现 的数字。
-
-返回同样按升序排列的结果链表。
-
-来源：力扣（LeetCode）
-链接：https://leetcode-cn.com/problems/remove-duplicates-from-sorted-list-ii
-
-```java
-class Solution {
-    public ListNode rotateRight(ListNode head, int k) {
-        if (head==null||head.next==null) return head;
-        ListNode dummy=new ListNode(-1);
-        dummy.next=head;
-        ListNode fast=dummy,slow=dummy;
-        int length;
-        for(length=0;fast.next!=null;length++)
-            fast=fast.next;
-        for(int i=length-k%length;i>0;i--)
-            slow=slow.next;
-        fast.next=dummy.next;
-        dummy.next=slow.next;
-        slow.next=null;
-        return dummy.next;
-    }
-}
-```
+>存在一个按升序排列的链表，给你这个链表的头节点 head ，请你删除链表中所有存在数字重复情况的节点，只保留原始链表中 没有重复出现 的数字。
+>
+>返回同样按升序排列的结果链表。
+>
+>来源：力扣（LeetCode）
+>链接：https://leetcode-cn.com/problems/remove-duplicates-from-sorted-list-ii
+>
+>```java
+>class Solution {
+>    public ListNode rotateRight(ListNode head, int k) {
+>        if (head==null||head.next==null) return head;
+>        ListNode dummy=new ListNode(-1);
+>        dummy.next=head;
+>        ListNode fast=dummy,slow=dummy;
+>        int length;
+>        for(length=0;fast.next!=null;length++)
+>            fast=fast.next;
+>        for(int i=length-k%length;i>0;i--)
+>            slow=slow.next;
+>        fast.next=dummy.next;
+>        dummy.next=slow.next;
+>        slow.next=null;
+>        return dummy.next;
+>    }
+>}
+>```
+>
+>## 
 
 ## 86分隔链表
 
-1. 给你一个链表的头节点 head 和一个特定值 x ，请你对链表进行分隔，使得所有 小于 x 的节点都出现在 大于或等于 x 的节点之前。
+>给你一个链表的头节点 head 和一个特定值 x ，请你对链表进行分隔，使得所有 小于 x 的节点都出现在 大于或等于 x 的节点之前。
+>
+>你应当 保留 两个分区中每个节点的初始相对位置。
+>链接：https://leetcode-cn.com/problems/partition-list
+>
+>思路：起两个新链表，拼起来
+>
+>```java
+>public ListNode partition(ListNode head, int x) {
+>        ListNode fakeNode1=new ListNode(-1);
+>        ListNode fakeNode2=new ListNode(-1);
+>        ListNode cur1=fakeNode1,cur2=fakeNode2;
+>        while(head!=null){
+>            if(head.val<x){
+>                cur1.next=head;
+>                cur1=head;
+>            }else{
+>                cur2.next=head;
+>                cur2=head;
+>            }
+>            head=head.next;
+>        }
+>        cur1.next=fakeNode2.next;
+>        cur2.next=null;
+>        return fakeNode1.next;
+>    }
+>```
+>
+>
 
-   你应当 保留 两个分区中每个节点的初始相对位置。
-   链接：https://leetcode-cn.com/problems/partition-list
+## 翻转链表
 
-   思路：起两个新链表，拼起来
+>```java
+>public ListNode reverseList(ListNode head) {
+>        if (head == null || head.next == null) {
+>            return head;
+>        }
+>        ListNode fakeNode = new ListNode(-1);
+>        fakeNode.next = head;
+>        ListNode p = head.next;
+>        while (p != null) {
+>            //head与p对调
+>            head.next = p.next;
+>            p.next = fakeNode.next;
+>            //fake重新指向节点头
+>            fakeNode.next = p;
+>            //p指向新的节点开始下一轮
+>            p = head.next;
+>        }
+>        return fakeNode.next;
+>    }
+>
+>    //递归方法
+>    /**
+>     * head next
+>     *   □→  □→   □→□→□→□→□→□→□→
+>     * */
+>    public ListNode reverseList2(ListNode head) {
+>        if (head == null || head.next == null) {
+>            return head;
+>        }
+>        ListNode next = head.next;
+>        ListNode newHead = reverseList2(next);
+>        next.next = head;
+>        head.next = null;
+>        return newHead;
+>    }
+>```
+>
+>
 
-   ```java
-   public ListNode partition(ListNode head, int x) {
-           ListNode fakeNode1=new ListNode(-1);
-           ListNode fakeNode2=new ListNode(-1);
-           ListNode cur1=fakeNode1,cur2=fakeNode2;
-           while(head!=null){
-               if(head.val<x){
-                   cur1.next=head;
-                   cur1=head;
-               }else{
-                   cur2.next=head;
-                   cur2=head;
-               }
-               head=head.next;
-           }
-           cur1.next=fakeNode2.next;
-           cur2.next=null;
-           return fakeNode1.next;
-       }
-   ```
+## 92翻转链表II
 
-   ## 翻转链表
-
-   ```java
-    public ListNode reverseList(ListNode head) {
-           if (head == null || head.next == null) {
-               return head;
-           }
-           ListNode fakeNode = new ListNode(-1);
-           fakeNode.next = head;
-           ListNode p = head.next;
-           while (p != null) {
-               //head与p对调
-               head.next = p.next;
-               p.next = fakeNode.next;
-               //fake重新指向节点头
-               fakeNode.next = p;
-               //p指向新的节点开始下一轮
-               p = head.next;
-           }
-           return fakeNode.next;
-       }
-   
-       //递归方法
-       /**
-        * head next
-        *   □→  □→   □→□→□→□→□→□→□→
-        * */
-       public ListNode reverseList2(ListNode head) {
-           if (head == null || head.next == null) {
-               return head;
-           }
-           ListNode next = head.next;
-           ListNode newHead = reverseList2(next);
-           next.next = head;
-           head.next = null;
-           return newHead;
-       }
-   ```
-   
-   
-   
-   ## 92翻转链表II
-   
-   给你单链表的头指针 head 和两个整数 left 和 right ，其中 left <= right 。请你反转从位置 left 到位置 right 的链表节点，返回 反转后的链表 。
-   
-   来源：力扣（LeetCode）
-   链接：https://leetcode-cn.com/problems/reverse-linked-list-ii
-   
-   ```java
-   public ListNode reverseBetween(ListNode head, int m, int n) {
-           ListNode fakeNode=new ListNode(-1);
-           fakeNode.next=head;
-           ListNode pre=new ListNode(-1);
-           pre=fakeNode;
-           for(int i=1;i<=m-1;i++)
-               pre=pre.next;
-           ListNode start=pre.next;
-           ListNode then=start.next;
-           for(int i=1;i<=n-m;i++){
-               start.next=then.next;
-               then.next=pre.next;
-               pre.next=then;
-               then=start.next;
-           }
-           return fakeNode.next;
-       }
-   ```
+>给你单链表的头指针 head 和两个整数 left 和 right ，其中 left <= right 。请你反转从位置 left 到位置 right 的链表节点，返回 反转后的链表 。
+>
+>来源：力扣（LeetCode）
+>链接：https://leetcode-cn.com/problems/reverse-linked-list-ii
+>
+>```java
+>public ListNode reverseBetween(ListNode head, int m, int n) {
+>        ListNode fakeNode=new ListNode(-1);
+>        fakeNode.next=head;
+>        ListNode pre=new ListNode(-1);
+>        pre=fakeNode;
+>        for(int i=1;i<=m-1;i++)
+>            pre=pre.next;
+>        ListNode start=pre.next;
+>        ListNode then=start.next;
+>        for(int i=1;i<=n-m;i++){
+>            start.next=then.next;
+>            then.next=pre.next;
+>            pre.next=then;
+>            then=start.next;
+>        }
+>        return fakeNode.next;
+>    }
+>```
+>
+>## 
 
 ## 25k个一组翻转链表
 
-```java
-class Solution {
-    public ListNode reverseKGroup(ListNode head, int k) {
-        ListNode hair = new ListNode(0);
-        hair.next = head;
-        ListNode pre = hair;
-
-        while (head != null) {
-            ListNode tail = pre;
-            // 查看剩余部分长度是否大于等于 k
-            for (int i = 0; i < k; ++i) {
-                tail = tail.next;
-                if (tail == null) {
-                    return hair.next;
-                }
-            }
-            ListNode nex = tail.next;
-            ListNode[] reverse = myReverse(head, tail);
-            head = reverse[0];
-            tail = reverse[1];
-            // 把子链表重新接回原链表
-            pre.next = head;
-            tail.next = nex;
-            pre = tail;
-            head = tail.next;
-        }
-
-        return hair.next;
-    }
-
-    //翻转从head到tail的链表，并且返回翻转后的头和尾
-    public ListNode[] myReverse(ListNode head, ListNode tail) {
-        ListNode prev = tail.next;
-        ListNode p = head;
-        while (prev != tail) {
-            ListNode nex = p.next;
-            p.next = prev;
-            prev = p;
-            p = nex;
-        }
-        return new ListNode[]{tail, head};
-    }
-}
-```
+>```java
+>class Solution {
+>    public ListNode reverseKGroup(ListNode head, int k) {
+>        ListNode hair = new ListNode(0);
+>        hair.next = head;
+>        ListNode pre = hair;
+>
+>        while (head != null) {
+>            ListNode tail = pre;
+>            // 查看剩余部分长度是否大于等于 k
+>            for (int i = 0; i < k; ++i) {
+>                tail = tail.next;
+>                if (tail == null) {
+>                    return hair.next;
+>                }
+>            }
+>            ListNode nex = tail.next;
+>            ListNode[] reverse = myReverse(head, tail);
+>            head = reverse[0];
+>            tail = reverse[1];
+>            // 把子链表重新接回原链表
+>            pre.next = head;
+>            tail.next = nex;
+>            pre = tail;
+>            head = tail.next;
+>        }
+>
+>        return hair.next;
+>    }
+>
+>    //翻转从head到tail的链表，并且返回翻转后的头和尾
+>    public ListNode[] myReverse(ListNode head, ListNode tail) {
+>        ListNode prev = tail.next;
+>        ListNode p = head;
+>        while (prev != tail) {
+>            ListNode nex = p.next;
+>            p.next = prev;
+>            prev = p;
+>            p = nex;
+>        }
+>        return new ListNode[]{tail, head};
+>    }
+>}
+>```
+>
+>
 
 ## 环形链表&相交链表
 
-```java
-//环形链表
-public class Solution {
-    public boolean hasCycle(ListNode head) {
-        if(head==null)return false;
-        ListNode walker=head;
-        ListNode runner=head;
-        while(walker.next!=null&&runner.next!=null&&runner.next.next!=null){
-        	walker=walker.next;
-        	runner=runner.next.next;
-        	if(walker==runner)return true;
-        }
-        return false;
-    }
-}
-//相交链表
-public class Solution {
-    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
-        ListNode p=headA;
-        ListNode q=headB;
-        while(p!=q){
-            p=p==null?headB:p.next;
-            q=q==null?headA:q.next;
-        }
-        return p;
-    }
-}
-```
+>```java
+>//环形链表
+>public class Solution {
+>    public boolean hasCycle(ListNode head) {
+>        if(head==null)return false;
+>        ListNode walker=head;
+>        ListNode runner=head;
+>        while(walker.next!=null&&runner.next!=null&&runner.next.next!=null){
+>        	walker=walker.next;
+>        	runner=runner.next.next;
+>        	if(walker==runner)return true;
+>        }
+>        return false;
+>    }
+>}
+>//相交链表
+>public class Solution {
+>    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+>        ListNode p=headA;
+>        ListNode q=headB;
+>        while(p!=q){
+>            p=p==null?headB:p.next;
+>            q=q==null?headA:q.next;
+>        }
+>        return p;
+>    }
+>}
+>```
+>
+>
+
+## 328奇偶链表
+
+>拆分两条链表即可然后拼起来即可
+>
+>```java
+>class Solution {
+>    public ListNode oddEvenList(ListNode head) {
+>        if(head==null || head.next==null){
+>            return head;
+>        }
+>        ListNode fake=new ListNode(-1);
+>        fake.next=head.next;
+>        ListNode odd=head, even=head.next;
+>        while(even!=null && even.next!=null){
+>            odd.next=even.next;
+>            odd=odd.next;
+>            even.next=odd.next;
+>            even=even.next;
+>        }
+>        odd.next=fake.next;
+>        return head;
+>    }
+>}
+>```
+>
+>
+
+## 138复制带随机指针的链表
+
+>
+>
+>```java
+>class Solution {
+>    public Node copyRandomList(Node head) {
+>        if(head == null){
+>            return null;
+>        }
+>        Node cur = head;
+>        HashMap<Node,Node> map = new HashMap<>();
+>        while(cur!=null){
+>            map.put(cur,new Node(cur.val));
+>            cur = cur.next;
+>        }
+>        cur=head;
+>        while(cur!=null){
+>            map.get(cur).next=map.get(cur.next);
+>            map.get(cur).random=map.get(cur.random);
+>            cur=cur.next;
+>        }
+>        return map.get(head);
+>    }
+>}
+>```
+>
+>
 
 # 树
 
@@ -824,11 +932,52 @@ public class Solution {
 >```java
 >class Solution {
 >    public int maxDepth(TreeNode root) {
->        if(root==null)return 0;
->        int leftHeight=maxDepth(root.left);
->        int rightHeight=maxDepth(root.right);
->        return leftHeight>rightHeight?leftHeight+1:rightHeight+1;
->    }
+>             if (root == null) {
+>                 return 0;
+>             }
+>             return Math.max(maxDepth(root.left), maxDepth(root.right)) + 1;
+>        }
+>}
+>```
+>
+>
+
+### 111最小深度
+
+>
+>
+>```java
+>public class Solution {
+>public int minDepth(TreeNode root) {
+>   if(root==null) {
+>			return 0;
+>		}
+>   if(root.left==null) {
+>			return minDepth(root.right)+1;
+>		}
+>   if(root.right==null) {
+>			return minDepth(root.left)+1;
+>		}
+>   return Math.min(minDepth(root.left),minDepth(root.right))+1;
+>}
+>public static void main(String[] args){
+>	TreeNode[] tr1=new TreeNode[7];
+>	 tr1[0]=new TreeNode(1);
+>	 tr1[1]=new TreeNode(2);
+>	 tr1[2]=new TreeNode(2);
+>	 tr1[3]=new TreeNode(3);
+>	 tr1[4]=new TreeNode(4);
+>	 tr1[5]=new TreeNode(4);
+>	 tr1[6]=new TreeNode(3);
+>	 tr1[0].left=tr1[1];
+>	 tr1[0].right=tr1[2];
+>	 tr1[1].left=tr1[3];
+>	 tr1[1].right=tr1[4];
+>	 tr1[2].left=tr1[6];
+>	 tr1[2].right=tr1[5];
+>	 Solution s=new Solution();
+>	 System.out.println(s.minDepth(tr1[0]));
+>}
 >}
 >```
 >
@@ -840,42 +989,41 @@ public class Solution {
 >
 >```java
 >public class Solution {
->    public boolean isBalanced(TreeNode root) {
->    	if(root==null) {
+>public boolean isBalanced(TreeNode root) {
+>	if(root==null) {
 >			return true;
 >		}
->    	int nleft=treeDepth(root.left);
->    	int nright=treeDepth(root.right);
->    	if(nleft-nright>1||nleft-nright<-1) {
+>	int nleft=treeDepth(root.left);
+>	int nright=treeDepth(root.right);
+>	if(nleft-nright>1||nleft-nright<-1) {
 >			return false;
 >		}
->        return isBalanced(root.left)&&isBalanced(root.right);
->    }
+>   return isBalanced(root.left)&&isBalanced(root.right);
+>}
 >	public int treeDepth(TreeNode root){
->			if(root==null) {
->				return 0;
->			}
->			int leftDepth=treeDepth(root.left);
->			int rightDepth=treeDepth(root.right);
->			return leftDepth>rightDepth?leftDepth+1:rightDepth+1;
->		} 	 
->	 public static void main(String[] args){
+>			if (root == null) {
+>            return 0;
+>        }
+>        return Math.max(treeDepth(root.left), treeDepth(root.right)) + 1;
+>  } 	 
+>	 
+>  public static void main(String[] args){
 >		 TreeNode[] tr1=new TreeNode[7];
->    	 tr1[0]=new TreeNode(1);
->    	 tr1[1]=new TreeNode(2);
->    	 tr1[2]=new TreeNode(2);
->    	 tr1[3]=new TreeNode(3);
->    	 tr1[4]=new TreeNode(4);
->    	 tr1[5]=new TreeNode(4);
->    	 tr1[6]=new TreeNode(3);
->    	 tr1[0].left=tr1[1];
->    	 //tr1[0].right=tr1[2];
->    	 tr1[1].left=tr1[3];
->    	 tr1[1].right=tr1[4];
->    	// tr1[2].left=tr1[6];
->    	 //tr1[2].right=tr1[5];
->    	 Solution s=new Solution();
->    	 System.out.println(s.isBalanced(tr1[0]));	 
+>	 tr1[0]=new TreeNode(1);
+>	 tr1[1]=new TreeNode(2);
+>	 tr1[2]=new TreeNode(2);
+>	 tr1[3]=new TreeNode(3);
+>	 tr1[4]=new TreeNode(4);
+>	 tr1[5]=new TreeNode(4);
+>	 tr1[6]=new TreeNode(3);
+>	 tr1[0].left=tr1[1];
+>	 //tr1[0].right=tr1[2];
+>	 tr1[1].left=tr1[3];
+>	 tr1[1].right=tr1[4];
+>	// tr1[2].left=tr1[6];
+>	 //tr1[2].right=tr1[5];
+>	 Solution s=new Solution();
+>	 System.out.println(s.isBalanced(tr1[0]));	 
 >	 }
 >}
 >```
@@ -953,20 +1101,22 @@ public class Solution {
 >
 > ```java
 > class Solution {
->    public List<List<Integer>> pathSum(TreeNode root, int sum) {
->         List<List<Integer>> result=new ArrayList<List<Integer>>();
->         backtrack(root, sum, new ArrayList<>(), result);
+>     List<List<Integer>> result=new ArrayList<List<Integer>>();
+>     List<Integer> tempList=new ArrayList<>();
+>     public List<List<Integer>> pathSum(TreeNode root, int targetSum) {
+>         backtrack(root, targetSum);
 >         return result;
->     }    
->     public void backtrack(TreeNode start,int sum,List<Integer> tempList,List<List<Integer>> res){
->         if(start==null)return;
->         tempList.add(start.val);
->         if(start.left==null&&start.right==null&&sum==start.val)
->             res.add(new ArrayList<>(tempList));
->         backtrack(start.left, sum-start.val, tempList, res);
->         backtrack(start.right, sum-start.val, tempList, res);
->         tempList.remove(tempList.size()-1);
 >     }
+> 
+>  public void backtrack(TreeNode start,int sum){
+>      if(start==null)return;
+>      tempList.add(start.val);
+>      if(start.left==null&&start.right==null&&sum==start.val)
+>          result.add(new ArrayList<>(tempList));
+>      backtrack(start.left, sum-start.val);
+>      backtrack(start.right, sum-start.val);
+>      tempList.remove(tempList.size()-1);
+>  }
 > }
 > ```
 >
@@ -1017,67 +1167,71 @@ public class Solution {
 
 ### 199二叉树的右视图
 
-思路：本质是层次遍历的变种，放入队列时从右往左放，放入结果集时只放第一个就行
-
-```java
-class Solution {
-    public List<Integer> rightSideView(TreeNode root) {
-        Queue<TreeNode> queue=new LinkedList<TreeNode>();
-        List<Integer> list=new ArrayList<Integer>();
-        if(root==null)return list;
-        queue.offer(root);
-        while(!queue.isEmpty()){
-            int size=queue.size();
-            list.add(queue.peek().val);
-            for(int i=0;i<size;i++){
-                TreeNode temp=queue.poll();
-                if(temp.right!=null)
-                    queue.offer(temp.right);
-                if(temp.left!=null)
-                    queue.offer(temp.left);
-            }
-        }
-        return list;
-    }
-}
-```
+>思路：本质是层次遍历的变种，放入队列时从右往左放，放入结果集时只放第一个就行
+>
+>```java
+>class Solution {
+>    public List<Integer> rightSideView(TreeNode root) {
+>        Queue<TreeNode> queue=new LinkedList<TreeNode>();
+>        List<Integer> list=new ArrayList<Integer>();
+>        if(root==null)return list;
+>        queue.offer(root);
+>        while(!queue.isEmpty()){
+>            int size=queue.size();
+>            list.add(queue.peek().val);
+>            for(int i=0;i<size;i++){
+>                TreeNode temp=queue.poll();
+>                if(temp.right!=null)
+>                    queue.offer(temp.right);
+>                if(temp.left!=null)
+>                    queue.offer(temp.left);
+>            }
+>        }
+>        return list;
+>    }
+>}
+>```
+>
+>
 
 ### 662二叉树最大宽度
 
-```java
-public int widthOfBinaryTree(TreeNode root) {
-        if (root == null) {
-            return 0;
-        }
-        LinkedList<TreeNode> queue = new LinkedList();
-        root.val = 1;
-        queue.addLast(root);
-        int maxWidth = 1;
-        while (!queue.isEmpty()) {
-            int size = queue.size();
-            int beginIndex = -1;
-            for (int i = 0; i < size; i++) {
-                if (queue.peek() != null) {
-                    TreeNode treeNode = queue.peek();
-                    if (treeNode.left != null) {
-                        treeNode.left.val = treeNode.val * 2;
-                        queue.offer(treeNode.left);
-                    }
-                    if (treeNode.right != null) {
-                        treeNode.right.val = treeNode.val * 2 + 1;
-                        queue.offer(treeNode.right);
-                    }
-                }
-                if (beginIndex == -1) {
-                    beginIndex = queue.pop().val;
-                } else {
-                    maxWidth = Math.max(queue.pop().val - beginIndex + 1, maxWidth);
-                }
-            }
-        }
-        return maxWidth;
-    }
-```
+>```java
+>public int widthOfBinaryTree(TreeNode root) {
+>        if (root == null) {
+>            return 0;
+>        }
+>        LinkedList<TreeNode> queue = new LinkedList();
+>        root.val = 1;
+>        queue.addLast(root);
+>        int maxWidth = 1;
+>        while (!queue.isEmpty()) {
+>            int size = queue.size();
+>            int beginIndex = -1;
+>            for (int i = 0; i < size; i++) {
+>                if (queue.peek() != null) {
+>                    TreeNode treeNode = queue.peek();
+>                    if (treeNode.left != null) {
+>                        treeNode.left.val = treeNode.val * 2;
+>                        queue.offer(treeNode.left);
+>                    }
+>                    if (treeNode.right != null) {
+>                        treeNode.right.val = treeNode.val * 2 + 1;
+>                        queue.offer(treeNode.right);
+>                    }
+>                }
+>                if (beginIndex == -1) {
+>                    beginIndex = queue.pop().val;
+>                } else {
+>                    maxWidth = Math.max(queue.pop().val - beginIndex + 1, maxWidth);
+>                }
+>            }
+>        }
+>        return maxWidth;
+>    }
+>```
+>
+>
 
 ### 114二叉树展开为链表
 
@@ -1105,25 +1259,27 @@ public int widthOfBinaryTree(TreeNode root) {
 
 ### 958二叉树的完全性检验
 
-```java
-class Solution {
-    public boolean isCompleteTree(TreeNode root) {
-        LinkedList<TreeNode> q = new LinkedList<>();
-        TreeNode cur;
-        q.addLast(root);
-        while ((cur = q.removeFirst()) != null) {
-            q.addLast(cur.left);
-            q.addLast(cur.right);
-        }
-        while (!q.isEmpty()) {
-            if (q.removeLast() != null) {
-                return false;
-            }
-        }
-        return true;
-    }
-}
-```
+>```java
+>class Solution {
+>    public boolean isCompleteTree(TreeNode root) {
+>        LinkedList<TreeNode> q = new LinkedList<>();
+>        TreeNode cur;
+>        q.addLast(root);
+>        while ((cur = q.removeFirst()) != null) {
+>            q.addLast(cur.left);
+>            q.addLast(cur.right);
+>        }
+>        while (!q.isEmpty()) {
+>            if (q.removeLast() != null) {
+>                return false;
+>            }
+>        }
+>        return true;
+>    }
+>}
+>```
+>
+>
 
 ### 226翻转二叉树
 
@@ -1164,38 +1320,6 @@ class Solution {
 >        root.right = left;
 >        return root;
 >    }
->}
->```
->
->
-
-### 543二叉树的直径
-
->示例 :
->给定二叉树
->
->​	1
->​	/ \
->
->   2   3
->  / \     
-> 4   5    
->返回 3, 它的长度是路径 [4,2,1,3] 或者 [5,2,1,3]。
->
->```java
->class Solution {
->int max=0;
->public int diameterOfBinaryTree(TreeNode root) {
->   helper(root);
->   return max;
->}
->public int helper (TreeNode root) {
->	if (root==null)return 0;
->	int left=helper(root.left);
->	int right=helper(root.right);
->	max=Math.max(max, right+left);//这里是要有几个树枝而不是有几个数
->	return Math.max(left, right)+1;
->}
 >}
 >```
 >
@@ -1322,47 +1446,6 @@ class Solution {
 >    }
 >}
 >```
-
-### 111最小深度
-
->
->
->```java
->public class Solution {
->public int minDepth(TreeNode root) {
->        if(root==null) {
->			return 0;
->		}
->        if(root.left==null) {
->			return minDepth(root.right)+1;
->		}
->        if(root.right==null) {
->			return minDepth(root.left)+1;
->		}
->        return Math.min(minDepth(root.left),minDepth(root.right))+1;
->    }
->public static void main(String[] args){
->	TreeNode[] tr1=new TreeNode[7];
->	 tr1[0]=new TreeNode(1);
->	 tr1[1]=new TreeNode(2);
->	 tr1[2]=new TreeNode(2);
->	 tr1[3]=new TreeNode(3);
->	 tr1[4]=new TreeNode(4);
->	 tr1[5]=new TreeNode(4);
->	 tr1[6]=new TreeNode(3);
->	 tr1[0].left=tr1[1];
->	 tr1[0].right=tr1[2];
->	 tr1[1].left=tr1[3];
->	 tr1[1].right=tr1[4];
->	 tr1[2].left=tr1[6];
->	 tr1[2].right=tr1[5];
->	 Solution s=new Solution();
->	 System.out.println(s.minDepth(tr1[0]));
->}
->}
->```
->
->
 
 ### 404统计左叶子节点的和
 
@@ -1494,6 +1577,81 @@ class Solution {
 >		 Solution s=new Solution();
 >		 System.out.println(s.findSecondMinimumValue(tr1[0]));
 >	}
+>}
+>```
+>
+>
+
+### 找出从根节点到指定节点的路径
+
+>```java
+>public class Solution {
+>    public static void main(String[] args) {
+>        TreeNode[] tr = new TreeNode[7];
+>        tr[0] = new TreeNode(1);
+>        tr[1] = new TreeNode(2);
+>        tr[2] = new TreeNode(3);
+>        tr[3] = new TreeNode(4);
+>        tr[4] = new TreeNode(5);
+>        tr[5] = new TreeNode(6);
+>        tr[6] = new TreeNode(7);
+>        tr[0].left = tr[1];
+>        tr[0].right = tr[2];
+>        tr[1].left = tr[3];
+>        tr[1].right = tr[4];
+>        tr[2].left = tr[5];
+>        tr[2].right = tr[6];
+>        ArrayList<TreeNode> treeNodes = new ArrayList<>();
+>        Solution solution = new Solution();
+>        solution.getPath(tr[0], tr[4], treeNodes);
+>        for (TreeNode treeNode : treeNodes) {
+>            System.out.println(treeNode.val);
+>        }
+>    }
+>
+>    public boolean getPath(TreeNode root, TreeNode node, List<TreeNode> path) {
+>        if (root == node) {
+>            return true;
+>        }
+>        path.add(root);
+>        boolean found = false;
+>        if (root.left != null) {
+>            found = getPath(root.left, node, path);
+>        }
+>        if (!found && root.right != null) {
+>            found = getPath(root.right, node, path);
+>        }
+>        if (!found) {
+>            path.remove(path.size() - 1);
+>        }
+>        return found;
+>    }
+>}
+>```
+>
+>
+
+## 求从根节点到所有叶节点的路径
+
+>
+>
+>```java
+>public class Solution {
+>    List<List<Integer>> result = new ArrayList<>();
+>    List<Integer> tempList = new ArrayList<>();
+>
+>    public void backTrack(TreeNode root) {
+>        if (root == null) {
+>            return;
+>        }
+>        tempList.add(root.val);
+>        if (root.left == null && root.right == null) {
+>            result.add(new ArrayList<>(tempList));
+>        }
+>        backTrack(root.left);
+>        backTrack(root.right);
+>        tempList.remove(tempList.size() - 1);
+>    }
 >}
 >```
 >
@@ -2105,6 +2263,43 @@ public class PostOrder {
 >        int[] a = s.findMode(tr1[0]);
 >        for (int aa : a) {
 >            System.out.println(aa);
+>        }
+>    }
+>}
+>```
+>
+>
+
+## 二叉树迭代器
+
+>实现一个二叉搜索树迭代器类`BSTIterator` ，表示一个按中序遍历二叉搜索树（BST）的迭代器：
+>
+>- `BSTIterator(TreeNode root)` 初始化 `BSTIterator` 类的一个对象。BST 的根节点 `root` 会作为构造函数的一部分给出。指针应初始化为一个不存在于 BST 中的数字，且该数字小于 BST 中的任何元素。
+>- `boolean hasNext()` 如果向指针右侧遍历存在数字，则返回 `true` ；否则返回 `false` 。
+>- `int next()`将指针向右移动，然后返回指针处的数字。
+>
+>```java
+>class BSTIterator {
+>    Stack<TreeNode> stack=new Stack<TreeNode>();
+>    public BSTIterator(TreeNode root) {
+>        pushAll(root);
+>    }
+>    
+>    /** @return the next smallest number */
+>    public int next() {
+>        TreeNode temp=stack.pop();
+>        pushAll(temp.right);
+>        return temp.val;
+>    }
+>    
+>    /** @return whether we have a next smallest number */
+>    public boolean hasNext() {
+>        return !stack.isEmpty();
+>    }
+>    public void pushAll(TreeNode node){
+>        while(node!=null){
+>            stack.push(node);
+>            node=node.left;
 >        }
 >    }
 >}
@@ -3674,7 +3869,7 @@ public int maxAreaOfIslandHelper(int[][] grid,int i,int j){
 >public class Solution {
 >    public static void main(String[] args) {
 >        int[] nums=new int[]{1,3,5,4,7};
->        int[] dp=new int[nums.length];//到当前值的上升子序列的长度
+>        int[] dp=new int[nums.length];//到当前值的上升子序列的最长长度
 >        int[] cnt=new int[nums.length];//到当前值的上升子序列的个数
 >        for(int i=0;i<nums.length;i++){
 >            dp[i]=1;
@@ -3728,18 +3923,20 @@ public int maxAreaOfIslandHelper(int[][] grid,int i,int j){
 >
 >```java
 >public int wiggleMaxLength(int[] nums) {
->    if (nums == null || nums.length == 0) {
->        return 0;
->    }
->    int up = 1, down = 1;
->    for (int i = 1; i < nums.length; i++) {
->        if (nums[i] > nums[i - 1]) {
->            up = down + 1;
->        } else if (nums[i] < nums[i - 1]) {
->            down = up + 1;
->        }
->    }
->    return Math.max(up, down);
+>if (nums == null || nums.length == 0) {
+>   return 0;
+>}
+>int up = 1, down = 1;
+>//up表示以当前数字结尾而且当前数字是波峰时的长度
+>//down表示以当前数字结尾而且当前数字是波谷时的长度
+>for (int i = 1; i < nums.length; i++) {
+>   if (nums[i] > nums[i - 1]) {
+>       up = down + 1;//比如这是一个递增序列，up一直保持在2，up增长需要依赖于down增长
+>   } else if (nums[i] < nums[i - 1]) {
+>       down = up + 1;//递减同理
+>   }
+>}
+>return Math.max(up, down);
 >}
 >```
 >
@@ -3825,38 +4022,38 @@ public int maxAreaOfIslandHelper(int[][] grid,int i,int j){
 >
 >```java
 >public class solution {
->    public static void main(String[] args) {
->        String str="babad";
->        int strLength=str.length();
->        if(strLength<2){
->            System.out.println(str);
->        }
->        int maxLen=1;
->        int begin=0;
->        boolean[][] dp=new boolean[strLength][strLength];
->        for(int i=strLength-1;i>=0;i--){
->            for(int j=i;j<strLength;j++){
->                if(i==j){
->                    //单个字母一定是回文字符串
->                    dp[i][j]=true;
->                }else {
-> //字母i与字母j一样，长度小于2时一定是回文，长度不小于2那就追溯退掉这俩字母的中间串;核心逻辑
->                    dp[i][j] = (str.charAt(i) == str.charAt(j)) && (j - i + 1 <= 2 || dp[i + 1][j - 1]);
->                }
->                if (dp[i][j] && j - i + 1 > maxLen) {
->                    maxLen = j - i + 1;//标记最长
->                    begin = i;//标记开始位置
->                }
->            }
->        }
->        for(int i=0;i<strLength;i++){
->            for(int j=0;j<strLength;j++){
->                System.out.print(dp[i][j]+" ");
->            }
->            System.out.println();
->        }
->        System.out.println(str.substring(begin,begin+maxLen));
->    }
+>public static void main(String[] args) {
+>   String str="babad";
+>   int strLength=str.length();
+>   if(strLength<2){
+>       System.out.println(str);
+>   }
+>   int maxLen=1;
+>   int begin=0;
+>   boolean[][] dp=new boolean[strLength][strLength];
+>   for(int i=strLength-1;i>=0;i--){
+>       for(int j=i;j<strLength;j++){
+>           if(i==j){
+>               //单个字母一定是回文字符串
+>               dp[i][j]=true;
+>           }else {
+>//字母i与字母j一样，长度小于2时一定是回文，长度不小于2那就追溯退掉这俩字母的中间串;核心逻辑
+>               dp[i][j] = (str.charAt(i) == str.charAt(j)) && (j - i + 1 <= 2 || dp[i + 1][j - 1]);
+>           }
+>           if (dp[i][j] && j - i + 1 > maxLen) {
+>               maxLen = j - i + 1;//标记最长
+>               begin = i;//标记开始位置
+>           }
+>       }
+>   }
+>   for(int i=0;i<strLength;i++){
+>       for(int j=0;j<strLength;j++){
+>           System.out.print(dp[i][j]+" ");
+>       }
+>       System.out.println();
+>   }
+>   System.out.println(str.substring(begin,begin+maxLen));
+>}
 >}
 >```
 >
@@ -3867,43 +4064,76 @@ public int maxAreaOfIslandHelper(int[][] grid,int i,int j){
 >| 2b       |      |      | T    |      |      |
 >| 3a       |      |      |      | T    |      |
 >| 4d       |      |      |      |      | T    |
+>
+>```java
+>//另一种方法，中心扩展法
+>class Solution {
+>    public String longestPalindrome(String s) {
+>        if (s == null || s.length() < 1) {
+>            return "";
+>        }
+>        int start = 0, end = 0;
+>        for (int i = 0; i < s.length(); i++) {
+>            int len1 = expandAroundCenter(s, i, i);
+>            int len2 = expandAroundCenter(s, i, i + 1);
+>            int len = Math.max(len1, len2);
+>            if (len > end - start) {
+>                start = i - (len - 1) / 2;
+>                end = i + len / 2;
+>            }
+>        }
+>        return s.substring(start, end + 1);
+>    }
+>
+>    public int expandAroundCenter(String s, int left, int right) {
+>        while (left >= 0 && right < s.length() && s.charAt(left) == s.charAt(right)) {
+>            --left;
+>            ++right;
+>        }
+>        return right - left - 1;
+>    }
+>}
+>```
+>
+>
 
 ### 最长回文子序列
 
 >```java
 >class Solution {
->    public int longestPalindromeSubseq(String s) {
->        if (s == null || s.length() == 0) {
->            return 0;
->        }
->        int[][] dp = new int[s.length()][s.length()];
->        int maxLen = 1;
->        for (int i = s.length() - 1; i >= 0; i--) {
->            for (int j = i; j < s.length(); j++) {
->                if (j == i) {
->                    dp[i][j] = 1;
->                } else if (j == i + 1) {
->                    dp[i][j] = s.charAt(i) == s.charAt(j) ? 2 : 1;
->                    if (dp[i][j] > maxLen) {
->                        maxLen = dp[i][j];
->                    }
->                } else {
->                    dp[i][j] = s.charAt(i) == s.charAt(j) ? dp[i + 1][j - 1] + 2 :
->                            Math.max(Math.max(dp[i + 1][j - 1],dp[i+1][j]),dp[i][j-1]);
->                    if (dp[i][j] > maxLen) {
->                        maxLen = dp[i][j];
->                    }
->                }
->            }
->        }
->        /*for (int[] ints : dp) {
->            for (int anInt : ints) {
->                System.out.print(anInt + " ");
->            }
->            System.out.println();
->        }*/
->        return maxLen;
->    }
+>public int longestPalindromeSubseq(String s) {
+>   if (s == null || s.length() == 0) {
+>       return 0;
+>   }
+>   //dp[i][j]代表从i到j的序列的最长回文子序列
+>   int[][] dp = new int[s.length()][s.length()];
+>   int maxLen = 1;
+>   for (int i = s.length() - 1; i >= 0; i--) {
+>       for (int j = i; j < s.length(); j++) {
+>           if (j == i) {
+>               dp[i][j] = 1;
+>           } else if (j == i + 1) {
+>               dp[i][j] = s.charAt(i) == s.charAt(j) ? 2 : 1;
+>               if (dp[i][j] > maxLen) {
+>                   maxLen = dp[i][j];
+>               }
+>           } else {
+>               dp[i][j] = s.charAt(i) == s.charAt(j) ? dp[i + 1][j - 1] + 2 :
+>                       Math.max(Math.max(dp[i + 1][j - 1],dp[i+1][j]),dp[i][j-1]);
+>               if (dp[i][j] > maxLen) {
+>                   maxLen = dp[i][j];
+>               }
+>           }
+>       }
+>   }
+>   /*for (int[] ints : dp) {
+>       for (int anInt : ints) {
+>           System.out.print(anInt + " ");
+>       }
+>       System.out.println();
+>   }*/
+>   return maxLen;
+>}
 >}
 >```
 >
@@ -4125,18 +4355,19 @@ public int maxAreaOfIslandHelper(int[][] grid,int i,int j){
 >// weights 数组存储 N 个物品的重量
 >// values 数组存储 N 个物品的价值
 >public int knapsack(int W, int N, int[] weights, int[] values) {
->    int[][] dp = new int[N + 1][W + 1];
->    for (int i = 1; i <= N; i++) {
->        int w = weights[i - 1], v = values[i - 1];
->        for (int j = 1; j <= W; j++) {
->            if (j >= w) {
->                dp[i][j] = Math.max(dp[i - 1][j], dp[i - 1][j - w] + v);
->            } else {
->                dp[i][j] = dp[i - 1][j];
->            }
->        }
->    }
->    return dp[N][W];
+>   int[][] dp = new int[N + 1][W + 1];
+>   for (int i = 1; i <= N; i++) {
+>       int w = weights[i - 1], v = values[i - 1];
+>       for (int j = 1; j <= W; j++) {
+>           if (j >= w) {
+>               //当前最大值要么不放这个物品，要么放这个物品，取决于哪个大
+>               dp[i][j] = Math.max(dp[i - 1][j], dp[i - 1][j - w] + v);
+>           } else {
+>               dp[i][j] = dp[i - 1][j];
+>           }
+>       }
+>   }
+>   return dp[N][W];
 >}
 >```
 >
@@ -4146,16 +4377,16 @@ public int maxAreaOfIslandHelper(int[][] grid,int i,int j){
 >
 >```java
 >public int knapsack(int W, int N, int[] weights, int[] values) {
->    int[] dp = new int[W + 1];
->    for (int i = 1; i <= N; i++) {
->        int w = weights[i - 1], v = values[i - 1];
->        for (int j = W; j >= 1; j--) {
->            if (j >= w) {
->                dp[j] = Math.max(dp[j], dp[j - w] + v);
->            }
->        }
->    }
->    return dp[W];
+>   int[] dp = new int[W + 1];
+>   for (int i = 1; i <= N; i++) {
+>       int w = weights[i - 1], v = values[i - 1];
+>       for (int j = W; j >= 1; j--) {
+>           if (j >= w) {
+>               dp[j] = Math.max(dp[j], dp[j - w] + v);
+>           }
+>       }
+>   }
+>   return dp[W];
 >}
 >```
 >
@@ -4172,13 +4403,13 @@ public int maxAreaOfIslandHelper(int[][] grid,int i,int j){
 >public boolean canPartition(int[] nums) {
 >        int sum = computeArraySum(nums);
 >        if (sum % 2 != 0) {
->               return false;
+>            return false;
 >        }
 >        int W = sum / 2;
 >        boolean[] dp = new boolean[W + 1];//存不存在这种组合
 >        dp[0] = true;
 >        for (int num : nums) {// 0-1 背包一个物品只能用一次
->   //顺序计算的话会覆盖前边的值，只计算到num是为了使i - num不越界
+>              //顺序计算的话会覆盖前边的值，只计算到num是为了使i - num不越界
 >               for (int i = W; i >= num; i--) {   // 从后往前，先计算 dp[i] 再计算 dp[i-num]
 >                     dp[i] = dp[i] || dp[i - num];
 >               }
@@ -4286,40 +4517,42 @@ public int maxAreaOfIslandHelper(int[][] grid,int i,int j){
 >```java
 >public class Solution {
 >public static void main(String[] args) {
->   int amount=27;
->   int[] coins=new int[]{2,5,10,1};
->   int[] dp=new int[amount+1];
->   Arrays.fill(dp,amount+1);//用来判断能否满足条件
->   dp[0]=0;
->   for(int i=1;i<=amount;i++){
->       for(int j=0;j<coins.length;j++){
->           if(i>=coins[j]){
->               dp[i]=Math.min(dp[i], dp[i-coins[j]]+1);
->           }
->       }
->   }
->   for(int i=0;i<dp.length;i++){
->       System.out.print(dp[i]+" ");
->   }
->   System.out.println(dp[amount]>amount?-1:dp[amount]);
+>int amount=27;
+>int[] coins=new int[]{2,5,10,1};
+>int[] dp=new int[amount+1];
+>Arrays.fill(dp,amount+1);//用来判断能否满足条件
+>dp[0]=0;
+>for(int i=1;i<=amount;i++){
+>  for(int j=0;j<coins.length;j++){
+>      if(i>=coins[j]){
+>          dp[i]=Math.min(dp[i], dp[i-coins[j]]+1);
+>      }
+>  }
+>}
+>for(int i=0;i<dp.length;i++){
+>  System.out.print(dp[i]+" ");
+>}
+>System.out.println(dp[amount]>amount?-1:dp[amount]);
 >}
 >}
 >
 >public int coinChange(int[] coins, int amount) {
->        if (amount == 0 || coins == null) return 0;
->        int[] dp = new int[amount + 1];
->        for (int coin : coins) {
->            for (int i = coin; i <= amount; i++) {//从coin开始算，比coin小的也不可能再优化了
->                if (coin == i) {
->                    dp[i] = 1;
->                } else if (dp[i - coin] != 0 && dp[i] == 0) {
->                    dp[i] = dp[i - coin] + 1;
->                } else if (dp[i - coin] != 0) {
->                    dp[i] = Math.min(dp[i], dp[i - coin] + 1);
->                }
->            }
->        }
->        return dp[amount] == 0 ? -1 : dp[amount];
+>   if (amount == 0 || coins == null) return 0;
+>   int[] dp = new int[amount + 1];
+>   for (int coin : coins) {
+>       for (int i = coin; i <= amount; i++) {//从coin开始算，比coin小的也不可能再优化了
+>           if (coin == i) {
+>               dp[i] = 1;
+>            //dp[i]=0说明还没被计算过
+>           } else if (dp[i - coin] != 0 && dp[i] == 0) {
+>               dp[i] = dp[i - coin] + 1;
+>           //dp[i]!=0说明计算过了，要取最小值以免被覆盖
+>           } else if (dp[i - coin] != 0) {
+>               dp[i] = Math.min(dp[i], dp[i - coin] + 1);
+>           }
+>       }
+>   }
+>   return dp[amount] == 0 ? -1 : dp[amount];
 >}
 >```
 >
@@ -5160,12 +5393,6 @@ public int maxAreaOfIslandHelper(int[][] grid,int i,int j){
 
 # 贪心
 
-## 买卖股票II
-
->思路：只需要在有利润的时候就卖出，只要后一天比前一天价格高就交易
->
->
-
 ## 分饼干
 
 >思路：优先满足胃口大的，排序两个数组，从右到左遍历，用大饼干首先满足胃口大的小孩
@@ -5182,6 +5409,62 @@ public int maxAreaOfIslandHelper(int[][] grid,int i,int j){
 >
 >思路：先计算最多能组成的不重叠区间个数，然后用区间总个数减去不重叠区间的个数。在每次选择中，区间的结尾最为重要，选择的区间结尾越小，留给后面的区间的空间越大，那么后面能够选择的区间个数也就越大。
 >
+>```java
+>class Solution {
+>    public int eraseOverlapIntervals(int[][] intervals) {
+>        if (intervals.length == 0) {
+>            return 0;
+>        }
+>        
+>        Arrays.sort(intervals, new Comparator<int[]>() {
+>            public int compare(int[] interval1, int[] interval2) {
+>                return interval1[1] - interval2[1];
+>            }
+>        });
+>
+>        int n = intervals.length;
+>        int right = intervals[0][1];
+>        int ans = 1;
+>        for (int i = 1; i < n; ++i) {
+>            if (intervals[i][0] >= right) {
+>                ++ans;
+>                right = intervals[i][1];
+>            }
+>        }
+>        return n - ans;
+>    }
+>}
+>```
+>
+>
+
+## 合并区间
+
+>输入：intervals = [[1,3],[2,6],[8,10],[15,18]]
+>输出：[[1,6],[8,10],[15,18]]
+>解释：区间 [1,3] 和 [2,6] 重叠, 将它们合并为 [1,6].
+>
+>```java
+>class Solution {
+>    public int[][] merge(int[][] intervals) {
+>        ArrayList<int[]> res = new ArrayList<>();
+>        Arrays.sort(intervals, Comparator.comparingInt(o -> o[0]));
+>        int start = intervals[0][0], end = intervals[0][1];
+>        for (int i = 1; i < intervals.length; i++) {
+>            if (intervals[i][0] <= end) {
+>                end = Math.max(intervals[i][1],end);
+>            } else {
+>                res.add(new int[]{start, end});
+>                start = intervals[i][0];
+>                end = intervals[i][1];
+>            }
+>        }
+>        res.add(new int[]{start, end});
+>        return res.toArray(new int[res.size()][]);
+>    }
+>}
+>```
+>
 >
 
 ## 跳跃游戏
@@ -5191,6 +5474,24 @@ public int maxAreaOfIslandHelper(int[][] grid,int i,int j){
 >解释：可以先跳 1 步，从下标 0 到达下标 1, 然后再从下标 1 跳 3 步到达最后一个下标。
 >
 >思路：不用考虑每一步跳跃到那个位置，而是尽可能的跳跃到最远的位置，看最多能覆盖的位置，不断更新能覆盖的距离。
+>
+>```java
+>class Solution {
+>    public boolean canJump(int[] nums) {
+>        int currentMaxLength=0;
+>        for(int i=0;i<nums.length;i++){
+>            if(i>currentMaxLength){
+>                return false;
+>            }
+>            if(currentMaxLength>=nums.length){
+>                return true;
+>            }
+>            currentMaxLength=Math.max(currentMaxLength, i+nums[i]);
+>        }
+>        return true;
+>    }
+>}
+>```
 >
 >
 
@@ -5423,8 +5724,6 @@ public int binarySearch(int[] nums,int x){
 >```
 >
 >
-
-
 
 # 滑动窗口
 
