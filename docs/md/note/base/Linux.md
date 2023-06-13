@@ -123,6 +123,14 @@ https://mp.weixin.qq.com/s?__biz=MzkwODE5ODM0Ng==&mid=2247488406&idx=1&sn=93e243
     awk '{print $1,$4}' temp.txt # 输出文件每行的第一项与第四项
     ```
 
+12. tail与grep连用查看日志
+
+    ```java
+    tail -f catalina.out | grep --line-buffer "发送邮件" //只打印满足条件的
+    tail -f sss.txt | grep --line-buffer -E '12345|nbsx' //满足任意一个条件
+    tail -f sss.txt | grep --line-buffer '12345' | grep --line-buffer 'nbsz'//同时满足两个条件
+    ```
+    
     
 
 ## Shell

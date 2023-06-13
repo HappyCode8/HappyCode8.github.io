@@ -41,6 +41,7 @@
   - [Git使用](/md/note/tool/git.md)
   - [Docker](/md/note/tool/Docker.md)
   - [IDEA](/md/note/tool/IDEA.md)
+  - Maven(/md/note/tool/Maven.md)
   - [测试与压测](/md/note/tool/RequestPressure.md)
 
 ### ⭐️️读书笔记
