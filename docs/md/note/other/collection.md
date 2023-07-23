@@ -40,3 +40,4 @@
 | **电影**      | [蓝光影院](https://lgyy.cc/)                                 |                                                |                                                              |                                                              |
 | **二次元ACG** | [随机ACG](https://blog.jixiaob.cn/?post=93)                  |                                                |                                                              |                                                              |
 
+https://rentry.org/sdmodels

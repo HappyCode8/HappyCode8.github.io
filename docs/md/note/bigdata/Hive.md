@@ -1,4 +1,7 @@
+## 常用函数
+
 - 提取json数组中的所有相同字段
+
 > instr(get_json_object(call_back,'$.history[*].nluIntent'),'ruma'),但是这个要用Spark引擎(stable.level=5)
 
 - 聚类时非聚类字段处理方式
@@ -7,6 +10,10 @@
 - 提取某个字符串出现两次
 
   >`get_json_object(call_back, '$.history[*].source') REGEXP 'user.*user'`
+  
+- 取第一个非空字段
+
+  >nvl
 
 ## 开窗函数
 
@@ -47,6 +54,3 @@
 >
 >2. cd /usr/local/Cellar/hadoop/3.3.1/libexec/sbin ./start-all.sh
 >
->   ./start-all.sh
->
->3. 

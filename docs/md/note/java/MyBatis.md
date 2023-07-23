@@ -196,6 +196,120 @@ user.getId;
 - 使用foreach标签
 - 使用ExecutorType.BATCH
 
+## mybatis-generator
+
+maven插件
+
+```xml
+<build>
+        <plugins>
+            <plugin>
+                <groupId>org.mybatis.generator</groupId>
+                <artifactId>mybatis-generator-maven-plugin</artifactId>
+                <version>${mybatis-generator.version}</version>
+                <configuration>
+                    <verbose>true</verbose>
+                    <overwrite>true</overwrite>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.mybatis.generator</groupId>
+                        <artifactId>mybatis-generator-core</artifactId>
+                        <version>${mybatis-generator.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>mysql</groupId>
+                        <artifactId>mysql-connector-java</artifactId>
+                        <version>${mysql-driver.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>com.softwareloop</groupId>
+                        <artifactId>mybatis-generator-lombok-plugin</artifactId>
+                        <version>1.0</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+        </plugins>
+    </build>
+```
+
+配置文件，放在resourcs文件夹下
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<!-- 配置生成器 -->
+<generatorConfiguration>
+
+    <context id="mysql" targetRuntime="MyBatis3">
+
+        <!--true自动给表名加反引号关键字-->
+        <property name="autoDelimitKeywords" value="false"/>
+        <property name="javaFileEncoding" value="UTF-8"/>
+        <property name="javaFormatter" value="org.mybatis.generator.api.dom.DefaultJavaFormatter"/>
+        <property name="xmlFormatter" value="org.mybatis.generator.api.dom.DefaultXmlFormatter"/>
+        <property name="beginningDelimiter" value="`"/>
+        <property name="endingDelimiter" value="`"/>
+
+        <!--实现序列化接口-->
+        <!--<plugin type="org.mybatis.generator.plugins.SerializablePlugin">
+            <property name="suppressJavaInterface" value="false"/>
+        </plugin>-->
+        <!--重写equal和hashcode方法-->
+        <!--<plugin type="org.mybatis.generator.plugins.EqualsHashCodePlugin"/>-->
+        <plugin type="com.softwareloop.mybatis.generator.plugins.LombokPlugin" >
+            <property name="hasLombok" value="true"/>
+            <!--<property name="accessors" value="true"/>-->
+            <property name="builder" value="true"/>
+            <property name="builder.fluent" value="true"/>
+        </plugin>
+
+        <commentGenerator>
+            <!--是否取消注释-->
+            <property name="suppressAllComments" value="true"/>
+            <!--是否生成注释带时间戳-->
+            <property name="suppressDate" value="true"/>
+        </commentGenerator>
+
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                        connectionURL="jdbc:mysql://localhost:3306/test?useUnicode=true&amp;characterEncoding=utf-8&amp;useSSL=false"
+                        userId="root"
+                        password="20131983"/>
+
+        <javaTypeResolver type="org.mybatis.generator.internal.types.JavaTypeResolverDefaultImpl">
+            <!--是否强制将DECIMAL和NUMERIC类型的JDBC字段转换为Java类型的BigDecimal-->
+            <property name="forceBigDecimals" value="false"/>
+        </javaTypeResolver>
+
+        <javaModelGenerator targetPackage="com.wyj.entity"
+                            targetProject="/Users/wyj/Desktop/java"/>
+
+        <sqlMapGenerator targetPackage="mappers"
+                         targetProject="/Users/wyj/Desktop/java/xml"/>
+
+        <javaClientGenerator type="XMLMAPPER"
+                             targetPackage="com.wyj.mapper"
+                             implementationPackage="com.wyj.mapper.impl"
+                             targetProject="/Users/wyj/Desktop/java"/>
+
+        <table tableName="testgen_%">
+            <generatedKey column="id" sqlStatement="mysql" identity="true"/>
+            <!--将所有以test开头的对象都替换成空字符串-->
+            <domainObjectRenamingRule searchString="^Test" replaceString=""/>
+            <!--将is_visible都替换成visible-->
+            <columnRenamingRule searchString="is_visible" replaceString="visible"/>
+            <columnOverride column="add_time" javaType="LocalDateTime" isGeneratedAlways="true"/>
+            <columnOverride column="update_time" javaType="LocalDateTime" isGeneratedAlways="true"/>
+            <!--枚举转换-->
+            <columnOverride column="user_type" jdbcType="VARCHAR" javaType="com.enums.UserType"/>
+        </table>
+    </context>
+
+</generatorConfiguration>
+```
+
 # 问题
 
 ## #与$符的区别
