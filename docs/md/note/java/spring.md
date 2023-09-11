@@ -1676,7 +1676,7 @@ public class Main {
   >    @Component
   >    @ConfigurationProperties("jump.threadpool")
   >    public class ThreadPoolProperties {
-  >          
+  >             
   >      private int corePoolSize;
   >      private int maxPoolSize;
   >      private int keepAliveSeconds;
@@ -1727,6 +1727,372 @@ public class Main {
   >    @ConditionalOnBean：当容器里有指定的bean时生效@ConditionalOnMissingBean：当容器里不存在指定bean时生效@ConditionalOnClass：当类路径下有指定类时生效@ConditionalOnMissingClass：当类路径下不存在指定类时生效@ConditionalOnProperty：指定的属性是否有指定的值，比如@ConditionalOnProperties(prefix=”xxx.xxx”, value=”enable”, matchIfMissing=true)，代表当xxx.xxx为enable时条件的布尔值为true，如果没有设置的情况下也为true。
   >    ```
 
+# SpringStatemachine
+
+## 定义状态
+
+- 使用枚举类定义状态，继承EnumStateMachineConfigurerAdapter
+
+```java
+@Configuration
+@EnableStateMachine
+public class Config1Enums
+		extends EnumStateMachineConfigurerAdapter<States, Events> {
+
+	@Override
+	public void configure(StateMachineStateConfigurer<States, Events> states)
+			throws Exception {
+		states
+			.withStates()
+				.initial(States.S1)
+				.end(States.SF)
+				.states(EnumSet.allOf(States.class));
+	}
+}
+```
+
+- 使用字符串定义状态
+
+```java
+@Configuration
+@EnableStateMachine
+public class Config1Strings
+		extends StateMachineConfigurerAdapter<String, String> {
+
+	@Override
+	public void configure(StateMachineStateConfigurer<String, String> states)
+			throws Exception {
+		states
+			.withStates()
+				.initial("S1")
+				.end("SF")
+				.states(new HashSet<String>(Arrays.asList("S1","S2","S3","S4")));
+	}
+
+}
+```
+
+## 实例(订单发货)
+
+[参考](https://blog.csdn.net/m0_73311735/article/details/130703387?spm=1001.2101.3001.6650.1&utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-1-130703387-blog-128410470.235%5Ev38%5Epc_relevant_anti_vip_base&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-1-130703387-blog-128410470.235%5Ev38%5Epc_relevant_anti_vip_base&utm_relevant_index=2)
+
+- 状态
+
+```java
+public enum OrderStatus {
+    // 待支付，待发货，待收货，已完成
+    /**
+     * 待支付
+     * */
+    WAIT_PAYMENT,
+    /**
+     * 待发货
+     * */
+    WAIT_DELIVER,
+    /**
+     * 待收货
+     * */
+    WAIT_RECEIVE,
+    /**
+     * 已完成
+     * */
+    FINISH
+}
+```
+
+- 事件
+
+```java
+public enum OrderStatusChangeEvent {
+    /**
+     * 支付
+     * */
+    PAYED,
+    /**
+     * 发货
+     * */
+    DELIVERY,
+    /**
+     * 确认收货
+     * */
+    RECEIVED
+}
+```
+
+- 定义状态机
+
+```java
+@Configuration
+@EnableStateMachine(name = "orderStateMachine")
+public class OrderStateMachineConfig extends StateMachineConfigurerAdapter<OrderStatus, OrderStatusChangeEvent> {
+    /**
+     * 配置状态
+     *
+     * @param states
+     * @throws Exception
+     */
+    public void configure(StateMachineStateConfigurer<OrderStatus, OrderStatusChangeEvent> states) throws Exception {
+        states
+                .withStates()
+                .initial(OrderStatus.WAIT_PAYMENT)
+                .states(EnumSet.allOf(OrderStatus.class));
+    }
+    /**
+     * 配置状态转换事件关系
+     *
+     * @param transitions
+     * @throws Exception
+     */
+    public void configure(StateMachineTransitionConfigurer<OrderStatus, OrderStatusChangeEvent> transitions) throws Exception {
+        transitions
+                //支付事件:待支付-》待发货
+                .withExternal().source(OrderStatus.WAIT_PAYMENT).target(OrderStatus.WAIT_DELIVER).event(OrderStatusChangeEvent.PAYED)
+                .and()
+                //发货事件:待发货-》待收货
+                .withExternal().source(OrderStatus.WAIT_DELIVER).target(OrderStatus.WAIT_RECEIVE).event(OrderStatusChangeEvent.DELIVERY)
+                .and()
+                //收货事件:待收货-》已完成
+                .withExternal().source(OrderStatus.WAIT_RECEIVE).target(OrderStatus.FINISH).event(OrderStatusChangeEvent.RECEIVED);
+    }
+}
+```
+
+- 监听状态改变
+
+```java
+@Component("orderStateListener")
+@WithStateMachine(name = "orderStateMachine")
+@Slf4j
+public class OrderStateListener {
+    @Resource
+    private MockDB orderMapper;
+
+    @OnTransition(source = "WAIT_PAYMENT", target = "WAIT_DELIVER")
+    public void payTransition(Message<OrderStatusChangeEvent> message) {
+        Order order = (Order) message.getHeaders().get("order");
+        log.info("支付，状态机反馈信息：{}",  message.getHeaders().toString());
+        //更新订单
+        order.setStatus(OrderStatus.WAIT_DELIVER);
+        orderMapper.updateById(order);
+        //TODO 其他业务
+    }
+    @OnTransition(source = "WAIT_DELIVER", target = "WAIT_RECEIVE")
+    public void deliverTransition(Message<OrderStatusChangeEvent> message) {
+        Order order = (Order) message.getHeaders().get("order");
+        log.info("发货，状态机反馈信息：{}",  message.getHeaders().toString());
+        //更新订单
+        order.setStatus(OrderStatus.WAIT_RECEIVE);
+        orderMapper.updateById(order);
+        //TODO 其他业务
+    }
+    @OnTransition(source = "WAIT_RECEIVE", target = "FINISH")
+    public void receiveTransition(Message<OrderStatusChangeEvent> message) {
+        Order order = (Order) message.getHeaders().get("order");
+        log.info("确认收货，状态机反馈信息：{}",  message.getHeaders().toString());
+        //更新订单
+        order.setStatus(OrderStatus.FINISH);
+        orderMapper.updateById(order);
+        //TODO 其他业务
+    }
+}
+```
+
+- 持久化
+
+```java
+@Configuration
+@Slf4j
+public class Persist {
+
+    @Bean(name = "stateMachineMemPersister")
+    public StateMachinePersister<OrderStatus, OrderStatusChangeEvent, String> getPersister() {
+        return new DefaultStateMachinePersister<>(new StateMachinePersist<>() {
+            //<id、状态机>
+            private final Map<String, StateMachineContext<OrderStatus, OrderStatusChangeEvent>> map = new HashMap<>();
+
+            @Override
+            public void write(StateMachineContext<OrderStatus, OrderStatusChangeEvent> context, String contextObj) throws Exception {
+                log.info("持久化状态机,context:{},contextObj:{}", context, contextObj);
+                map.put(contextObj, context);
+            }
+
+
+            @Override
+            public StateMachineContext<OrderStatus, OrderStatusChangeEvent> read(String contextObj) throws Exception {
+                log.info("获取状态机,contextObj:{}", contextObj);
+                StateMachineContext<OrderStatus, OrderStatusChangeEvent> stateMachineContext = map.get(contextObj);
+                log.info("获取状态机结果,stateMachineContext:{}", stateMachineContext);
+                return stateMachineContext;
+            }
+        });
+    }
+}
+```
+
+- 其他
+
+```java
+@Data
+public class Order {
+    private Long id;
+    private String orderCode;
+    private OrderStatus status;
+    private String name;
+    private BigDecimal price;
+}
+
+@RestController
+@RequestMapping("/order")
+public class OrderController {
+    @Resource
+    private OrderService orderService;
+    /**
+     * 根据id查询订单
+     */
+    @GetMapping("/getById")
+    public Order getById(@RequestParam("id") Long id) {
+        //根据id查询订单
+        Order order = orderService.getById(id);
+        return order;
+    }
+    /**
+     * 创建订单
+     */
+    @PostMapping("/create")
+    public String create(@RequestBody Order order) {
+        //创建订单
+        orderService.create(order);
+        return "sucess";
+    }
+    /**
+     * 对订单进行支付
+     */
+    @PostMapping("/pay")
+    public String pay(@RequestParam("id") Long id) {
+        //对订单进行支付
+        orderService.pay(id);
+        return "success";
+    }
+
+    /**
+     * 对订单进行发货
+     */
+    @GetMapping("/deliver")
+    public String deliver(@RequestParam("id") Long id) {
+        //对订单进行确认收货
+        orderService.deliver(id);
+        return "success";
+    }
+    /**
+     * 对订单进行确认收货
+     */
+    @GetMapping("/receive")
+    public String receive(@RequestParam("id") Long id) {
+        //对订单进行确认收货
+        orderService.receive(id);
+        return "success";
+    }
+}
+
+@Service("orderService")
+@Slf4j
+public class OrderService {
+    @Resource
+    private StateMachine<OrderStatus, OrderStatusChangeEvent> orderStateMachine;
+    @Resource
+    private StateMachinePersister<OrderStatus, OrderStatusChangeEvent, String> stateMachineMemPersister;
+    @Resource
+    private MockDB orderMapper;
+
+    public Order create(Order order) {
+        order.setStatus(OrderStatus.WAIT_PAYMENT);
+        orderMapper.insert(order);
+        return order;
+    }
+
+    public Order getById(Long id){
+        return orderMapper.selectById(id);
+    }
+
+    public Order pay(Long id) {
+        Order order = orderMapper.selectById(id);
+        log.info("线程名称：{},尝试支付，订单号：{}" ,Thread.currentThread().getName() , id);
+        if (!sendEvent(OrderStatusChangeEvent.PAYED, order)) {
+            log.error("线程名称：{},支付失败, 状态异常，订单信息：{}", Thread.currentThread().getName(), order);
+            throw new RuntimeException("支付失败, 订单状态异常");
+        }
+        return order;
+    }
+
+    public Order deliver(Long id) {
+        Order order = orderMapper.selectById(id);
+        log.info("线程名称：{},尝试发货，订单号：{}" ,Thread.currentThread().getName() , id);
+        if (!sendEvent(OrderStatusChangeEvent.DELIVERY, order)) {
+            log.error("线程名称：{},发货失败, 状态异常，订单信息：{}", Thread.currentThread().getName(), order);
+            throw new RuntimeException("发货失败, 订单状态异常");
+        }
+        return order;
+    }
+
+    public Order receive(Long id) {
+        Order order = orderMapper.selectById(id);
+        log.info("线程名称：{},尝试收货，订单号：{}" ,Thread.currentThread().getName() , id);
+        if (!sendEvent(OrderStatusChangeEvent.RECEIVED, order)) {
+            log.error("线程名称：{},收货失败, 状态异常，订单信息：{}", Thread.currentThread().getName(), order);
+            throw new RuntimeException("收货失败, 订单状态异常");
+        }
+        return order;
+    }
+
+    private synchronized boolean sendEvent(OrderStatusChangeEvent changeEvent, Order order) {
+        boolean result = false;
+        try {
+            //启动状态机
+            orderStateMachine.start();
+            //尝试恢复状态机状态
+            stateMachineMemPersister.restore(orderStateMachine, String.valueOf(order.getId()));
+            Message<OrderStatusChangeEvent> message = MessageBuilder
+                    .withPayload(changeEvent)
+                    .setHeader("order", order)
+                    .build();
+            result = orderStateMachine.sendEvent(message);
+            //持久化状态机状态
+            stateMachineMemPersister.persist(orderStateMachine, String.valueOf(order.getId()));
+        } catch (Exception e) {
+            log.error("订单操作失败:{}", e);
+        } finally {
+            orderStateMachine.stop();
+        }
+        return result;
+    }
+}
+
+@Component
+public class MockDB {
+    List<Order> list=new ArrayList<>();
+
+    public void insert(Order order){
+        list.add(order);
+    }
+
+    public Order selectById(Long id) {
+        for (int i = 0; i < list.size(); i++) {
+            if(list.get(i).getId().equals(id)){
+                return list.get(i);
+            }
+        }
+        return null;
+    }
+
+    public void updateById(Order order){
+        Order orderExist = selectById(order.getId());
+        orderExist.setOrderCode(order.getOrderCode());
+    }
+}
+```
+
+
+
 # Tomcat
 
 - 深入拆解Tomcat & Jetty（极客时间）
@@ -1742,6 +2108,8 @@ public class Main {
   >过滤器：
   >
   >监听器：
+
+# 
 
 # 面经
 

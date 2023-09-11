@@ -41,5 +41,3 @@ dependency:tree -Dverbose -Dincludes=org.mybatis:mybatis
   > | **test**     | 测试             | 不参与项目打包 | JUnit       |
   > | **provided** | 编译、测试       | 不参与项目打包 | servlet-api |
   > | **runtime**  | 测试、运行       | 参与打包       | JDBC驱动    |
-
-# 

@@ -48,3 +48,23 @@
   ```
 
   浏览器打开 http://127.0.0.1:8081 可以看到dashboard
+  
+  # 基于Flink的实时数仓的构建
+  
+  ## DIM层的构建
+  
+  创建配置表，当配置发生变化时改变此表，然后使用FlinkCDC监控变化，然后发送到kafka，通过HbaseAPI，将维度数据写入对应的HBase维表中
+  
+  ```sql
+  DROP TABLE IF EXISTS `tms_config_dim`;
+  CREATE TABLE `tms_config_dim` (
+    `source_table` varchar(256) NOT NULL COMMENT '数据源表',
+    `sink_table` varchar(256) DEFAULT NULL COMMENT '目标表',
+    `sink_family` varchar(256) DEFAULT NULL COMMENT '目标表列族',
+    `sink_columns` varchar(256) DEFAULT NULL COMMENT '目标表列',
+    `sink_pk` varchar(256) DEFAULT NULL COMMENT '主键字段',
+    PRIMARY KEY (`source_table`)
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='物流实时配置表';
+  ```
+  
+  

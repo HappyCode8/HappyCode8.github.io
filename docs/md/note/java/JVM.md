@@ -942,3 +942,56 @@ Tomact是web容器，可能需要部署多个应用程序。不同的应用程�
 # 其它
 
 [参考](http://learnjvm.com/)
+
+G1日志解读
+
+[链接](https://blog.csdn.net/xueyushenzhou/article/details/128507344?spm=1001.2101.3001.6650.1&utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-1-128507344-blog-131303666.235%5Ev38%5Epc_relevant_anti_vip_base&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-1-128507344-blog-131303666.235%5Ev38%5Epc_relevant_anti_vip_base&utm_relevant_index=2)
+
+```properties
+[2023-07-25T17:26:15.806+0800][423151.707s] GC(3089) Pause Young (Normal) (G1 Evacuation Pause)
+[2023-07-25T17:26:15.806+0800][423151.707s] GC(3089) Using 2 workers of 2 for evacuation
+[2023-07-25T17:26:15.865+0800][423151.767s] GC(3089)   Pre Evacuate Collection Set: 0.2ms
+[2023-07-25T17:26:15.865+0800][423151.767s] GC(3089)   Evacuate Collection Set: 57.0ms
+[2023-07-25T17:26:15.865+0800][423151.767s] GC(3089)   Post Evacuate Collection Set: 1.7ms
+[2023-07-25T17:26:15.865+0800][423151.767s] GC(3089)   Other: 0.7ms
+[2023-07-25T17:26:15.865+0800][423151.767s] GC(3089) Eden regions: 302->0(297)
+[2023-07-25T17:26:15.865+0800][423151.767s] GC(3089) Survivor regions: 5->10(39)
+[2023-07-25T17:26:15.865+0800][423151.767s] GC(3089) Old regions: 100->101
+[2023-07-25T17:26:15.865+0800][423151.767s] GC(3089) Humongous regions: 22->0
+[2023-07-25T17:26:15.865+0800][423151.767s] GC(3089) Metaspace: 192565K->192565K(430080K)
+[2023-07-25T17:26:15.865+0800][423151.767s] GC(3089) Pause Young (Normal) (G1 Evacuation Pause) 1713M->440M(2048M) 59.701ms
+[2023-07-25T17:26:15.865+0800][423151.767s] GC(3089) User=0.09s Sys=0.03s Real=0.06s
+
+行首的时间：事件发生的时刻
+GC(3089)：这是第3089次GC
+Pause Young（Normal）：这次GC回收了新生代
+Using 2 workers of 2 for evacuation：使用2个工作线程（总共2个做gc）
+Pre Evacuate Collection Set/Evacuate Collection Set/Post Evacuate/Other：表示G1垃圾回收标记，清除算法不同阶段所花费的时间
+Eden/Survivor/Old/Humongous/Metaspace：分别表示eden区、存活区、老年区、巨型对象区（就是很大很大的对象所在的区域）、元数据区在GC前后的大小
+Eden regions: 302->0(297)：GC 前 eden 大小302 -> GC 后 eden 大小0 (新设定的新生代大小 - GC 后 survivor 大小)
+Survivor regions: 5->10(39)：GC 前 survivor 大小5 -> GC 后 survivor 大小10 (新设定的 survivor 最大值39)
+1713M->440M(2048M) 59.701ms：GC前堆占用1713M，GC后为440M，可用堆空间为2048M
+User/Sys/Real：分别表示用户态CPU耗时、系统CPU耗时、GC真实经历时间（707s-767s）
+
+-XX:+UseG1GC #使用G1
+-XX:G1HeapRegionSize=4M #region大小4M
+-XX:InitiatingHeapOccupancyPercent=40 #根据整个堆的占用而触发并发GC周期
+-XX:MaxGCPauseMillis=100 #允许的GC最大的暂停时间
+-XX:+TieredCompilation  #开启JVM的分层编译
+-XX:CICompilerCount=4 #设置最大并行编译数
+-XX:-UseBiasedLocking #禁用偏向锁
+-Xlog:gc*:$LOG_PATH/gc.log:time,uptime:filecount=20,filesize=50M #-Xlog:gc开启日志打印，-Xlog:gc*开启详细日志打印，-Xlog:gc:gc.log将日志持久化
+
+
+-Xmn<size>        为年轻代（新生代）设置初始和最大堆大小以字节为单位）
+-Xms<size>        设置初始 Java 堆大小
+-Xmx<size>        设置最大 Java 堆大小
+-Xss<size>        设置 Java 线程堆栈大小
+
+XX:+PrintFlagsInitial 是打印所有的默认参数设置
+-XX:+PrintFlagsFinal 是打印最终值，如果某个默认值被新值覆盖，显示新值
+-XX:+PrintCommandLineFlags 是打印那些被新值覆盖的项
+```
+
+
+

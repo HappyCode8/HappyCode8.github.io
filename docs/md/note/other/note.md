@@ -28,6 +28,8 @@
 
 sys.stdin使用command+d结束输入
 
+
+
 ## JS
 
 ```js
@@ -35,5 +37,4 @@ sys.stdin使用command+d结束输入
 var tags=document.getElementsByTagName("video");
 [...tags].forEach(val=>val.playbackRate = 2);
 ```
-
 

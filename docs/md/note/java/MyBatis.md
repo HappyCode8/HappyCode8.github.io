@@ -310,6 +310,166 @@ maven插件
 </generatorConfiguration>
 ```
 
+## mybatis拦截器
+
+- 使用拦截器+ThreadLocal做分页
+
+  ```java
+  @Getter
+  public class SelfPage {
+      private int pageNo;
+      private int pageSize;
+      private int offset;//页开始的地方
+  
+      public int getOffset() {
+          this.offset = this.pageNo > 0 ? (this.pageNo - 1) * this.pageSize : 0;
+          return offset;
+      }
+      public SelfPage(int pageNo, int pageSize) {
+          this.pageNo = pageNo;
+          this.pageSize = pageSize;
+      }
+  }
+  
+  public class SelfPageHelper {
+      private static final ThreadLocal<SelfPage> LOCAL_PAGE = new ThreadLocal<SelfPage>();
+  
+      public static void startPage(int pageNo, int pageSize) {
+          SelfPage page = new SelfPage(pageNo, pageSize);
+          LOCAL_PAGE.set(page);
+      }
+  
+      public static void removePage() {
+          LOCAL_PAGE.remove();
+      }
+  
+      public static SelfPage getPage() {
+          return LOCAL_PAGE.get();
+      }
+  }
+  
+  @Intercepts(
+          {
+                  //@Signature都指定了一个需要拦截的方法。
+                  //需要拦截Executor类，query方法，具体拦截该方法的带4，6个参数的方法
+                  @Signature(type = Executor.class, method = "query", args = {MappedStatement.class, Object.class, RowBounds.class, ResultHandler.class}),
+                  @Signature(type = Executor.class, method = "query", args = {MappedStatement.class, Object.class, RowBounds.class, ResultHandler.class, CacheKey.class, BoundSql.class})
+          }
+  )
+  public class SelfPageInterceptor implements Interceptor {
+      @Override
+      public Object intercept(Invocation invocation) throws Throwable {
+          try {
+              // 从 Invocation 中获取参数，这些参数就是Executor类query方法的参数
+              Object[] args = invocation.getArgs();
+              //Mybatis 通过解析 XML 和 mapper 接口上的注解，生成 sql 对应的 MappedStatement 实例
+              MappedStatement ms = (MappedStatement) args[0];
+              //查询时所带的参数
+              Object parameter = args[1];
+              //mybatis提供的分页
+              RowBounds rowBounds = (RowBounds) args[2];
+              //结果处理器
+              ResultHandler resultHandler = (ResultHandler) args[3];
+              Executor executor = (Executor) invocation.getTarget();
+              CacheKey cacheKey;
+              BoundSql boundSql;
+              //  获取分页参数
+              SelfPage page = SelfPageHelper.getPage();
+              if (page != null) {
+                  //获取sql
+                  boundSql = ms.getBoundSql(parameter);
+                  //拼接sql
+                  String pageSql = getPageSql(boundSql, page);
+                  //形成新的sql
+                  BoundSql pageBoundSql = new BoundSql(ms.getConfiguration(), pageSql, boundSql.getParameterMappings(), parameter);
+                  cacheKey = executor.createCacheKey(ms, parameter, rowBounds, boundSql);
+                  return executor.query(ms, parameter, RowBounds.DEFAULT, resultHandler, cacheKey, pageBoundSql);
+              }
+              return invocation.proceed();
+          } finally {
+              SelfPageHelper.removePage();
+          }
+      }
+  
+      @Override
+      public Object plugin(Object target) {
+          return Plugin.wrap(target, this);
+      }
+  
+      @Override
+      public void setProperties(Properties properties) {
+  
+      }
+  
+      /**
+       * @param boundSql
+       * @param page
+       */
+      private String getPageSql(BoundSql boundSql, SelfPage page) {
+          String sql = boundSql.getSql();
+          StringBuilder sqlBuilder = new StringBuilder(sql.length() + 14);
+          sqlBuilder.append(sql);
+          if (page.getOffset() > 0) {//select * from xxx\n LIMIT 5,5
+              sqlBuilder.append("\n LIMIT ")
+                      .append(page.getOffset())
+                      .append(",")
+                      .append(page.getPageSize());
+          } else {
+              sqlBuilder.append("\n LIMIT ").append(page.getPageSize());
+          }
+          return sqlBuilder.toString();
+      }
+  }
+  ```
+
+  在xml文件中配置
+
+  ```xml
+  <configuration>
+      <plugins>
+          <plugin interceptor="com.demo.myPageHelper.SelfPageInterceptor"></plugin>
+      </plugins>
+  </configuration>
+  ```
+
+- 多租户隔离
+
+  ```sql
+  @Intercepts(value = {
+          @Signature(type = StatementHandler.class,
+                  method = "prepare",
+                  args = {Connection.class})})
+  public class ChangeUserInterceptor implements Interceptor {
+      // 修改sql，添加前后缀
+      private static final String preState="/*!mycat:schema=";
+      private static final String afterState="*/";
+      @Override
+      public Object intercept(Invocation invocation) throws Throwable {
+          //获取代理对象的真实对象
+          StatementHandler statementHandler=(StatementHandler)invocation.getTarget();
+          MetaObject metaStatementHandler= SystemMetaObject.forObject(statementHandler);
+          Object object=null;
+          //获取sql
+          String sql=(String)metaStatementHandler.getValue("delegate.boundSql.sql");
+          //......
+          metaStatementHandler.setValue("delegate.boundSql.sql",sql);
+          //代理对象继续干自己的事情
+          Object result = invocation.proceed();
+          return result;
+      }
+      @Override
+      public Object plugin(Object target) {
+          return Plugin.wrap(target, this);
+      }
+      @Override
+      public void setProperties(Properties properties) {
+      }
+  }
+  
+  ```
+
+  
+
 # 问题
 
 ## #与$符的区别
