@@ -1,5 +1,6 @@
 # Postman
 
+[官网文档](https://learning.postman.com/docs/getting-started/overview/)
 ## 测试接口输入对象
 
 - 方法选择Post
@@ -70,27 +71,61 @@ postman.setGlobalVariable("sign",strmd5)
 document.cookie
 ```
 
+## 请求头X-Jwt-Token自动刷新
+
+在enviroments中global中设置Pre-request Script
+
+```javascript
+var token = pm.globals.get("X-Jwt-Token");
+pm.request.headers.add({key: 'X-Jwt-Token', value: token })
+
+//这个可以设置环境变量，在请求的右上角切换
+var env = pm.environment.get("env"); 
+pm.request.headers.add({key: 'X-TT-ENV', value: env })
+```
+
+在Tests中加入脚本
+
+```javascript
+// cookies 浏览器复制，curl一下复制出来
+var cookies = "MOTOR_CAS_SESSION=456ea38b-0c7d-42dd-a073-aca0a4e0425a; MOTOR_CAS_SESSION_SS=456ea38b-0c7d-42dd-a073-aca0a4e0425a";
+var customHeaders = {
+    "Cookie": cookies,
+};
+var requestConfig = {
+    url: "https://token的请求路径",
+    method: 'GET',
+    header: customHeaders
+};
+if (pm.response.code == 401 && pm.response.status =="Unauthorized") {
+    pm.sendRequest(requestConfig, function (err, response) {
+            pm.globals.set("X-Jwt-Token", response.headers.get("X-Jwt-Token"));
+    });
+}
+```
+
+
+
 # Jemeter
 
 - 启动
-
-  >bin目录下，./jmeter启动
+  
+  > bin目录下，./jmeter启动
 
 - HTTP接口压测
-
-  >添加线程组：add->threads->thread group
-  >
-  >在线程组下添加http请求：add->samper->http request
-  >
-  >在http请求下添加一个assertation：add->assertations->
-  >
-  >添加结果：add->listener->
+  
+  > 添加线程组：add->threads->thread group
+  > 
+  > 在线程组下添加http请求：add->samper->http request
+  > 
+  > 在http请求下添加一个assertation：add->assertations->
+  > 
+  > 添加结果：add->listener->
 
 # wrk
 
 - 压测命令
-
-  >10线程50连接压测10秒
-  >
-  >wrk -t 10 -c 50 -d 10s http://localhost:8080/redis --latency
-
+  
+  > 10线程50连接压测10秒
+  > 
+  > wrk -t 10 -c 50 -d 10s http://localhost:8080/redis --latency
