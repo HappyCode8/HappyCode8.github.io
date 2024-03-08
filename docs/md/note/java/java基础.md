@@ -1,5 +1,3 @@
-
-
 本文大部分内容参考了https://www.pdai.tech/md/java/basic/java-basic-lan-basic.html
 
 # 数据类型
@@ -8,7 +6,7 @@
 
 8个基本类型
 
->boolean/1  byte/8  char/16   short/16   int/32   float/32  long/64  double/64
+> boolean/1  byte/8  char/16   short/16   int/32   float/32  long/64  double/64
 
 基本类型都有对应的包装类型，可以通过装箱拆箱完成
 
@@ -48,17 +46,17 @@ public static Integer valueOf(int i) {
 
 其余数据类型的缓存类型有吗？
 
->boolean values true and false
->
->all byte values
->
->short values between -128 and 127
->
->int values between -128 and 127
->
->long values between -128 and 127
->
->char in the range \u0000 to \u007F
+> boolean values true and false
+> 
+> all byte values
+> 
+> short values between -128 and 127
+> 
+> int values between -128 and 127
+> 
+> long values between -128 and 127
+> 
+> char in the range \u0000 to \u007F
 
 为什么不缓存Float、Double？
 
@@ -69,7 +67,7 @@ public static Integer valueOf(int i) {
 String类为什么要设计成final的？
 
 - 可以缓存hash值，String 的 hash 值经常被使用，不可变的特性可以使得 hash 值也不可变
-
+  
   ```java
   Test test = new Test(123);
   Map<Test,String> map1 = new HashMap<>();
@@ -83,11 +81,11 @@ String类为什么要设计成final的？
   key = "key";
   System.out.println(map.get("key"));  //试图取出对应的 value,结果是123
   ```
-
+  
   > 在使用 String 类型的对象做 key 时我们可以只根据传入的字符串内容就能获得对应存在 map 中的 value 值，而非 String 类型的对象在获得对应的 value 时需要的条件太过苛刻，首先要保证散列码相同，并且经过 equals() 方法判断为 true 时才可以获得对应的 value,这一般需要自己重写。
-  >
+  > 
   > 其次，即使是Test重写了hashCode和equals 方法，也不如String高效，最关键的是String中缓存有个hash变量，它可以缓存hashCode，避免重复计算hashCode，而Test则没有这样的效果。
-  >
+  > 
   > 最后，String的hash值是惰性初始化，创建时并没有直接计算出hashCode。初次计算后进行了缓存，以后查找起来更快了。
 
 - String Pool 的需要，如果一个 String 对象已经被创建过了，那么就会从 String Pool 中取得引用。只有 String 是不可变的，才可能使用 String Pool
@@ -107,7 +105,7 @@ char类型的数据在jvm中占用了两个字节的空间，使用的是UTF-16
 
 Latin-1编码是用单个字节来表示字符，比两个字节的utf-16节省了一半空间。
 所以String类中多了一个编码标志位coder，用来表示使用的是utf-16编码，还是Latin-1编码。
-  
+
 String name="jack";使用LATIN1编码，占用4个字节就够了，而原来的char[]，就得占用8个字节。
 String name="小明";没得办法，和char[]表示String没什么区别，即使现在是byte[]来表示String，还是得乖乖用UTF16编码，和优化之前一样，没节省空间（LATIN1编码集支持的字符有限，其中就不支持中文字符，因此才保留了UTF16兜底）
 ```
@@ -192,8 +190,6 @@ public class mianshi3 {
 }
 ```
 
-
-
 # 参数传递
 
 在将一个参数传入一个方法时，本质上是将对象的地址以值的方式传递到形参。可以理解为传递了引用的复制，当改变形参这个对象的属性时是可以改变实参的属性的，因为指向了堆中的一个对象，当改变形参的指向时是不会改变实参的指向的。
@@ -220,13 +216,11 @@ float f = 1.1;//不行，1.1是double，不能向下转型
 - 如果子类的方法重写了父类的方法，那么子类中该方法的访问级别不允许低于父类的访问级别。这是为了确保可以使用父类实例的地方都可以使用子类实例，也就是确保满足里氏替换原则。
 - 访问控制存在的原因：
   - a、让客户端程序员无法触及他们不应该触及的部分 ；
-  -  b、允许库设计者可以改变类内部的工作方式而不用担心会影响到客户端程序员
+  - b、允许库设计者可以改变类内部的工作方式而不用担心会影响到客户端程序员
 
 # 反射
 
 # SPI
-
-
 
 # 抽象类与接口
 
@@ -284,10 +278,7 @@ public interface test1 {
         System.out.println("private static method");
     }
 }
-
 ```
-
-
 
 # Object方法
 
@@ -310,7 +301,6 @@ public boolean equals(Object o) {
         if (x != that.x) return false;
         if (y != that.y) return false;
         return z == that.z;
-    
 ```
 
 等价的两个对象散列值一定相同，但是散列值相同的两个对象不一定等价。
@@ -338,8 +328,6 @@ Collections.sort(list);
 int index2 = Collections.binarySearch(list, student);
 ```
 
-
-
 # java8升java11重要特性
 
 [原文](https://www.pdai.tech/md/java/java8up/java9-11.html#java-8-%E5%8D%87java-11-%E9%87%8D%E8%A6%81%E7%89%B9%E6%80%A7%E5%BF%85%E8%AF%BB)
@@ -347,7 +335,7 @@ int index2 = Collections.binarySearch(list, student);
 ## 语言新特性
 
 - JDK9允许在接口中使用私有方法
-
+  
   ```java
   //主要用于接口中互相调用
   public interface SayHi {
@@ -372,7 +360,7 @@ int index2 = Collections.binarySearch(list, student);
 - JDK9进程API
 
 - JDK9变量句柄
-
+  
   ```java
   //变量句柄是一个变量或一组变量的引用，包括静态域，非静态域，数组元素和堆外数据结构中的组成部分等。变量句柄的含义类似于已有的方法句柄。
   public class HandleTarget {
@@ -399,9 +387,9 @@ int index2 = Collections.binarySearch(list, student);
   ```
 
 - JDK9-IO流新特性
-
+  
   类 java.io.InputStream 中增加了新的方法来读取和复制 InputStream 中包含的数据。
-
+  
   - readAllBytes：读取 InputStream 中的所有剩余字节。
   - readNBytes： 从 InputStream 中读取指定数量的字节到数组中。
   - transferTo：读取 InputStream 中的全部字节并写入到指定的 OutputStream 中 。
@@ -411,7 +399,7 @@ int index2 = Collections.binarySearch(list, student);
 - JDK10根证书认证
 
 - JDK11标准HTTP Client升级，完全支持异步非阻塞（可以使用Spring提供的WebClient）
-
+  
   ```java
       HttpClient client = HttpClient.newHttpClient();
       HttpRequest request = HttpRequest.newBuilder()
@@ -424,7 +412,7 @@ int index2 = Collections.binarySearch(list, student);
   ```
 
 - JDK11简化启动单个源代码文件的方法
-
+  
   ```java
   java HelloWorld.java就可以直接运行文件
   ```
@@ -432,17 +420,15 @@ int index2 = Collections.binarySearch(list, student);
 - JDK11 - 支持 TLS 1.3 协议
 
 - JDK9 - Jshell
-
+  
   ```java
   命令行输入jshell进入，/exit退出,用于快速验证代码逻辑
   ```
 
-  
-
 ## JVM优化
 
 - JDK9-统一JVM日志
-
+  
   移除Java8中废弃的垃圾回收器配置组合，同时把G1设为默认的垃圾回收器，CMS被声明位废弃
 
 - JDK10-统一GC接口
@@ -454,7 +440,7 @@ int index2 = Collections.binarySearch(list, student);
 - JDK11- 低开销的 Heap Profiling
 
 - JDK11 - 可伸缩低延迟垃圾收集器(ZGC)
-
+  
   根据 SPECjbb 2015 的基准测试，128G 的大堆下最大停顿时间才 1.68ms，远低于 10ms，和 G1 算法相比，改进非常明显
 
 # Java 11 升Java 17 重要特性必读
@@ -464,7 +450,7 @@ int index2 = Collections.binarySearch(list, student);
 ## 语言新特性
 
 - JDK14-Switch 表达式
-
+  
   ```java
   //省去break
   int dayOfWeek = switch (day) {
@@ -478,9 +464,9 @@ int index2 = Collections.binarySearch(list, student);
   ```
 
 - JDK15-文本块
-
+  
   所见即所得的字符串
-
+  
   ```java
   public static void main(String[] args) {
       String query = """
@@ -493,7 +479,7 @@ int index2 = Collections.binarySearch(list, student);
   ```
 
 - JDK16-instanceof 模式匹配
-
+  
   ```java
   if (person instanceof Student student) {
       student.say();
@@ -505,22 +491,20 @@ int index2 = Collections.binarySearch(list, student);
   ```
 
 - JDK16-Records类型
-
+  
   档案类
-
+  
   ```
   Java档案类是用来表示不可变数据的透明载体，用来简化不可变数据的表达
   ```
 
 - JDK17-密封的类和接口，限制类只能被谁继承
-
+  
   限制类的可扩展性
-
+  
   ```java
   public abstract sealed class Shape permits xx{}
   ```
-
-  
 
 ## 新工具和库更新
 

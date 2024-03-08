@@ -26,15 +26,17 @@ git push -f
 
 也可以使用IDEA的图形化界面,在IDEA上
 
+```properties
 - 选中分支的提交记录右键
 - Interactively rebase from here（开始交互式变基）
 - 把第一次以后的都改为fixup（抛弃这次的提交记录）或者squash（与以前的提交记录可以合并，在idea中可以重写以前的提交记录），也可以reword提交记录，然后push
+```
 
-## 打tag
+- ## 打tag
 
-` git tag v1.0 dd18e8`将v1.0标签打到dd18e8分支上
+`git tag v1.0 dd18e8`将v1.0标签打到dd18e8分支上
 
-` git push origin v1.0`推送标签
+`git push origin v1.0`推送标签
 
 `git tag -d v1.0`删除本地标签
 
@@ -45,4 +47,3 @@ git push -f
 `git config --global user.name "git_ai_ivr"`
 
 `git config --global user.email "git_ai_ivr@meituan.com"`
-

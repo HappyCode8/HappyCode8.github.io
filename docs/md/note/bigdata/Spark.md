@@ -3,28 +3,28 @@
 [菜鸟教程](https://www.runoob.com/scala/scala-pattern-matching.html)
 
 1. Class, Case Class（样例类）, Object（伴生对象）, Case Object,Trait的区别
-
+   
    - class与object的区别
-
-     >scala 中没有 static 关键字，所以 对于一个class来说，所有的方法和成员变量在实例被 new 出来之前都是无法访问的
-     >object 中所有成员变量和方法默认都是static的, 所以可以直接访问main方法，Scala 中使用单例模式时，除了定义的类之外，还要定义一个同名的 object 对象，它和类的区别是，object对象不能带参数。
-
+     
+     > scala 中没有 static 关键字，所以 对于一个class来说，所有的方法和成员变量在实例被 new 出来之前都是无法访问的
+     > object 中所有成员变量和方法默认都是static的, 所以可以直接访问main方法，Scala 中使用单例模式时，除了定义的类之外，还要定义一个同名的 object 对象，它和类的区别是，object对象不能带参数。
+   
    - class与case class的区别
-
-     >适合用于不可变的数据。它是一种特殊的类，能够被优化以用于模式匹配。
-     >
-     >case class类编译成class文件之后会自动生成apply方法，这个方法负责对象的创建。
-
+     
+     > 适合用于不可变的数据。它是一种特殊的类，能够被优化以用于模式匹配。
+     > 
+     > case class类编译成class文件之后会自动生成apply方法，这个方法负责对象的创建。
+   
    - Trait
-
-     >相当于java的接口
+     
+     > 相当于java的接口
 
 2. 至简原则
-
+   
    - 普通函数的简化原则
-
+     
      一般的函数包括函数名、参数名、参数类型、函数返回值类型、函数体
-
+     
      ```scala
          //(1)return可以省略，scala会使用函数体的最后一行代码作为返回值
          def f1(s:String):String = {
@@ -77,13 +77,13 @@
          f10(f9)
          println(f10((x:String)=>{println("wusong")}))
      ```
-
+   
    - 匿名函数
-
+     
      **(x:Int)=>{函数体}**
-
+     
      ```scala
-     		//定义一个函数:参数包含数据和逻辑函数
+             //定义一个函数:参数包含数据和逻辑函数
          def operation(arr:Array[Int],op:Int=>Int)={
            for (elem <- arr) yield op(elem)
          }
@@ -123,8 +123,8 @@
          //(4.4)如果参数只出现一次，则参数可以省略切后面参数可以用_代替
          val arr5 = operation(Array(1,2,3,4),_+1)
          println(arr5.mkString(" "))
-     
-     
+     ```
+
      //实际例子
      def calculator(a: Int, b: Int, op: (Int, Int) => Int): Int = {
       op(a, b)
@@ -139,14 +139,12 @@
       println(calculator(2, 3, _ + _))
      ```
 
-     
-
 # Spark
 
 ## 实例
 
 - 去重
-
+  
   ```
   data1:
   2012-3-1 a
@@ -156,9 +154,9 @@
   2012-3-1 a
   2012-3-2 a
   ```
-
+  
   思路：将每一行作为键，按照键值去重
-
+  
   ```java
   import org.apache.spark.SparkConf;
   import org.apache.spark.api.java.JavaPairRDD;
@@ -206,7 +204,7 @@
   ```
 
 - 排序
-
+  
   ```
   2
   32
@@ -216,11 +214,11 @@
   756
   65223
   ```
-
+  
   思路：
-
+  
   将数字作为key直接按ley排序
-
+  
   ```java
   import org.apache.spark.SparkConf;
   import org.apache.spark.api.java.JavaPairRDD;
@@ -267,7 +265,7 @@
   ```
 
 - 求均值
-
+  
   ```
   chinese:
   张三 78
@@ -280,11 +278,11 @@
   王五 66
   赵六 77
   ```
-
+  
   思路：
-
+  
   将名字作为key,对value求和同时计数然后对value相除
-
+  
   ```java
   import org.apache.spark.SparkConf;
   import org.apache.spark.api.java.JavaPairRDD;
@@ -324,7 +322,7 @@
   ```
 
 - 联表查询
-
+  
   ```
   child parent
   Tom Lucy
@@ -342,9 +340,9 @@
   Mark Terry
   Mark Alma
   ```
-
+  
   给定的是儿子与父母的关系，根据此表输出祖父母与孙子的关系
-
+  
   ```java
   import java.util.ArrayList;
   import java.util.Arrays;
@@ -411,25 +409,25 @@
 ## 简单项目
 
 - 数据格式
-
-  >```
-  >2019-07-17_95_26070e87-1ad7-49a3-8fb3-cc741facaddf_37_2019-07-17 00:00:02_手机_-1_-1_null_null_null_null_3
-  >```
-  >
-  >- 每一行数据表示用户的一次行为，这个行为只能是4种行为的一种（搜索，点击，下单，支付）
-  >
-  >- 如果搜索关键字为null,表示数据不是搜索数据
-  >
-  >- 如果点击的品类ID和产品ID为-1，表示数据不是点击数据
-  >
-  >- 针对于下单行为，一次可以下单多个商品，所以品类ID和产品ID可以是多个，id之
-  >
-  >  间采用逗号分隔，如果本次不是下单行为，则数据采用 null 表示
-  >
-  >- 支付行为和下单行为类似
-  >
-  >```java
-  >class UserVisitAction{
+  
+  > ```
+  > 2019-07-17_95_26070e87-1ad7-49a3-8fb3-cc741facaddf_37_2019-07-17 00:00:02_手机_-1_-1_null_null_null_null_3
+  > ```
+  > 
+  > - 每一行数据表示用户的一次行为，这个行为只能是4种行为的一种（搜索，点击，下单，支付）
+  > 
+  > - 如果搜索关键字为null,表示数据不是搜索数据
+  > 
+  > - 如果点击的品类ID和产品ID为-1，表示数据不是点击数据
+  > 
+  > - 针对于下单行为，一次可以下单多个商品，所以品类ID和产品ID可以是多个，id之
+  >   
+  >   间采用逗号分隔，如果本次不是下单行为，则数据采用 null 表示
+  > 
+  > - 支付行为和下单行为类似
+  > 
+  > ```java
+  > class UserVisitAction{
   >    public String date;//用户点击行为的日期
   >    public Long user_id;//用户的ID
   >    public String session_id;//Session的ID
@@ -443,53 +441,53 @@
   >    public String pay_category_ids;//一次支付中所有品类的ID集合
   >    public String pay_product_ids;//一次支付中所有商品的ID集合
   >    public Long city_id;//城市id
-  >}
-  >```
+  > }
+  > ```
 
 - 需求1：Top10热门品类
-
-  >需求说明：品类是指产品的分类，大型电商网站品类分多级，咱们的项目中品类只有一级，不同的
-  >
-  >公司可能对热门的定义不一样。我们按照每个品类的点击、下单、支付的量来统计热门品类。
-  >
-  >综合排名 = 点击数20%+下单数30%+支付数50% 
-  >
-  >本项目需求优化为:先按照点击数排名，靠前的就排名高;如果点击数相同，再比较下单数;下单数再相同，就比较支付数。
-  >
-  >- 实现方案1：分别统计每个品类点击的次数，下单的次数和支付的次数
-  >
-  >  ```java
-  >  import org.apache.spark.SparkConf;
-  >  import org.apache.spark.api.java.JavaPairRDD;
-  >  import org.apache.spark.api.java.JavaRDD;
-  >  import org.apache.spark.api.java.JavaSparkContext;
-  >  import org.apache.spark.api.java.function.FlatMapFunction;
-  >  import org.apache.spark.api.java.function.Function2;
-  >  import org.apache.spark.api.java.function.PairFunction;
-  >  import org.apache.spark.api.java.function.VoidFunction;
-  >  import scala.Serializable;
-  >  import scala.Tuple2;
-  >  import scala.Tuple3;
-  >  
-  >  import java.util.*;
-  >  
-  >  //top10热门品类
-  >  public class HotCategoryTop10Analysis {
+  
+  > 需求说明：品类是指产品的分类，大型电商网站品类分多级，咱们的项目中品类只有一级，不同的
+  > 
+  > 公司可能对热门的定义不一样。我们按照每个品类的点击、下单、支付的量来统计热门品类。
+  > 
+  > 综合排名 = 点击数20%+下单数30%+支付数50% 
+  > 
+  > 本项目需求优化为:先按照点击数排名，靠前的就排名高;如果点击数相同，再比较下单数;下单数再相同，就比较支付数。
+  > 
+  > - 实现方案1：分别统计每个品类点击的次数，下单的次数和支付的次数
+  >   
+  >   ```java
+  >   import org.apache.spark.SparkConf;
+  >   import org.apache.spark.api.java.JavaPairRDD;
+  >   import org.apache.spark.api.java.JavaRDD;
+  >   import org.apache.spark.api.java.JavaSparkContext;
+  >   import org.apache.spark.api.java.function.FlatMapFunction;
+  >   import org.apache.spark.api.java.function.Function2;
+  >   import org.apache.spark.api.java.function.PairFunction;
+  >   import org.apache.spark.api.java.function.VoidFunction;
+  >   import scala.Serializable;
+  >   import scala.Tuple2;
+  >   import scala.Tuple3;
+  >   
+  >   import java.util.*;
+  >   
+  >   //top10热门品类
+  >   public class HotCategoryTop10Analysis {
   >      public static void main(String[] args) {
   >          // Top10热门品类
   >          SparkConf sparConf = new SparkConf().setMaster("local[*]").setAppName("HotCategoryTop10Analysis");
   >          JavaSparkContext sparkContext = new JavaSparkContext(sparConf);
-  >  
+  >   
   >          // 1. 读取原始日志数据
   >          JavaRDD<String> actionRDD = sparkContext.textFile("/Users/wyj/Desktop/learn/myProject/testSpark/src/main/resources/user_visit_action.txt");
-  >  
+  >   
   >          // 2. 统计品类的点击数量：（品类ID，点击数量）
   >          JavaPairRDD<String, Integer> clickCountRDD = actionRDD.filter(it -> !"-1".equals(it.split("_")[6]))//过滤
   >                  //参数依次是入参、出参<k,v>
   >                  .mapToPair((PairFunction<String, String, Integer>) it -> new Tuple2<>(it.split("_")[6], 1))//将第六项提取为<商品,1>
   >                  .reduceByKey((Function2<Integer, Integer, Integer>) Integer::sum);
   >          clickCountRDD.foreach((VoidFunction<Tuple2<String, Integer>>) it -> System.out.println(it._1 + ":" + it._2));
-  >  
+  >   
   >          // 3. 统计品类的下单数量：（品类ID，下单数量）, 先切成【(1,1)，(2,1)，(3,1)】
   >          JavaRDD<String> orderActionRDD = actionRDD.filter(it -> !"null".equals(it.split("_")[8]));
   >          JavaPairRDD<String, Integer> orderCountRDD = orderActionRDD
@@ -497,7 +495,7 @@
   >                  .mapToPair((PairFunction<String, String, Integer>) it -> new Tuple2<>(it, 1))
   >                  .reduceByKey((Function2<Integer, Integer, Integer>) Integer::sum);
   >          orderCountRDD.foreach((VoidFunction<Tuple2<String, Integer>>) it -> System.out.println(it._1 + ":" + it._2));
-  >          
+  >   
   >          // 4. 统计品类的支付数量：（品类ID，支付数量）, 先切成【(1,1)，(2,1)，(3,1)
   >          JavaRDD<String> payActionRDD = actionRDD.filter(it -> !"null".equals(it.split("_")[10]));
   >          JavaPairRDD<String, Integer> payCountRDD = payActionRDD
@@ -528,23 +526,23 @@
   >              }
   >              return new Tuple3<>(clickCnt, orderCnt, payCnt);
   >          });
-  >  
+  >   
   >          List<Tuple2<Tuple3<Integer, Integer, Integer>, String>> result = analysisRDD
   >                  .mapToPair(s -> new Tuple2<>(s._2, s._1))
   >                  .sortByKey(new SparkTupleComparator())
   >                  .take(10);
-  >  
+  >   
   >          // 6. 将结果采集到控制台打印出来
   >          result.iterator().forEachRemaining(it -> {
   >                      System.out.println(it._2 + " " + it._1);
   >                  }
   >          );
-  >  
+  >   
   >          sparkContext.stop();
   >      }
-  >  }
-  >  
-  >  class SparkTupleComparator implements Comparator<Tuple3<Integer, Integer, Integer>>, Serializable {
+  >   }
+  >   
+  >   class SparkTupleComparator implements Comparator<Tuple3<Integer, Integer, Integer>>, Serializable {
   >      @Override
   >      public int compare(Tuple3<Integer, Integer, Integer> o1, Tuple3<Integer, Integer, Integer> o2) {
   >          if (!Objects.equals(o1._1(), o2._1())) {
@@ -554,27 +552,27 @@
   >          }
   >          return o2._3() - o1._3();
   >      }
-  >  }
-  >  ```
-  >
-  >  一个优化的方案
-  >
-  >  ```java
-  >  import org.apache.spark.SparkConf;
-  >  import org.apache.spark.api.java.JavaPairRDD;
-  >  import org.apache.spark.api.java.JavaRDD;
-  >  import org.apache.spark.api.java.JavaSparkContext;
-  >  import org.apache.spark.api.java.function.FlatMapFunction;
-  >  import org.apache.spark.api.java.function.Function2;
-  >  import org.apache.spark.api.java.function.PairFunction;
-  >  import org.apache.spark.api.java.function.VoidFunction;
-  >  import scala.Tuple2;
-  >  import scala.Tuple3;
-  >  
-  >  import java.util.Arrays;
-  >  import java.util.List;
-  >  
-  >  public class HotCategoryTop10Analysis1 {
+  >   }
+  >   ```
+  >   
+  >   一个优化的方案
+  >   
+  >   ```java
+  >   import org.apache.spark.SparkConf;
+  >   import org.apache.spark.api.java.JavaPairRDD;
+  >   import org.apache.spark.api.java.JavaRDD;
+  >   import org.apache.spark.api.java.JavaSparkContext;
+  >   import org.apache.spark.api.java.function.FlatMapFunction;
+  >   import org.apache.spark.api.java.function.Function2;
+  >   import org.apache.spark.api.java.function.PairFunction;
+  >   import org.apache.spark.api.java.function.VoidFunction;
+  >   import scala.Tuple2;
+  >   import scala.Tuple3;
+  >   
+  >   import java.util.Arrays;
+  >   import java.util.List;
+  >   
+  >   public class HotCategoryTop10Analysis1 {
   >      public static void main(String[] args) {
   >           /*Top10热门品类
   >           Q : actionRDD重复使用
@@ -622,35 +620,35 @@
   >                      System.out.println(it._2 + " " + it._1);
   >                  }
   >          );
-  >  
+  >   
   >          javaSparkContext.stop();
   >      }
-  >  }
-  >  ```
-  >
-  >- 实现方案2：一次性统计每个品类点击的次数，下单的次数和支付的次数
-  >
-  >  ```java
-  >  import org.apache.spark.SparkConf;
-  >  import org.apache.spark.api.java.JavaPairRDD;
-  >  import org.apache.spark.api.java.JavaRDD;
-  >  import org.apache.spark.api.java.JavaSparkContext;
-  >  import org.apache.spark.api.java.function.FlatMapFunction;
-  >  import org.apache.spark.api.java.function.PairFunction;
-  >  import scala.Tuple2;
-  >  import scala.Tuple3;
-  >  
-  >  import java.util.Arrays;
-  >  import java.util.List;
-  >  import java.util.stream.Stream;
-  >  
-  >  public class HotCategoryTop10Analysis2 {
+  >   }
+  >   ```
+  > 
+  > - 实现方案2：一次性统计每个品类点击的次数，下单的次数和支付的次数
+  >   
+  >   ```java
+  >   import org.apache.spark.SparkConf;
+  >   import org.apache.spark.api.java.JavaPairRDD;
+  >   import org.apache.spark.api.java.JavaRDD;
+  >   import org.apache.spark.api.java.JavaSparkContext;
+  >   import org.apache.spark.api.java.function.FlatMapFunction;
+  >   import org.apache.spark.api.java.function.PairFunction;
+  >   import scala.Tuple2;
+  >   import scala.Tuple3;
+  >   
+  >   import java.util.Arrays;
+  >   import java.util.List;
+  >   import java.util.stream.Stream;
+  >   
+  >   public class HotCategoryTop10Analysis2 {
   >      public static void main(String[] args) {
   >          // Q : 存在大量的shuffle操作（reduceByKey）
   >          // reduceByKey 聚合算子，spark会提供优化，缓存
   >          SparkConf sparkConf = new SparkConf().setMaster("local[*]").setAppName("HotCategoryTop10Analysis");
   >          JavaSparkContext javaSparkContext = new JavaSparkContext(sparkConf);
-  >  
+  >   
   >          JavaRDD<String> actionRDD = javaSparkContext.textFile("/Users/wyj/Desktop/learn/myProject/testSpark/src/main/resources/user_visit_action.txt");
   >          JavaPairRDD<String, Tuple3<Integer, Integer, Integer>> flatRDD = actionRDD
   >                  .flatMap(
@@ -678,27 +676,27 @@
   >          );
   >          javaSparkContext.stop();
   >      }
-  >  }
-  >  ```
-  >
-  >- 实现方案3：使用累加器的方式聚合数据
-  >
-  >  ```java
-  >  import lombok.AllArgsConstructor;
-  >  import org.apache.spark.SparkConf;
-  >  import org.apache.spark.api.java.JavaRDD;
-  >  import org.apache.spark.api.java.JavaSparkContext;
-  >  import org.apache.spark.util.AccumulatorV2;
-  >  import scala.Tuple2;
-  >  
-  >  import java.io.Serializable;
-  >  import java.util.ArrayList;
-  >  import java.util.HashMap;
-  >  import java.util.List;
-  >  import java.util.Map;
-  >  import java.util.stream.Collectors;
-  >  
-  >  public class HotCategoryTop10Analysis3 {
+  >   }
+  >   ```
+  > 
+  > - 实现方案3：使用累加器的方式聚合数据
+  >   
+  >   ```java
+  >   import lombok.AllArgsConstructor;
+  >   import org.apache.spark.SparkConf;
+  >   import org.apache.spark.api.java.JavaRDD;
+  >   import org.apache.spark.api.java.JavaSparkContext;
+  >   import org.apache.spark.util.AccumulatorV2;
+  >   import scala.Tuple2;
+  >   
+  >   import java.io.Serializable;
+  >   import java.util.ArrayList;
+  >   import java.util.HashMap;
+  >   import java.util.List;
+  >   import java.util.Map;
+  >   import java.util.stream.Collectors;
+  >   
+  >   public class HotCategoryTop10Analysis3 {
   >      public static void main(String[] args) {
   >          //前边的方法都有shuffle操作，性能可能较低
   >          SparkConf sparkConf = new SparkConf().setMaster("local[*]").setAppName("HotCategoryTop10Analysis");
@@ -723,7 +721,7 @@
   >                      }
   >                  }
   >          );
-  >  
+  >   
   >          List<HotCategory> result = new ArrayList<>(acc.value().values()).stream().sorted((o1, o2) -> {
   >              if (!o1.clickCnt.equals(o2.clickCnt)) {
   >                  return o2.clickCnt - o1.clickCnt;
@@ -734,43 +732,43 @@
   >          }).limit(10).collect(Collectors.toList());
   >          // 6. 将结果采集到控制台打印出来
   >          result.iterator().forEachRemaining(it-> System.out.println(it.cid+" "+it.clickCnt+" "+it.orderCnt+" "+it.payCnt));
-  >  
+  >   
   >          //resultRDD.foreach(println)
   >          javaSparkContext.stop();
   >      }
-  >  }
-  >  
-  >  @AllArgsConstructor
-  >  class HotCategory implements Serializable {
+  >   }
+  >   
+  >   @AllArgsConstructor
+  >   class HotCategory implements Serializable {
   >      public String cid;
   >      public Integer clickCnt;
   >      public Integer orderCnt;
   >      public Integer payCnt;
-  >  }
-  >  
-  >  /**
+  >   }
+  >   
+  >   /**
   >   * 累加器用来把 Executor 端变量信息聚合到 Driver 端。在 Driver 程序中定义的变量，在
   >   * Executor 端的每个 Task 都会得到这个变量的一份新的副本，每个 task 更新这些副本的值后，
   >   * 传回 Driver 端进行 merge
   >   * */
-  >  class HotCategoryAccumulator extends AccumulatorV2<Tuple2<String, String>, Map<String, HotCategory>> {
+  >   class HotCategoryAccumulator extends AccumulatorV2<Tuple2<String, String>, Map<String, HotCategory>> {
   >      Map<String, HotCategory> hcMap = new HashMap<>();
-  >  
+  >   
   >      @Override
   >      public boolean isZero() {
   >          return hcMap.isEmpty();
   >      }
-  >  
+  >   
   >      @Override
   >      public AccumulatorV2<Tuple2<String, String>, Map<String, HotCategory>> copy() {
   >          return new HotCategoryAccumulator();
   >      }
-  >  
+  >   
   >      @Override
   >      public void reset() {
   >          hcMap.clear();
   >      }
-  >  
+  >   
   >      @Override
   >      public void add(Tuple2<String, String> v) {
   >          final var cid = v._1;
@@ -785,7 +783,7 @@
   >          }
   >          hcMap.put(cid, category);
   >      }
-  >  
+  >   
   >      @Override
   >      public void merge(AccumulatorV2<Tuple2<String, String>, Map<String, HotCategory>> other) {
   >          final var map1 = this.hcMap;
@@ -798,33 +796,33 @@
   >              map1.put(cid, category);
   >          });
   >      }
-  >  
+  >   
   >      @Override
   >      public Map<String, HotCategory> value() {
   >          return hcMap;
   >      }
-  >  }
-  >  ```
+  >   }
+  >   ```
 
 - 需求2：**Top10** 热门品类中每个品类的 **Top10** 活跃 **Session** 统计
-
-  >```java
-  >import org.apache.spark.SparkConf;
-  >import org.apache.spark.api.java.JavaPairRDD;
-  >import org.apache.spark.api.java.JavaRDD;
-  >import org.apache.spark.api.java.JavaSparkContext;
-  >import org.apache.spark.api.java.function.FlatMapFunction;
-  >import org.apache.spark.api.java.function.PairFunction;
-  >import scala.Tuple2;
-  >import scala.Tuple3;
-  >
-  >import java.util.ArrayList;
-  >import java.util.Arrays;
-  >import java.util.List;
-  >import java.util.stream.Collectors;
-  >import java.util.stream.Stream;
-  >
-  >public class HotCategoryTop10SessionAnalysis {
+  
+  > ```java
+  > import org.apache.spark.SparkConf;
+  > import org.apache.spark.api.java.JavaPairRDD;
+  > import org.apache.spark.api.java.JavaRDD;
+  > import org.apache.spark.api.java.JavaSparkContext;
+  > import org.apache.spark.api.java.function.FlatMapFunction;
+  > import org.apache.spark.api.java.function.PairFunction;
+  > import scala.Tuple2;
+  > import scala.Tuple3;
+  > 
+  > import java.util.ArrayList;
+  > import java.util.Arrays;
+  > import java.util.List;
+  > import java.util.stream.Collectors;
+  > import java.util.stream.Stream;
+  > 
+  > public class HotCategoryTop10SessionAnalysis {
   >    public static void main(String[] args) {
   >        SparkConf sparkConf = new SparkConf().setMaster("local[*]").setAppName("HotCategoryTop10Analysis");
   >        JavaSparkContext javaSparkContext = new JavaSparkContext(sparkConf);
@@ -847,7 +845,7 @@
   >        });
   >        resultRDD.collect().forEach(it -> System.out.println(it._1 + ":" + it._2));
   >    }
-  >
+  > 
   >    private static List<String> top10Category(JavaRDD<String> actionRDD) {
   >        JavaPairRDD<String, Tuple3<Integer, Integer, Integer>> flatRDD = actionRDD
   >                .flatMap(
@@ -873,33 +871,33 @@
   >                .map(it -> it._2)
   >                .collect(Collectors.toList());
   >    }
-  >}
-  >```
+  > }
+  > ```
 
 - 需求3：页面单跳转换率统计
-
-  >页面单跳转化率:
-  >计算页面单跳转化率，什么是页面单跳转换率，比如一个用户在一次 Session 过程中访问的页面路径 3,5,7,9,10,21，那么页面 3 跳到页面 5 叫一次单跳，7-9 也叫一次单跳， 那么单跳转化率就是要统计页面点击的概率。比如:计算 3-5 的单跳转化率，先获取符合条件的 Session 对于页面 3 的访问次数(PV) 为 A，然后获取符合条件的 Session 中访问了页面 3 又紧接着访问了页面 5 的次数为 B， 那么 B/A 就是 3-5 的页面单跳转化率。
-  >
-  >```java
-  >import lombok.AllArgsConstructor;
-  >import org.apache.spark.SparkConf;
-  >import org.apache.spark.api.java.JavaPairRDD;
-  >import org.apache.spark.api.java.JavaRDD;
-  >import org.apache.spark.api.java.JavaSparkContext;
-  >import org.apache.spark.api.java.function.FlatMapFunction;
-  >import org.apache.spark.api.java.function.PairFunction;
-  >import scala.Tuple2;
-  >
-  >import java.io.Serializable;
-  >import java.util.ArrayList;
-  >import java.util.Comparator;
-  >import java.util.List;
-  >import java.util.Map;
-  >import java.util.stream.Collectors;
-  >
-  >//计算页面单跳转化率
-  >public class PageflowAnalysis {
+  
+  > 页面单跳转化率:
+  > 计算页面单跳转化率，什么是页面单跳转换率，比如一个用户在一次 Session 过程中访问的页面路径 3,5,7,9,10,21，那么页面 3 跳到页面 5 叫一次单跳，7-9 也叫一次单跳， 那么单跳转化率就是要统计页面点击的概率。比如:计算 3-5 的单跳转化率，先获取符合条件的 Session 对于页面 3 的访问次数(PV) 为 A，然后获取符合条件的 Session 中访问了页面 3 又紧接着访问了页面 5 的次数为 B， 那么 B/A 就是 3-5 的页面单跳转化率。
+  > 
+  > ```java
+  > import lombok.AllArgsConstructor;
+  > import org.apache.spark.SparkConf;
+  > import org.apache.spark.api.java.JavaPairRDD;
+  > import org.apache.spark.api.java.JavaRDD;
+  > import org.apache.spark.api.java.JavaSparkContext;
+  > import org.apache.spark.api.java.function.FlatMapFunction;
+  > import org.apache.spark.api.java.function.PairFunction;
+  > import scala.Tuple2;
+  > 
+  > import java.io.Serializable;
+  > import java.util.ArrayList;
+  > import java.util.Comparator;
+  > import java.util.List;
+  > import java.util.Map;
+  > import java.util.stream.Collectors;
+  > 
+  > //计算页面单跳转化率
+  > public class PageflowAnalysis {
   >    public static void main(String[] args) {
   >        SparkConf sparkConf = new SparkConf().setMaster("local[*]").setAppName("HotCategoryTop10Analysis");
   >        JavaSparkContext javaSparkContext = new JavaSparkContext(sparkConf);
@@ -931,7 +929,7 @@
   >                .mapToPair(it -> new Tuple2<>(it.page_id, 1L))
   >                .reduceByKey(Long::sum)
   >                .collectAsMap();
-  >
+  > 
   >        //计算分子
   >        // 根据session进行分组
   >        JavaPairRDD<String, Iterable<UserVisitAction>> sessionRDD = actionDataRDD.groupBy(it -> it.session_id);
@@ -957,7 +955,7 @@
   >        dataRDD.foreach(it -> System.out.format("页面%s跳转到页面%s单跳转换率为:%f\n", it._1()._1, it._1()._2, it._2 / (float)pageidToCountMap.getOrDefault(it._1()._1, 0L)));
   >        javaSparkContext.stop();
   >    }
-  >
+  > 
   >    private static <T> List<Tuple2<T, T>> convertZipList(List<T> ids) {
   >        List<Tuple2<T, T>> okFlowIds = new ArrayList<>();
   >        for (int i = 0; i < ids.size() - 1; i++) {
@@ -965,10 +963,10 @@
   >        }
   >        return okFlowIds;
   >    }
-  >}
-  >
-  >@AllArgsConstructor
-  >class UserVisitAction implements Serializable {
+  > }
+  > 
+  > @AllArgsConstructor
+  > class UserVisitAction implements Serializable {
   >    public String date;//用户点击行为的日期
   >    public Long user_id;//用户的ID
   >    public String session_id;//Session的ID
@@ -982,40 +980,40 @@
   >    public String pay_category_ids;//一次支付中所有品类的ID集合
   >    public String pay_product_ids;//一次支付中所有商品的ID集合
   >    public Long city_id;//城市id
-  >}
-  >```
+  > }
+  > ```
 
 - 需求4：各区域热门商品Top3
-
-  >数据（导入hive的格式）：
-  >
-  >```
-  >user_visit_action：
-  >2019-07-17  95 26070e87-1ad7-49a3-8fb3-cc741facaddf   37 2019-07-17 00:00:02    手机 -1 -1 \N \N \N \N 3
-  >2019-07-17 95 26070e87-1ad7-49a3-8fb3-cc741facaddf   48 2019-07-17 00:00:10    \N 16 98 \N \N \N \N 19
-  >2019-07-17 95 26070e87-1ad7-49a3-8fb3-cc741facaddf   6  2019-07-17 00:00:17    \N 19 85 \N \N \N \N 7
-  >city_info:
-  >1	北京	华北
-  >2	上海	华东
-  >3	深圳	华南
-  >product_info:
-  >1	商品_1	自营
-  >2	商品_2	自营
-  >3	商品_3	自营
-  >```
-  >
-  >```java
-  >package sql;
-  >
-  >import org.apache.spark.SparkConf;
-  >import org.apache.spark.sql.Encoder;
-  >import org.apache.spark.sql.Encoders;
-  >import org.apache.spark.sql.SparkSession;
-  >import org.apache.spark.sql.expressions.Aggregator;
-  >import org.apache.spark.sql.functions;
-  >
-  >//https://blog.csdn.net/someby/article/details/103084807
-  >public class SparkSQLHive {
+  
+  > 数据（导入hive的格式）：
+  > 
+  > ```
+  > user_visit_action：
+  > 2019-07-17  95 26070e87-1ad7-49a3-8fb3-cc741facaddf   37 2019-07-17 00:00:02    手机 -1 -1 \N \N \N \N 3
+  > 2019-07-17 95 26070e87-1ad7-49a3-8fb3-cc741facaddf   48 2019-07-17 00:00:10    \N 16 98 \N \N \N \N 19
+  > 2019-07-17 95 26070e87-1ad7-49a3-8fb3-cc741facaddf   6  2019-07-17 00:00:17    \N 19 85 \N \N \N \N 7
+  > city_info:
+  > 1    北京    华北
+  > 2    上海    华东
+  > 3    深圳    华南
+  > product_info:
+  > 1    商品_1    自营
+  > 2    商品_2    自营
+  > 3    商品_3    自营
+  > ```
+  > 
+  > ```java
+  > package sql;
+  > 
+  > import org.apache.spark.SparkConf;
+  > import org.apache.spark.sql.Encoder;
+  > import org.apache.spark.sql.Encoders;
+  > import org.apache.spark.sql.SparkSession;
+  > import org.apache.spark.sql.expressions.Aggregator;
+  > import org.apache.spark.sql.functions;
+  > 
+  > //https://blog.csdn.net/someby/article/details/103084807
+  > public class SparkSQLHive {
   >    public static void main(String[] args) {
   >        SparkConf sparkConf = new SparkConf().setMaster("local[*]").setAppName("sparkSQL");
   >        SparkSession sparkSession = SparkSession.builder().enableHiveSupport().config(sparkConf).getOrCreate();
@@ -1031,54 +1029,54 @@
   >        sparkSession.sql("select * from t3 where rank<=3").show();
   >        sparkSession.close();
   >    }
-  >}
-  >
-  >//<输入数据类型，缓存区数据类型，输出数据类型>，这个udfa实际上也是求了count
-  >class CityRemarkUDAF extends Aggregator<String, Integer, String> {
-  >
+  > }
+  > 
+  > //<输入数据类型，缓存区数据类型，输出数据类型>，这个udfa实际上也是求了count
+  > class CityRemarkUDAF extends Aggregator<String, Integer, String> {
+  > 
   >    @Override
   >    public Integer zero() {
   >        return 0;
   >    }
-  >
+  > 
   >    @Override
   >    public Integer reduce(Integer b, String a) {
   >        return b+1;
   >    }
-  >
+  > 
   >    @Override
   >    public Integer merge(Integer b1, Integer b2) {
   >        return b1+b2;
   >    }
-  >
+  > 
   >    @Override
   >    public String finish(Integer reduction) {
   >        return String.valueOf(reduction);
   >    }
-  >
+  > 
   >    @Override
   >    public Encoder<Integer> bufferEncoder() {
   >        return Encoders.INT();
   >    }
-  >
+  > 
   >    @Override
   >    public Encoder<String> outputEncoder() {
   >        return Encoders.STRING();
   >    }
-  >}
-  >```
+  > }
+  > ```
 
 - 实时需求用Scoket模拟Kafka，用hashmap模拟数据库
-
-  >```java
-  >import java.io.IOException;
-  >import java.io.OutputStream;
-  >import java.net.ServerSocket;
-  >import java.net.Socket;
-  >import java.util.List;
-  >
-  >//https://blog.csdn.net/ifenggege/article/details/108544451
-  >public interface Mock {
+  
+  > ```java
+  > import java.io.IOException;
+  > import java.io.OutputStream;
+  > import java.net.ServerSocket;
+  > import java.net.Socket;
+  > import java.util.List;
+  > 
+  > //https://blog.csdn.net/ifenggege/article/details/108544451
+  > public interface Mock {
   >    List<String> mockData();
   >    void printLog(List<String> lines);
   >    default void createData(int port) throws IOException, InterruptedException {
@@ -1098,19 +1096,19 @@
   >            Thread.sleep(1000);
   >        }
   >    }
-  >}
-  >```
-  >
-  >```java
-  >import scala.Tuple3;
-  >
-  >import java.text.SimpleDateFormat;
-  >import java.util.*;
-  >
-  >public class MockData implements Mock {
+  > }
+  > ```
+  > 
+  > ```java
+  > import scala.Tuple3;
+  > 
+  > import java.text.SimpleDateFormat;
+  > import java.util.*;
+  > 
+  > public class MockData implements Mock {
   >    //模拟用户广告表
   >   HashMap<Tuple3<String, String, String>, Long> userAdCount = new HashMap<>();
-  >
+  > 
   >    public List<String> mockData(){
   >        ArrayList<String> datas = new ArrayList<>();
   >        String[] users={"user1","user2","user3","user4","user5","user6"};
@@ -1126,7 +1124,7 @@
   >        }
   >        return datas;
   >    }
-  >
+  > 
   >    public void printLog(List<String> lines){
   >        System.out.println("-----------LogStart-------------");
   >        lines.forEach(line->{
@@ -1140,16 +1138,16 @@
   >        userAdCount.forEach((k,v)-> System.out.println(k._2()+"用户点击了"+k._3()+"广告"+v+"次"));
   >        System.out.println("-----------LogEnd-------------");
   >    }
-  >}
-  >```
-  >
-  >```java
-  >import lombok.extern.slf4j.Slf4j;
-  >
-  >import java.io.IOException;
-  >
-  >@Slf4j
-  >public class Main {
+  > }
+  > ```
+  > 
+  > ```java
+  > import lombok.extern.slf4j.Slf4j;
+  > 
+  > import java.io.IOException;
+  > 
+  > @Slf4j
+  > public class Main {
   >    public static void main(String[] args) {
   >        try {
   >            Mock mock=new MockData();
@@ -1158,72 +1156,71 @@
   >            log.error("mock数据失败！");
   >        }
   >    }
-  >}
-  >
-  >```
-  >
-  >调整Spark的日志输出位warn而不是info
-  >
-  >```properties
-  ># Set everything to be logged to the console
-  >log4j.rootCategory=WARN, console
-  >log4j.appender.console=org.apache.log4j.ConsoleAppender
-  >log4j.appender.console.target=System.err
-  >log4j.appender.console.layout=org.apache.log4j.PatternLayout
-  >log4j.appender.console.layout.ConversionPattern=%d{yy/MM/dd HH:mm:ss} %p %c{1}: %m%n
-  >
-  ># Settings to quiet third party logs that are too verbose
-  >log4j.logger.org.spark-project.jetty=WARN
-  >log4j.logger.org.spark-project.jetty.util.component.AbstractLifeCycle=ERROR
-  >log4j.logger.org.apache.spark.repl.SparkIMain$exprTyper=INFO
-  >log4j.logger.org.apache.spark.repl.SparkILoop$SparkILoopInterpreter=INFO
-  >log4j.logger.org.apache.parquet=ERROR
-  >log4j.logger.parquet=ERROR
-  >
-  ># SPARK-9183: Settings to avoid annoying messages when looking up nonexistent UDFs in SparkSQL with Hive support
-  >log4j.logger.org.apache.hadoop.hive.metastore.RetryingHMSHandler=FATAL
-  >log4j.logger.org.apache.hadoop.hive.ql.exec.FunctionRegistry=ERROR
-  >```
+  > }
+  > ```
+  > 
+  > 调整Spark的日志输出位warn而不是info
+  > 
+  > ```properties
+  > # Set everything to be logged to the console
+  > log4j.rootCategory=WARN, console
+  > log4j.appender.console=org.apache.log4j.ConsoleAppender
+  > log4j.appender.console.target=System.err
+  > log4j.appender.console.layout=org.apache.log4j.PatternLayout
+  > log4j.appender.console.layout.ConversionPattern=%d{yy/MM/dd HH:mm:ss} %p %c{1}: %m%n
+  > 
+  > # Settings to quiet third party logs that are too verbose
+  > log4j.logger.org.spark-project.jetty=WARN
+  > log4j.logger.org.spark-project.jetty.util.component.AbstractLifeCycle=ERROR
+  > log4j.logger.org.apache.spark.repl.SparkIMain$exprTyper=INFO
+  > log4j.logger.org.apache.spark.repl.SparkILoop$SparkILoopInterpreter=INFO
+  > log4j.logger.org.apache.parquet=ERROR
+  > log4j.logger.parquet=ERROR
+  > 
+  > # SPARK-9183: Settings to avoid annoying messages when looking up nonexistent UDFs in SparkSQL with Hive support
+  > log4j.logger.org.apache.hadoop.hive.metastore.RetryingHMSHandler=FATAL
+  > log4j.logger.org.apache.hadoop.hive.ql.exec.FunctionRegistry=ERROR
+  > ```
 
 - 需求5：广告黑名单
-
-  >实现实时的动态黑名单机制:将每天对某个广告点击超过 100 次的用户拉黑。
-  >
-  >```java
-  >import lombok.AllArgsConstructor;
-  >import org.apache.spark.SparkConf;
-  >import org.apache.spark.api.java.JavaRDD;
-  >import org.apache.spark.api.java.function.Function;
-  >import org.apache.spark.streaming.Durations;
-  >import org.apache.spark.streaming.api.java.JavaPairDStream;
-  >import org.apache.spark.streaming.api.java.JavaReceiverInputDStream;
-  >import org.apache.spark.streaming.api.java.JavaStreamingContext;
-  >import scala.Tuple2;
-  >import scala.Tuple3;
-  >
-  >import java.text.SimpleDateFormat;
-  >import java.util.Date;
-  >import java.util.HashMap;
-  >import java.util.HashSet;
-  >import java.util.Set;
-  >
-  >/*CREATE TABLE user_ad_count (
+  
+  > 实现实时的动态黑名单机制:将每天对某个广告点击超过 100 次的用户拉黑。
+  > 
+  > ```java
+  > import lombok.AllArgsConstructor;
+  > import org.apache.spark.SparkConf;
+  > import org.apache.spark.api.java.JavaRDD;
+  > import org.apache.spark.api.java.function.Function;
+  > import org.apache.spark.streaming.Durations;
+  > import org.apache.spark.streaming.api.java.JavaPairDStream;
+  > import org.apache.spark.streaming.api.java.JavaReceiverInputDStream;
+  > import org.apache.spark.streaming.api.java.JavaStreamingContext;
+  > import scala.Tuple2;
+  > import scala.Tuple3;
+  > 
+  > import java.text.SimpleDateFormat;
+  > import java.util.Date;
+  > import java.util.HashMap;
+  > import java.util.HashSet;
+  > import java.util.Set;
+  > 
+  > /*CREATE TABLE user_ad_count (
   >        dt varchar(255),
   >        userid CHAR (1),
   >        adid CHAR (1),
   >        count BIGINT,
   >        PRIMARY KEY (dt, userid, adid)
   >        );*/
-  >public class BlackList {
+  > public class BlackList {
   >    //模拟用户广告表
   >    static HashMap<Tuple3<String, String, String>, Long> userAdCount = new HashMap<>();
   >    //模拟黑名单表
   >    static Set<String> blackList = new HashSet<>();
-  >
+  > 
   >    public static void main(String[] args) throws InterruptedException {
   >        SparkConf sparkConf = new SparkConf().setMaster("local[*]").setAppName("SparkStreaming");
   >        JavaStreamingContext javaStreamingContext = new JavaStreamingContext(sparkConf, Durations.seconds(3));
-  >
+  > 
   >        JavaReceiverInputDStream<String> lines = javaStreamingContext.socketTextStream("127.0.0.1", 9999);
   >        JavaPairDStream<Tuple3<String, String, String>, Long> ds = lines.map(it -> {
   >            String[] datas = it.split(" ");
@@ -1257,45 +1254,45 @@
   >        javaStreamingContext.awaitTermination();
   >        javaStreamingContext.stop();
   >    }
-  >}
-  >
-  >@AllArgsConstructor
-  >class AdClickData {
+  > }
+  > 
+  > @AllArgsConstructor
+  > class AdClickData {
   >    public String ts;
   >    public String area;
   >    public String city;
   >    public String user;
   >    public String ad;
-  >}
-  >```
-  >
-  >优化后的代码：
-  >
-  >```java
-  >import org.apache.spark.SparkConf;
-  >import org.apache.spark.api.java.JavaRDD;
-  >import org.apache.spark.api.java.function.Function;
-  >import org.apache.spark.api.java.function.VoidFunction;
-  >import org.apache.spark.streaming.Durations;
-  >import org.apache.spark.streaming.api.java.JavaPairDStream;
-  >import org.apache.spark.streaming.api.java.JavaReceiverInputDStream;
-  >import org.apache.spark.streaming.api.java.JavaStreamingContext;
-  >import scala.Tuple2;
-  >import scala.Tuple3;
-  >
-  >import java.text.SimpleDateFormat;
-  >import java.util.*;
-  >
-  >public class BlackList2 {
+  > }
+  > ```
+  > 
+  > 优化后的代码：
+  > 
+  > ```java
+  > import org.apache.spark.SparkConf;
+  > import org.apache.spark.api.java.JavaRDD;
+  > import org.apache.spark.api.java.function.Function;
+  > import org.apache.spark.api.java.function.VoidFunction;
+  > import org.apache.spark.streaming.Durations;
+  > import org.apache.spark.streaming.api.java.JavaPairDStream;
+  > import org.apache.spark.streaming.api.java.JavaReceiverInputDStream;
+  > import org.apache.spark.streaming.api.java.JavaStreamingContext;
+  > import scala.Tuple2;
+  > import scala.Tuple3;
+  > 
+  > import java.text.SimpleDateFormat;
+  > import java.util.*;
+  > 
+  > public class BlackList2 {
   >    //模拟用户广告表
   >    static HashMap<Tuple3<String, String, String>, Long> userAdCount = new HashMap<>();
   >    //模拟黑名单表
   >    static Set<String> blackList = new HashSet<>();
-  >
+  > 
   >    public static void main(String[] args) throws InterruptedException {
   >        SparkConf sparkConf = new SparkConf().setMaster("local[*]").setAppName("SparkStreaming");
   >        JavaStreamingContext javaStreamingContext = new JavaStreamingContext(sparkConf, Durations.seconds(3));
-  >
+  > 
   >        JavaReceiverInputDStream<String> lines = javaStreamingContext.socketTextStream("127.0.0.1", 9999);
   >        JavaPairDStream<Tuple3<String, String, String>, Long> ds = lines.map(it -> {
   >            String[] datas = it.split(" ");
@@ -1334,35 +1331,35 @@
   >        javaStreamingContext.awaitTermination();
   >        javaStreamingContext.stop();
   >    }
-  >}
-  >```
+  > }
+  > ```
 
 - 需求6：广告点击量实时统计
-
-  >实时统计每天各地区各城市各广告的点击总流量
-  >
-  >```java
-  >import org.apache.spark.SparkConf;
-  >import org.apache.spark.api.java.function.VoidFunction;
-  >import org.apache.spark.streaming.Durations;
-  >import org.apache.spark.streaming.api.java.JavaReceiverInputDStream;
-  >import org.apache.spark.streaming.api.java.JavaStreamingContext;
-  >import scala.Tuple2;
-  >import scala.Tuple4;
-  >
-  >import java.text.SimpleDateFormat;
-  >import java.util.Date;
-  >import java.util.HashMap;
-  >import java.util.Iterator;
-  >
-  >public class ClcickCount {
+  
+  > 实时统计每天各地区各城市各广告的点击总流量
+  > 
+  > ```java
+  > import org.apache.spark.SparkConf;
+  > import org.apache.spark.api.java.function.VoidFunction;
+  > import org.apache.spark.streaming.Durations;
+  > import org.apache.spark.streaming.api.java.JavaReceiverInputDStream;
+  > import org.apache.spark.streaming.api.java.JavaStreamingContext;
+  > import scala.Tuple2;
+  > import scala.Tuple4;
+  > 
+  > import java.text.SimpleDateFormat;
+  > import java.util.Date;
+  > import java.util.HashMap;
+  > import java.util.Iterator;
+  > 
+  > public class ClcickCount {
   >    //模拟用户广告表
   >    static HashMap<Tuple4<String, String, String, String>, Long> areaCityAdCount = new HashMap<>();
-  >
+  > 
   >    public static void main(String[] args) throws InterruptedException {
   >        SparkConf sparkConf = new SparkConf().setMaster("local[*]").setAppName("SparkStreaming");
   >        JavaStreamingContext javaStreamingContext = new JavaStreamingContext(sparkConf, Durations.seconds(3));
-  >
+  > 
   >        JavaReceiverInputDStream<String> lines = javaStreamingContext.socketTextStream("127.0.0.1", 9999);
   >        lines.map(it -> {
   >                    String[] datas = it.split(" ");
@@ -1387,22 +1384,22 @@
   >        javaStreamingContext.awaitTermination();
   >        javaStreamingContext.stop();
   >    }
-  >}
-  >```
+  > }
+  > ```
 
 - 需求7：
-
-  >最近一小时广告点击量
-  >
-  >```java
-  >import org.apache.spark.SparkConf;
-  >import org.apache.spark.streaming.Durations;
-  >import org.apache.spark.streaming.api.java.JavaPairDStream;
-  >import org.apache.spark.streaming.api.java.JavaReceiverInputDStream;
-  >import org.apache.spark.streaming.api.java.JavaStreamingContext;
-  >import scala.Tuple2;
-  >
-  >public class Windows {
+  
+  > 最近一小时广告点击量
+  > 
+  > ```java
+  > import org.apache.spark.SparkConf;
+  > import org.apache.spark.streaming.Durations;
+  > import org.apache.spark.streaming.api.java.JavaPairDStream;
+  > import org.apache.spark.streaming.api.java.JavaReceiverInputDStream;
+  > import org.apache.spark.streaming.api.java.JavaStreamingContext;
+  > import scala.Tuple2;
+  > 
+  > public class Windows {
   >    public static void main(String[] args) throws InterruptedException {
   >        SparkConf sparkConf = new SparkConf().setMaster("local[*]").setAppName("SparkStreaming");
   >        //此处注意滑动距离必须是批量执行的整数倍
@@ -1419,8 +1416,8 @@
   >        javaStreamingContext.awaitTermination();
   >        javaStreamingContext.stop();
   >    }
-  >}
-  >```
+  > }
+  > ```
 
 # 安装与启动
 
@@ -1428,7 +1425,7 @@ docker pull singularities/spark
 
 ```yml
 version: "2"
- 
+
 services:
   master:
     image: singularities/spark
@@ -1451,4 +1448,3 @@ services:
       # 设置本地目录和镜像目录的映射关系（格式：本地机器目录:镜像中对应路径）
       - /Users/wyj/Documents/spark/data:/input_files
 ```
-

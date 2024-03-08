@@ -624,7 +624,7 @@ public class DefaultAdvisorAutoProxyCreator implements InstantiationAwareBeanPos
   > 10. bean可以使用了
   > 11. 容器关闭时调用DisposableBean的destroy方法
   > 12. 调用自定义的销毁方法
-  
+
 - AbstractAutoProxyCreator创建代理的流程
   
   > 1. 先确认是否已经创建过代理对象(earlyProxyReferences，避免对代理对象在进行代理)
@@ -634,20 +634,18 @@ public class DefaultAdvisorAutoProxyCreator implements InstantiationAwareBeanPos
   > 5. 如果找到了Advisor，说明需要创建代理，进入createProxy
   > 6. 首先会创建ProxyFactory,这个工厂是用来创建AopProxy的，而AopProxy才是用来创建代理对象的。因为底层代理方式有两种(JDK动态代理和CGLIB，对应到AopProxy的实现就是JdkDynamicAopProxy和ObjenesisCglibAopProxy)，所以这里使用了一个简单工厂的设计。ProxyFactory会设置此次代理的属性，然后根据这些属性选择合适的代理方式，创建代理对象。
   > 7. 创建的对象会替换掉被代理对象(Target)，被保存在BeanFactory.singletonObjects,因此当有其他Bean希望注入Target时，其实已经被注入了Proxy。以上就是Spring实现动态代理的过程。
-  
+
 - Spring的生命周期
   
-  >1. 注册阶段
-  >   - 首先解析文件转为BeanDefinition，此阶段实现了FactoryPostProcessor接口的Bean可以通过重写BeanFactoryPostProcessor的postProcessBeanFactory方法改写Bean的定义，典型的就是占位符字符串的替换
-  >2. 实例化阶段
-  >   - 调用构造方法实例化，填充属性，调用BeanNameAware的setBeanName方法，调用BeanFactoryAware的setBeanFacotry方法，调用ApplicationContextAware的setApplicationContext方法（**非懒加载的此阶段一次性加载，懒加载的调用时加载**）
-  >3. 初始化阶段
-  >   - 调用BeanPostProcessor的postProcessBeforeInitialization方法，调用InitializingBean的afterPropertySet方法，调用自定义的初始化方法，调用BeanPostProcessor的postProcessAfterInitialization方法
-  >   - 实现AOP的原理是用BeanPostProcessor在对象初始化之前执行方法
-  >4. 销毁阶段
-  >   - 容器关闭时调用DisposableBean的destroy方法，调用自定义的销毁方法
-  >
-  >
+  > 1. 注册阶段
+  >    - 首先解析文件转为BeanDefinition，此阶段实现了FactoryPostProcessor接口的Bean可以通过重写BeanFactoryPostProcessor的postProcessBeanFactory方法改写Bean的定义，典型的就是占位符字符串的替换
+  > 2. 实例化阶段
+  >    - 调用构造方法实例化，填充属性，调用BeanNameAware的setBeanName方法，调用BeanFactoryAware的setBeanFacotry方法，调用ApplicationContextAware的setApplicationContext方法（**非懒加载的此阶段一次性加载，懒加载的调用时加载**）
+  > 3. 初始化阶段
+  >    - 调用BeanPostProcessor的postProcessBeforeInitialization方法，调用InitializingBean的afterPropertySet方法，调用自定义的初始化方法，调用BeanPostProcessor的postProcessAfterInitialization方法
+  >    - 实现AOP的原理是用BeanPostProcessor在对象初始化之前执行方法
+  > 4. 销毁阶段
+  >    - 容器关闭时调用DisposableBean的destroy方法，调用自定义的销毁方法
 
 # Spring
 
@@ -703,14 +701,13 @@ public class DefaultAdvisorAutoProxyCreator implements InstantiationAwareBeanPos
       public void add() {
           Person person = (Person) applicationContext.getBean("person");
       }
-  }	
+  }    
   ```
-
 
 ## 初始化Bean
 
 - 使用@PostConstruct注解
-
+  
   ```java
   @Service
   public  class AService {
@@ -723,7 +720,7 @@ public class DefaultAdvisorAutoProxyCreator implements InstantiationAwareBeanPos
   ```
 
 - 实现InitializingBean接口
-
+  
   ```java
   @Service
   public  class BService implements InitializingBean {
@@ -1676,7 +1673,7 @@ public class Main {
   >    @Component
   >    @ConfigurationProperties("jump.threadpool")
   >    public class ThreadPoolProperties {
-  >             
+  >    
   >      private int corePoolSize;
   >      private int maxPoolSize;
   >      private int keepAliveSeconds;
@@ -1737,17 +1734,17 @@ public class Main {
 @Configuration
 @EnableStateMachine
 public class Config1Enums
-		extends EnumStateMachineConfigurerAdapter<States, Events> {
+        extends EnumStateMachineConfigurerAdapter<States, Events> {
 
-	@Override
-	public void configure(StateMachineStateConfigurer<States, Events> states)
-			throws Exception {
-		states
-			.withStates()
-				.initial(States.S1)
-				.end(States.SF)
-				.states(EnumSet.allOf(States.class));
-	}
+    @Override
+    public void configure(StateMachineStateConfigurer<States, Events> states)
+            throws Exception {
+        states
+            .withStates()
+                .initial(States.S1)
+                .end(States.SF)
+                .states(EnumSet.allOf(States.class));
+    }
 }
 ```
 
@@ -1757,17 +1754,17 @@ public class Config1Enums
 @Configuration
 @EnableStateMachine
 public class Config1Strings
-		extends StateMachineConfigurerAdapter<String, String> {
+        extends StateMachineConfigurerAdapter<String, String> {
 
-	@Override
-	public void configure(StateMachineStateConfigurer<String, String> states)
-			throws Exception {
-		states
-			.withStates()
-				.initial("S1")
-				.end("SF")
-				.states(new HashSet<String>(Arrays.asList("S1","S2","S3","S4")));
-	}
+    @Override
+    public void configure(StateMachineStateConfigurer<String, String> states)
+            throws Exception {
+        states
+            .withStates()
+                .initial("S1")
+                .end("SF")
+                .states(new HashSet<String>(Arrays.asList("S1","S2","S3","S4")));
+    }
 
 }
 ```
@@ -2091,8 +2088,6 @@ public class MockDB {
 }
 ```
 
-
-
 # Tomcat
 
 - 深入拆解Tomcat & Jetty（极客时间）
@@ -2102,12 +2097,12 @@ public class MockDB {
 - Servlet规范
 
 - 三大器
-
-  >拦截器：
-  >
-  >过滤器：
-  >
-  >监听器：
+  
+  > 拦截器：
+  > 
+  > 过滤器：
+  > 
+  > 监听器：
 
 # 
 
@@ -2247,28 +2242,28 @@ globalSession：同一个全局Session共享一个Bean，只用于基于Protlet�
 ## 循环引用
 
 - 二级缓存可以解决吗
-
-  >可以解决但是只能解决不带AOP的
-  >
-  >- spring解决不了构造方法参数的循环依赖，A的构造方法里调用了B的方法，B的构造方法里调用了A的方法，谁也解决不了，能解决的，只是类成员变量（具有set方法）的循环依赖。A里有B，B里有A，并且各自都有set方法。
-  >- 实例化，放到二级缓存，初始化，放到一级缓存，完事。
-  >- 如果类型A与B发生了循环依赖，那它的创建过程就是：实例化A，放到二级缓存，实例化B，放到二级缓存，初始化B（从二级缓存拿到A的引用），将B放到一级缓存，初始化A，将A放到一级缓存，完事！
+  
+  > 可以解决但是只能解决不带AOP的
+  > 
+  > - spring解决不了构造方法参数的循环依赖，A的构造方法里调用了B的方法，B的构造方法里调用了A的方法，谁也解决不了，能解决的，只是类成员变量（具有set方法）的循环依赖。A里有B，B里有A，并且各自都有set方法。
+  > - 实例化，放到二级缓存，初始化，放到一级缓存，完事。
+  > - 如果类型A与B发生了循环依赖，那它的创建过程就是：实例化A，放到二级缓存，实例化B，放到二级缓存，初始化B（从二级缓存拿到A的引用），将B放到一级缓存，初始化A，将A放到一级缓存，完事！
 
 - 三级缓存缓存的是什么?
-
-  | 等级 | 名称                  | 说明                         |
-  | ---- | --------------------- | ---------------------------- |
-  | 一级 | singletonObjects      | 可以理解为单例池,已完成      |
-  | 二级 | earlySingletonObjects | 早期单例对象缓存,未完成已AOP |
-  | 三级 | singletonFactories    | 单例工厂缓存,未完成未AOP     |
+  
+  | 等级  | 名称                    | 说明               |
+  | --- | --------------------- | ---------------- |
+  | 一级  | singletonObjects      | 可以理解为单例池,已完成     |
+  | 二级  | earlySingletonObjects | 早期单例对象缓存,未完成已AOP |
+  | 三级  | singletonFactories    | 单例工厂缓存,未完成未AOP   |
 
 - 三级缓存过程是什么？
   
-  >- A对象先实例化，注入属性，放入三级缓存
-  >- B对象实例化，注入属性，A对象创建代理（如果有的话），移出三级缓存移入二级缓存
-  >- B对象初始化，创建完成
-  >- A对象初始化，创建完成，移出二级缓存移入一级缓存
-  
+  > - A对象先实例化，注入属性，放入三级缓存
+  > - B对象实例化，注入属性，A对象创建代理（如果有的话），移出三级缓存移入二级缓存
+  > - B对象初始化，创建完成
+  > - A对象初始化，创建完成，移出二级缓存移入一级缓存
+
 - 关于三级引用，如果使用了三级缓存，A中有代理的情况下创建bean的过程如下[参考](https://www.jianshu.com/p/abda18eaa848)
   
   ```

@@ -29,32 +29,32 @@ Doris 的数据模型主要分为3类:
 
 假设业务有如下数据表模式：
 
-| ColumnName      | Type        | AggregationType | Comment              |
-| --------------- | ----------- | --------------- | -------------------- |
-| user_id         | LARGEINT    |                 | 用户id               |
-| date            | DATE        |                 | 数据灌入日期         |
-| city            | VARCHAR(20) |                 | 用户所在城市         |
-| age             | SMALLINT    |                 | 用户年龄             |
-| sex             | TINYINT     |                 | 用户性别             |
+| ColumnName      | Type        | AggregationType | Comment    |
+| --------------- | ----------- | --------------- | ---------- |
+| user_id         | LARGEINT    |                 | 用户id       |
+| date            | DATE        |                 | 数据灌入日期     |
+| city            | VARCHAR(20) |                 | 用户所在城市     |
+| age             | SMALLINT    |                 | 用户年龄       |
+| sex             | TINYINT     |                 | 用户性别       |
 | last_visit_date | DATETIME    | REPLACE         | 用户最后一次访问时间 |
-| cost            | BIGINT      | SUM             | 用户总消费           |
-| max_dwell_time  | INT         | MAX             | 用户最大停留时间     |
-| min_dwell_time  | INT         | MIN             | 用户最小停留时间     |
+| cost            | BIGINT      | SUM             | 用户总消费      |
+| max_dwell_time  | INT         | MAX             | 用户最大停留时间   |
+| min_dwell_time  | INT         | MIN             | 用户最小停留时间   |
 
 如果转换成建表语句则如下（省略建表语句中的 Partition 和 Distribution 信息）
 
 ```
 CREATE TABLE IF NOT EXISTS example_db.expamle_tbl
 (
-	`user_id` LARGEINT NOT NULL COMMENT "用户id",
-	`date` DATE NOT NULL COMMENT "数据灌入日期时间",
-	`city` VARCHAR(20) COMMENT "用户所在城市",
-	`age` SMALLINT COMMENT "用户年龄",
-	`sex` TINYINT COMMENT "用户性别",
-	`last_visit_date` DATETIME REPLACE DEFAULT "1970-01-01 00:00:00" COMMENT "用户最后一次访问时间",
-	`cost` BIGINT SUM DEFAULT "0" COMMENT "用户总消费",
-	`max_dwell_time` INT MAX DEFAULT "0" COMMENT "用户最大停留时间",
-	`min_dwell_time` INT MIN DEFAULT "99999" COMMENT "用户最小停留时间",
+    `user_id` LARGEINT NOT NULL COMMENT "用户id",
+    `date` DATE NOT NULL COMMENT "数据灌入日期时间",
+    `city` VARCHAR(20) COMMENT "用户所在城市",
+    `age` SMALLINT COMMENT "用户年龄",
+    `sex` TINYINT COMMENT "用户性别",
+    `last_visit_date` DATETIME REPLACE DEFAULT "1970-01-01 00:00:00" COMMENT "用户最后一次访问时间",
+    `cost` BIGINT SUM DEFAULT "0" COMMENT "用户总消费",
+    `max_dwell_time` INT MAX DEFAULT "0" COMMENT "用户最大停留时间",
+    `min_dwell_time` INT MIN DEFAULT "99999" COMMENT "用户最小停留时间",
 )
 AGGREGATE KEY(`user_id`, `date`, `timestamp`, `city`, `age`, `sex`)
 ... /* 省略 Partition 和 Distribution 信息 */
@@ -75,47 +75,47 @@ AGGREGATE KEY(`user_id`, `date`, `timestamp`, `city`, `age`, `sex`)
 
 假设我们有以下导入数据（原始数据）：
 
-| user_id | date       | city | age  | sex  | last_visit_date     | cost | max_dwell_time | min_dwell_time |
-| ------- | ---------- | ---- | ---- | ---- | ------------------- | ---- | -------------- | -------------- |
-| 10000   | 2017-10-01 | 北京 | 20   | 0    | 2017-10-01 06:00:00 | 20   | 10             | 10             |
-| 10000   | 2017-10-01 | 北京 | 20   | 0    | 2017-10-01 07:00:00 | 15   | 2              | 2              |
-| 10001   | 2017-10-01 | 北京 | 30   | 1    | 2017-10-01 17:05:45 | 2    | 22             | 22             |
-| 10002   | 2017-10-02 | 上海 | 20   | 1    | 2017-10-02 12:59:12 | 200  | 5              | 5              |
-| 10003   | 2017-10-02 | 广州 | 32   | 0    | 2017-10-02 11:20:00 | 30   | 11             | 11             |
-| 10004   | 2017-10-01 | 深圳 | 35   | 0    | 2017-10-01 10:00:15 | 100  | 3              | 3              |
-| 10004   | 2017-10-03 | 深圳 | 35   | 0    | 2017-10-03 10:20:22 | 11   | 6              | 6              |
+| user_id | date       | city | age | sex | last_visit_date     | cost | max_dwell_time | min_dwell_time |
+| ------- | ---------- | ---- | --- | --- | ------------------- | ---- | -------------- | -------------- |
+| 10000   | 2017-10-01 | 北京   | 20  | 0   | 2017-10-01 06:00:00 | 20   | 10             | 10             |
+| 10000   | 2017-10-01 | 北京   | 20  | 0   | 2017-10-01 07:00:00 | 15   | 2              | 2              |
+| 10001   | 2017-10-01 | 北京   | 30  | 1   | 2017-10-01 17:05:45 | 2    | 22             | 22             |
+| 10002   | 2017-10-02 | 上海   | 20  | 1   | 2017-10-02 12:59:12 | 200  | 5              | 5              |
+| 10003   | 2017-10-02 | 广州   | 32  | 0   | 2017-10-02 11:20:00 | 30   | 11             | 11             |
+| 10004   | 2017-10-01 | 深圳   | 35  | 0   | 2017-10-01 10:00:15 | 100  | 3              | 3              |
+| 10004   | 2017-10-03 | 深圳   | 35  | 0   | 2017-10-03 10:20:22 | 11   | 6              | 6              |
 
 我们假设这是一张记录用户访问某商品页面行为的表。我们以第一行数据为例，解释如下：
 
-| 数据                | 说明                                   |
-| ------------------- | -------------------------------------- |
-| 10000               | 用户id，每个用户唯一识别id             |
-| 2017-10-01          | 数据入库时间，精确到日期               |
-| 北京                | 用户所在城市                           |
-| 20                  | 用户年龄                               |
-| 0                   | 性别男（1 代表女性）                   |
-| 2017-10-01 06:00:00 | 用户本次访问该页面的时间，精确到秒     |
-| 20                  | 用户本次访问产生的消费                 |
-| 10                  | 用户本次访问，驻留该页面的时间         |
+| 数据                  | 说明                  |
+| ------------------- | ------------------- |
+| 10000               | 用户id，每个用户唯一识别id     |
+| 2017-10-01          | 数据入库时间，精确到日期        |
+| 北京                  | 用户所在城市              |
+| 20                  | 用户年龄                |
+| 0                   | 性别男（1 代表女性）         |
+| 2017-10-01 06:00:00 | 用户本次访问该页面的时间，精确到秒   |
+| 20                  | 用户本次访问产生的消费         |
+| 10                  | 用户本次访问，驻留该页面的时间     |
 | 10                  | 用户本次访问，驻留该页面的时间（冗余） |
 
 那么当这批数据正确导入到 Doris 中后，Doris 中最终存储如下：
 
-| user_id | date       | city | age  | sex  | last_visit_date     | cost | max_dwell_time | min_dwell_time |
-| ------- | ---------- | ---- | ---- | ---- | ------------------- | ---- | -------------- | -------------- |
-| 10000   | 2017-10-01 | 北京 | 20   | 0    | 2017-10-01 07:00:00 | 35   | 10             | 2              |
-| 10001   | 2017-10-01 | 北京 | 30   | 1    | 2017-10-01 17:05:45 | 2    | 22             | 22             |
-| 10002   | 2017-10-02 | 上海 | 20   | 1    | 2017-10-02 12:59:12 | 200  | 5              | 5              |
-| 10003   | 2017-10-02 | 广州 | 32   | 0    | 2017-10-02 11:20:00 | 30   | 11             | 11             |
-| 10004   | 2017-10-01 | 深圳 | 35   | 0    | 2017-10-01 10:00:15 | 100  | 3              | 3              |
-| 10004   | 2017-10-03 | 深圳 | 35   | 0    | 2017-10-03 10:20:22 | 11   | 6              | 6              |
+| user_id | date       | city | age | sex | last_visit_date     | cost | max_dwell_time | min_dwell_time |
+| ------- | ---------- | ---- | --- | --- | ------------------- | ---- | -------------- | -------------- |
+| 10000   | 2017-10-01 | 北京   | 20  | 0   | 2017-10-01 07:00:00 | 35   | 10             | 2              |
+| 10001   | 2017-10-01 | 北京   | 30  | 1   | 2017-10-01 17:05:45 | 2    | 22             | 22             |
+| 10002   | 2017-10-02 | 上海   | 20  | 1   | 2017-10-02 12:59:12 | 200  | 5              | 5              |
+| 10003   | 2017-10-02 | 广州   | 32  | 0   | 2017-10-02 11:20:00 | 30   | 11             | 11             |
+| 10004   | 2017-10-01 | 深圳   | 35  | 0   | 2017-10-01 10:00:15 | 100  | 3              | 3              |
+| 10004   | 2017-10-03 | 深圳   | 35  | 0   | 2017-10-03 10:20:22 | 11   | 6              | 6              |
 
 可以看到，用户 10000 只剩下了一行**聚合后**的数据。而其余用户的数据和原始数据保持一致。这里先解释下用户 10000 聚合后的数据：
 
 前5列没有变化，从第6列 `last_visit_date` 开始：
 
 - `2017-10-01 07:00:00`：因为 `last_visit_date` 列的聚合方式为 REPLACE，所以 `2017-10-01 07:00:00` 替换了 `2017-10-01 06:00:00` 保存了下来。
-
+  
   > 注：在同一个导入批次中的数据，对于 REPLACE 这种聚合方式，替换顺序不做保证。如在这个例子中，最终保存下来的，也有可能是 `2017-10-01 06:00:00`。而对于不同导入批次中的数据，可以保证，后一批次的数据会替换前一批次。
 
 - `35`：因为 `cost` 列的聚合类型为 SUM，所以由 20 + 15 累加获得 35。
@@ -130,44 +130,44 @@ AGGREGATE KEY(`user_id`, `date`, `timestamp`, `city`, `age`, `sex`)
 
 接示例1，我们将表结构修改如下：
 
-| ColumnName      | Type        | AggregationType | Comment                |
-| --------------- | ----------- | --------------- | ---------------------- |
-| user_id         | LARGEINT    |                 | 用户id                 |
-| date            | DATE        |                 | 数据灌入日期           |
+| ColumnName      | Type        | AggregationType | Comment     |
+| --------------- | ----------- | --------------- | ----------- |
+| user_id         | LARGEINT    |                 | 用户id        |
+| date            | DATE        |                 | 数据灌入日期      |
 | timestamp       | DATETIME    |                 | 数据灌入时间，精确到秒 |
-| city            | VARCHAR(20) |                 | 用户所在城市           |
-| age             | SMALLINT    |                 | 用户年龄               |
-| sex             | TINYINT     |                 | 用户性别               |
-| last_visit_date | DATETIME    | REPLACE         | 用户最后一次访问时间   |
-| cost            | BIGINT      | SUM             | 用户总消费             |
-| max_dwell_time  | INT         | MAX             | 用户最大停留时间       |
-| min_dwell_time  | INT         | MIN             | 用户最小停留时间       |
+| city            | VARCHAR(20) |                 | 用户所在城市      |
+| age             | SMALLINT    |                 | 用户年龄        |
+| sex             | TINYINT     |                 | 用户性别        |
+| last_visit_date | DATETIME    | REPLACE         | 用户最后一次访问时间  |
+| cost            | BIGINT      | SUM             | 用户总消费       |
+| max_dwell_time  | INT         | MAX             | 用户最大停留时间    |
+| min_dwell_time  | INT         | MIN             | 用户最小停留时间    |
 
 即增加了一列 `timestamp`，记录精确到秒的数据灌入时间。
 
 导入数据如下：
 
-| user_id | date       | timestamp           | city | age  | sex  | last_visit_date     | cost | max_dwell_time | min_dwell_time |
-| ------- | ---------- | ------------------- | ---- | ---- | ---- | ------------------- | ---- | -------------- | -------------- |
-| 10000   | 2017-10-01 | 2017-10-01 08:00:05 | 北京 | 20   | 0    | 2017-10-01 06:00:00 | 20   | 10             | 10             |
-| 10000   | 2017-10-01 | 2017-10-01 09:00:05 | 北京 | 20   | 0    | 2017-10-01 07:00:00 | 15   | 2              | 2              |
-| 10001   | 2017-10-01 | 2017-10-01 18:12:10 | 北京 | 30   | 1    | 2017-10-01 17:05:45 | 2    | 22             | 22             |
-| 10002   | 2017-10-02 | 2017-10-02 13:10:00 | 上海 | 20   | 1    | 2017-10-02 12:59:12 | 200  | 5              | 5              |
-| 10003   | 2017-10-02 | 2017-10-02 13:15:00 | 广州 | 32   | 0    | 2017-10-02 11:20:00 | 30   | 11             | 11             |
-| 10004   | 2017-10-01 | 2017-10-01 12:12:48 | 深圳 | 35   | 0    | 2017-10-01 10:00:15 | 100  | 3              | 3              |
-| 10004   | 2017-10-03 | 2017-10-03 12:38:20 | 深圳 | 35   | 0    | 2017-10-03 10:20:22 | 11   | 6              | 6              |
+| user_id | date       | timestamp           | city | age | sex | last_visit_date     | cost | max_dwell_time | min_dwell_time |
+| ------- | ---------- | ------------------- | ---- | --- | --- | ------------------- | ---- | -------------- | -------------- |
+| 10000   | 2017-10-01 | 2017-10-01 08:00:05 | 北京   | 20  | 0   | 2017-10-01 06:00:00 | 20   | 10             | 10             |
+| 10000   | 2017-10-01 | 2017-10-01 09:00:05 | 北京   | 20  | 0   | 2017-10-01 07:00:00 | 15   | 2              | 2              |
+| 10001   | 2017-10-01 | 2017-10-01 18:12:10 | 北京   | 30  | 1   | 2017-10-01 17:05:45 | 2    | 22             | 22             |
+| 10002   | 2017-10-02 | 2017-10-02 13:10:00 | 上海   | 20  | 1   | 2017-10-02 12:59:12 | 200  | 5              | 5              |
+| 10003   | 2017-10-02 | 2017-10-02 13:15:00 | 广州   | 32  | 0   | 2017-10-02 11:20:00 | 30   | 11             | 11             |
+| 10004   | 2017-10-01 | 2017-10-01 12:12:48 | 深圳   | 35  | 0   | 2017-10-01 10:00:15 | 100  | 3              | 3              |
+| 10004   | 2017-10-03 | 2017-10-03 12:38:20 | 深圳   | 35  | 0   | 2017-10-03 10:20:22 | 11   | 6              | 6              |
 
 那么当这批数据正确导入到 Doris 中后，Doris 中最终存储如下：
 
-| user_id | date       | timestamp           | city | age  | sex  | last_visit_date     | cost | max_dwell_time | min_dwell_time |
-| ------- | ---------- | ------------------- | ---- | ---- | ---- | ------------------- | ---- | -------------- | -------------- |
-| 10000   | 2017-10-01 | 2017-10-01 08:00:05 | 北京 | 20   | 0    | 2017-10-01 06:00:00 | 20   | 10             | 10             |
-| 10000   | 2017-10-01 | 2017-10-01 09:00:05 | 北京 | 20   | 0    | 2017-10-01 07:00:00 | 15   | 2              | 2              |
-| 10001   | 2017-10-01 | 2017-10-01 18:12:10 | 北京 | 30   | 1    | 2017-10-01 17:05:45 | 2    | 22             | 22             |
-| 10002   | 2017-10-02 | 2017-10-02 13:10:00 | 上海 | 20   | 1    | 2017-10-02 12:59:12 | 200  | 5              | 5              |
-| 10003   | 2017-10-02 | 2017-10-02 13:15:00 | 广州 | 32   | 0    | 2017-10-02 11:20:00 | 30   | 11             | 11             |
-| 10004   | 2017-10-01 | 2017-10-01 12:12:48 | 深圳 | 35   | 0    | 2017-10-01 10:00:15 | 100  | 3              | 3              |
-| 10004   | 2017-10-03 | 2017-10-03 12:38:20 | 深圳 | 35   | 0    | 2017-10-03 10:20:22 | 11   | 6              | 6              |
+| user_id | date       | timestamp           | city | age | sex | last_visit_date     | cost | max_dwell_time | min_dwell_time |
+| ------- | ---------- | ------------------- | ---- | --- | --- | ------------------- | ---- | -------------- | -------------- |
+| 10000   | 2017-10-01 | 2017-10-01 08:00:05 | 北京   | 20  | 0   | 2017-10-01 06:00:00 | 20   | 10             | 10             |
+| 10000   | 2017-10-01 | 2017-10-01 09:00:05 | 北京   | 20  | 0   | 2017-10-01 07:00:00 | 15   | 2              | 2              |
+| 10001   | 2017-10-01 | 2017-10-01 18:12:10 | 北京   | 30  | 1   | 2017-10-01 17:05:45 | 2    | 22             | 22             |
+| 10002   | 2017-10-02 | 2017-10-02 13:10:00 | 上海   | 20  | 1   | 2017-10-02 12:59:12 | 200  | 5              | 5              |
+| 10003   | 2017-10-02 | 2017-10-02 13:15:00 | 广州   | 32  | 0   | 2017-10-02 11:20:00 | 30   | 11             | 11             |
+| 10004   | 2017-10-01 | 2017-10-01 12:12:48 | 深圳   | 35  | 0   | 2017-10-01 10:00:15 | 100  | 3              | 3              |
+| 10004   | 2017-10-03 | 2017-10-03 12:38:20 | 深圳   | 35  | 0   | 2017-10-03 10:20:22 | 11   | 6              | 6              |
 
 我们可以看到，存储的数据，和导入数据完全一样，没有发生任何聚合。这是因为，这批数据中，因为加入了 `timestamp` 列，所有行的 Key 都**不完全相同**。也就是说，只要保证导入的数据中，每一行的 Key 都不完全相同，那么即使在聚合模型下，Doris 也可以保存完整的明细数据。
 
@@ -175,33 +175,33 @@ AGGREGATE KEY(`user_id`, `date`, `timestamp`, `city`, `age`, `sex`)
 
 接示例1。假设现在表中已有数据如下：
 
-| user_id | date       | city | age  | sex  | last_visit_date     | cost | max_dwell_time | min_dwell_time |
-| ------- | ---------- | ---- | ---- | ---- | ------------------- | ---- | -------------- | -------------- |
-| 10000   | 2017-10-01 | 北京 | 20   | 0    | 2017-10-01 07:00:00 | 35   | 10             | 2              |
-| 10001   | 2017-10-01 | 北京 | 30   | 1    | 2017-10-01 17:05:45 | 2    | 22             | 22             |
-| 10002   | 2017-10-02 | 上海 | 20   | 1    | 2017-10-02 12:59:12 | 200  | 5              | 5              |
-| 10003   | 2017-10-02 | 广州 | 32   | 0    | 2017-10-02 11:20:00 | 30   | 11             | 11             |
-| 10004   | 2017-10-01 | 深圳 | 35   | 0    | 2017-10-01 10:00:15 | 100  | 3              | 3              |
-| 10004   | 2017-10-03 | 深圳 | 35   | 0    | 2017-10-03 10:20:22 | 11   | 6              | 6              |
+| user_id | date       | city | age | sex | last_visit_date     | cost | max_dwell_time | min_dwell_time |
+| ------- | ---------- | ---- | --- | --- | ------------------- | ---- | -------------- | -------------- |
+| 10000   | 2017-10-01 | 北京   | 20  | 0   | 2017-10-01 07:00:00 | 35   | 10             | 2              |
+| 10001   | 2017-10-01 | 北京   | 30  | 1   | 2017-10-01 17:05:45 | 2    | 22             | 22             |
+| 10002   | 2017-10-02 | 上海   | 20  | 1   | 2017-10-02 12:59:12 | 200  | 5              | 5              |
+| 10003   | 2017-10-02 | 广州   | 32  | 0   | 2017-10-02 11:20:00 | 30   | 11             | 11             |
+| 10004   | 2017-10-01 | 深圳   | 35  | 0   | 2017-10-01 10:00:15 | 100  | 3              | 3              |
+| 10004   | 2017-10-03 | 深圳   | 35  | 0   | 2017-10-03 10:20:22 | 11   | 6              | 6              |
 
 我们再导入一批新的数据：
 
-| user_id | date       | city | age  | sex  | last_visit_date     | cost | max_dwell_time | min_dwell_time |
-| ------- | ---------- | ---- | ---- | ---- | ------------------- | ---- | -------------- | -------------- |
-| 10004   | 2017-10-03 | 深圳 | 35   | 0    | 2017-10-03 11:22:00 | 44   | 19             | 19             |
-| 10005   | 2017-10-03 | 长沙 | 29   | 1    | 2017-10-03 18:11:02 | 3    | 1              | 1              |
+| user_id | date       | city | age | sex | last_visit_date     | cost | max_dwell_time | min_dwell_time |
+| ------- | ---------- | ---- | --- | --- | ------------------- | ---- | -------------- | -------------- |
+| 10004   | 2017-10-03 | 深圳   | 35  | 0   | 2017-10-03 11:22:00 | 44   | 19             | 19             |
+| 10005   | 2017-10-03 | 长沙   | 29  | 1   | 2017-10-03 18:11:02 | 3    | 1              | 1              |
 
 那么当这批数据正确导入到 Doris 中后，Doris 中最终存储如下：
 
-| user_id | date       | city | age  | sex  | last_visit_date     | cost | max_dwell_time | min_dwell_time |
-| ------- | ---------- | ---- | ---- | ---- | ------------------- | ---- | -------------- | -------------- |
-| 10000   | 2017-10-01 | 北京 | 20   | 0    | 2017-10-01 07:00:00 | 35   | 10             | 2              |
-| 10001   | 2017-10-01 | 北京 | 30   | 1    | 2017-10-01 17:05:45 | 2    | 22             | 22             |
-| 10002   | 2017-10-02 | 上海 | 20   | 1    | 2017-10-02 12:59:12 | 200  | 5              | 5              |
-| 10003   | 2017-10-02 | 广州 | 32   | 0    | 2017-10-02 11:20:00 | 30   | 11             | 11             |
-| 10004   | 2017-10-01 | 深圳 | 35   | 0    | 2017-10-01 10:00:15 | 100  | 3              | 3              |
-| 10004   | 2017-10-03 | 深圳 | 35   | 0    | 2017-10-03 11:22:00 | 55   | 19             | 6              |
-| 10005   | 2017-10-03 | 长沙 | 29   | 1    | 2017-10-03 18:11:02 | 3    | 1              | 1              |
+| user_id | date       | city | age | sex | last_visit_date     | cost | max_dwell_time | min_dwell_time |
+| ------- | ---------- | ---- | --- | --- | ------------------- | ---- | -------------- | -------------- |
+| 10000   | 2017-10-01 | 北京   | 20  | 0   | 2017-10-01 07:00:00 | 35   | 10             | 2              |
+| 10001   | 2017-10-01 | 北京   | 30  | 1   | 2017-10-01 17:05:45 | 2    | 22             | 22             |
+| 10002   | 2017-10-02 | 上海   | 20  | 1   | 2017-10-02 12:59:12 | 200  | 5              | 5              |
+| 10003   | 2017-10-02 | 广州   | 32  | 0   | 2017-10-02 11:20:00 | 30   | 11             | 11             |
+| 10004   | 2017-10-01 | 深圳   | 35  | 0   | 2017-10-01 10:00:15 | 100  | 3              | 3              |
+| 10004   | 2017-10-03 | 深圳   | 35  | 0   | 2017-10-03 11:22:00 | 55   | 19             | 6              |
+| 10005   | 2017-10-03 | 长沙   | 29  | 1   | 2017-10-03 18:11:02 | 3    | 1              | 1              |
 
 可以看到，用户 10004 的已有数据和新导入的数据发生了聚合。同时新增了 10005 用户的数据。
 
@@ -217,30 +217,30 @@ AGGREGATE KEY(`user_id`, `date`, `timestamp`, `city`, `age`, `sex`)
 
 在某些多维分析场景下，用户更关注的是如何保证 Key 的唯一性，即如何获得 Primary Key 唯一性约束。因此，我们引入了 Uniq 的数据模型。该模型本质上是聚合模型的一个特例，也是一种简化的表结构表示方式。我们举例说明。
 
-| ColumnName    | Type         | IsKey | Comment      |
-| ------------- | ------------ | ----- | ------------ |
-| user_id       | BIGINT       | Yes   | 用户id       |
-| username      | VARCHAR(50)  | Yes   | 用户昵称     |
-| city          | VARCHAR(20)  | No    | 用户所在城市 |
-| age           | SMALLINT     | No    | 用户年龄     |
-| sex           | TINYINT      | No    | 用户性别     |
-| phone         | LARGEINT     | No    | 用户电话     |
-| address       | VARCHAR(500) | No    | 用户住址     |
-| register_time | DATETIME     | No    | 用户注册时间 |
+| ColumnName    | Type         | IsKey | Comment |
+| ------------- | ------------ | ----- | ------- |
+| user_id       | BIGINT       | Yes   | 用户id    |
+| username      | VARCHAR(50)  | Yes   | 用户昵称    |
+| city          | VARCHAR(20)  | No    | 用户所在城市  |
+| age           | SMALLINT     | No    | 用户年龄    |
+| sex           | TINYINT      | No    | 用户性别    |
+| phone         | LARGEINT     | No    | 用户电话    |
+| address       | VARCHAR(500) | No    | 用户住址    |
+| register_time | DATETIME     | No    | 用户注册时间  |
 
 这是一个典型的用户基础信息表。这类数据没有聚合需求，只需保证主键唯一性。（这里的主键为 user_id + username）。那么我们的建表语句如下：
 
 ```
 CREATE TABLE IF NOT EXISTS example_db.expamle_tbl
 (
-	`user_id` LARGEINT NOT NULL COMMENT "用户id",
-	`username` VARCHAR(50) NOT NULL COMMENT "用户昵称",
-	`city` VARCHAR(20) COMMENT "用户所在城市",
-	`age` SMALLINT COMMENT "用户年龄",
-	`sex` TINYINT COMMENT "用户性别",
-	`phone` LARGEINT COMMENT "用户电话",
-	`address` VARCHAR(500) COMMENT "用户地址",
-	`register_time` DATETIME COMMENT "用户注册时间"
+    `user_id` LARGEINT NOT NULL COMMENT "用户id",
+    `username` VARCHAR(50) NOT NULL COMMENT "用户昵称",
+    `city` VARCHAR(20) COMMENT "用户所在城市",
+    `age` SMALLINT COMMENT "用户年龄",
+    `sex` TINYINT COMMENT "用户性别",
+    `phone` LARGEINT COMMENT "用户电话",
+    `address` VARCHAR(500) COMMENT "用户地址",
+    `register_time` DATETIME COMMENT "用户注册时间"
 )
 UNIQUE KEY(`user_id`, `user_name`)
 ... /* 省略 Partition 和 Distribution 信息 */
@@ -249,30 +249,30 @@ UNIQUE KEY(`user_id`, `user_name`)
 
 而这个表结构，完全同等于以下使用聚合模型描述的表结构：
 
-| ColumnName    | Type         | AggregationType | Comment      |
-| ------------- | ------------ | --------------- | ------------ |
-| user_id       | BIGINT       |                 | 用户id       |
-| username      | VARCHAR(50)  |                 | 用户昵称     |
-| city          | VARCHAR(20)  | REPLACE         | 用户所在城市 |
-| age           | SMALLINT     | REPLACE         | 用户年龄     |
-| sex           | TINYINT      | REPLACE         | 用户性别     |
-| phone         | LARGEINT     | REPLACE         | 用户电话     |
-| address       | VARCHAR(500) | REPLACE         | 用户住址     |
-| register_time | DATETIME     | REPLACE         | 用户注册时间 |
+| ColumnName    | Type         | AggregationType | Comment |
+| ------------- | ------------ | --------------- | ------- |
+| user_id       | BIGINT       |                 | 用户id    |
+| username      | VARCHAR(50)  |                 | 用户昵称    |
+| city          | VARCHAR(20)  | REPLACE         | 用户所在城市  |
+| age           | SMALLINT     | REPLACE         | 用户年龄    |
+| sex           | TINYINT      | REPLACE         | 用户性别    |
+| phone         | LARGEINT     | REPLACE         | 用户电话    |
+| address       | VARCHAR(500) | REPLACE         | 用户住址    |
+| register_time | DATETIME     | REPLACE         | 用户注册时间  |
 
 及建表语句：
 
 ```
 CREATE TABLE IF NOT EXISTS example_db.expamle_tbl
 (
-	`user_id` LARGEINT NOT NULL COMMENT "用户id",
-	`username` VARCHAR(50) NOT NULL COMMENT "用户昵称",
-	`city` VARCHAR(20) REPLACE COMMENT "用户所在城市",
-	`age` SMALLINT REPLACE COMMENT "用户年龄",
-	`sex` TINYINT REPLACE COMMENT "用户性别",
-	`phone` LARGEINT REPLACE COMMENT "用户电话",
-	`address` VARCHAR(500) REPLACE COMMENT "用户地址",
-	`register_time` DATETIME REPLACE COMMENT "用户注册时间"
+    `user_id` LARGEINT NOT NULL COMMENT "用户id",
+    `username` VARCHAR(50) NOT NULL COMMENT "用户昵称",
+    `city` VARCHAR(20) REPLACE COMMENT "用户所在城市",
+    `age` SMALLINT REPLACE COMMENT "用户年龄",
+    `sex` TINYINT REPLACE COMMENT "用户性别",
+    `phone` LARGEINT REPLACE COMMENT "用户电话",
+    `address` VARCHAR(500) REPLACE COMMENT "用户地址",
+    `register_time` DATETIME REPLACE COMMENT "用户注册时间"
 )
 AGGREGATE KEY(`user_id`, `user_name`)
 ... /* 省略 Partition 和 Distribution 信息 */
@@ -285,26 +285,26 @@ AGGREGATE KEY(`user_id`, `user_name`)
 
 在某些多维分析场景下，数据既没有主键，也没有聚合需求。因此，我们引入 Duplicate 数据模型来满足这类需求。举例说明。
 
-| ColumnName | Type          | SortKey | Comment      |
-| ---------- | ------------- | ------- | ------------ |
-| timestamp  | DATETIME      | Yes     | 日志时间     |
-| type       | INT           | Yes     | 日志类型     |
-| error_code | INT           | Yes     | 错误码       |
-| error_msg  | VARCHAR(1024) | No      | 错误详细信息 |
-| op_id      | BIGINT        | No      | 负责人id     |
-| op_time    | DATETIME      | No      | 处理时间     |
+| ColumnName | Type          | SortKey | Comment |
+| ---------- | ------------- | ------- | ------- |
+| timestamp  | DATETIME      | Yes     | 日志时间    |
+| type       | INT           | Yes     | 日志类型    |
+| error_code | INT           | Yes     | 错误码     |
+| error_msg  | VARCHAR(1024) | No      | 错误详细信息  |
+| op_id      | BIGINT        | No      | 负责人id   |
+| op_time    | DATETIME      | No      | 处理时间    |
 
 建表语句如下：
 
 ```
 CREATE TABLE IF NOT EXISTS example_db.expamle_tbl
 (
-	`timestamp` DATETIME NOT NULL COMMENT "日志时间",
-	`type` INT NOT NULL COMMENT "日志类型",
-	`error_code` INT COMMENT "错误码",
-	`error_msg` VARCHAR(1024) COMMENT "错误详细信息",
-	`op_id` BIGINT COMMENT "负责人id",
-	`op_time` DATETIME COMMENT "处理时间"
+    `timestamp` DATETIME NOT NULL COMMENT "日志时间",
+    `type` INT NOT NULL COMMENT "日志类型",
+    `error_code` INT COMMENT "错误码",
+    `error_msg` VARCHAR(1024) COMMENT "错误详细信息",
+    `op_id` BIGINT COMMENT "负责人id",
+    `op_time` DATETIME COMMENT "处理时间"
 )
 DUPLICATE KEY(`timestamp`, `type`)
 ... /* 省略 Partition 和 Distribution 信息 */
@@ -334,43 +334,43 @@ ROLLUP 表的基本作用，在于在 Base 表的基础上，获得更粗粒度�
 因为 Uniq 只是 Aggregate 模型的一个特例，所以这里我们不加以区别。
 
 1. 示例1：获得每个用户的总消费
-
+   
    接**Aggregate 模型**小节的**示例2**，Base 表结构如下：
-
-   | ColumnName      | Type        | AggregationType | Comment                |
-   | --------------- | ----------- | --------------- | ---------------------- |
-   | user_id         | LARGEINT    |                 | 用户id                 |
-   | date            | DATE        |                 | 数据灌入日期           |
+   
+   | ColumnName      | Type        | AggregationType | Comment     |
+   | --------------- | ----------- | --------------- | ----------- |
+   | user_id         | LARGEINT    |                 | 用户id        |
+   | date            | DATE        |                 | 数据灌入日期      |
    | timestamp       | DATETIME    |                 | 数据灌入时间，精确到秒 |
-   | city            | VARCHAR(20) |                 | 用户所在城市           |
-   | age             | SMALLINT    |                 | 用户年龄               |
-   | sex             | TINYINT     |                 | 用户性别               |
-   | last_visit_date | DATETIME    | REPLACE         | 用户最后一次访问时间   |
-   | cost            | BIGINT      | SUM             | 用户总消费             |
-   | max_dwell_time  | INT         | MAX             | 用户最大停留时间       |
-   | min_dwell_time  | INT         | MIN             | 用户最小停留时间       |
-
+   | city            | VARCHAR(20) |                 | 用户所在城市      |
+   | age             | SMALLINT    |                 | 用户年龄        |
+   | sex             | TINYINT     |                 | 用户性别        |
+   | last_visit_date | DATETIME    | REPLACE         | 用户最后一次访问时间  |
+   | cost            | BIGINT      | SUM             | 用户总消费       |
+   | max_dwell_time  | INT         | MAX             | 用户最大停留时间    |
+   | min_dwell_time  | INT         | MIN             | 用户最小停留时间    |
+   
    存储的数据如下：
-
-   | user_id | date       | timestamp           | city | age  | sex  | last_visit_date     | cost | max_dwell_time | min_dwell_time |
-   | ------- | ---------- | ------------------- | ---- | ---- | ---- | ------------------- | ---- | -------------- | -------------- |
-   | 10000   | 2017-10-01 | 2017-10-01 08:00:05 | 北京 | 20   | 0    | 2017-10-01 06:00:00 | 20   | 10             | 10             |
-   | 10000   | 2017-10-01 | 2017-10-01 09:00:05 | 北京 | 20   | 0    | 2017-10-01 07:00:00 | 15   | 2              | 2              |
-   | 10001   | 2017-10-01 | 2017-10-01 18:12:10 | 北京 | 30   | 1    | 2017-10-01 17:05:45 | 2    | 22             | 22             |
-   | 10002   | 2017-10-02 | 2017-10-02 13:10:00 | 上海 | 20   | 1    | 2017-10-02 12:59:12 | 200  | 5              | 5              |
-   | 10003   | 2017-10-02 | 2017-10-02 13:15:00 | 广州 | 32   | 0    | 2017-10-02 11:20:00 | 30   | 11             | 11             |
-   | 10004   | 2017-10-01 | 2017-10-01 12:12:48 | 深圳 | 35   | 0    | 2017-10-01 10:00:15 | 100  | 3              | 3              |
-   | 10004   | 2017-10-03 | 2017-10-03 12:38:20 | 深圳 | 35   | 0    | 2017-10-03 10:20:22 | 11   | 6              | 6              |
-
+   
+   | user_id | date       | timestamp           | city | age | sex | last_visit_date     | cost | max_dwell_time | min_dwell_time |
+   | ------- | ---------- | ------------------- | ---- | --- | --- | ------------------- | ---- | -------------- | -------------- |
+   | 10000   | 2017-10-01 | 2017-10-01 08:00:05 | 北京   | 20  | 0   | 2017-10-01 06:00:00 | 20   | 10             | 10             |
+   | 10000   | 2017-10-01 | 2017-10-01 09:00:05 | 北京   | 20  | 0   | 2017-10-01 07:00:00 | 15   | 2              | 2              |
+   | 10001   | 2017-10-01 | 2017-10-01 18:12:10 | 北京   | 30  | 1   | 2017-10-01 17:05:45 | 2    | 22             | 22             |
+   | 10002   | 2017-10-02 | 2017-10-02 13:10:00 | 上海   | 20  | 1   | 2017-10-02 12:59:12 | 200  | 5              | 5              |
+   | 10003   | 2017-10-02 | 2017-10-02 13:15:00 | 广州   | 32  | 0   | 2017-10-02 11:20:00 | 30   | 11             | 11             |
+   | 10004   | 2017-10-01 | 2017-10-01 12:12:48 | 深圳   | 35  | 0   | 2017-10-01 10:00:15 | 100  | 3              | 3              |
+   | 10004   | 2017-10-03 | 2017-10-03 12:38:20 | 深圳   | 35  | 0   | 2017-10-03 10:20:22 | 11   | 6              | 6              |
+   
    在此基础上，我们创建一个 ROLLUP：
-
+   
    | ColumnName |
    | ---------- |
    | user_id    |
    | cost       |
-
+   
    该 ROLLUP 只包含两列：user_id 和 cost。则创建完成后，该 ROLLUP 中存储的数据如下：
-
+   
    | user_id | cost |
    | ------- | ---- |
    | 10000   | 35   |
@@ -378,41 +378,41 @@ ROLLUP 表的基本作用，在于在 Base 表的基础上，获得更粗粒度�
    | 10002   | 200  |
    | 10003   | 30   |
    | 10004   | 111  |
-
+   
    可以看到，ROLLUP 中仅保留了每个 user_id，在 cost 列上的 SUM 的结果。那么当我们进行如下查询时:
-
+   
    `SELECT user_id, sum(cost) FROM table GROUP BY user_id;`
-
+   
    Doris 会自动命中这个 ROLLUP 表，从而只需扫描极少的数据量，即可完成这次聚合查询。
 
 2. 示例2：获得不同城市，不同年龄段用户的总消费、最长和最短页面驻留时间
-
+   
    紧接示例1。我们在 Base 表基础之上，再创建一个 ROLLUP：
-
-   | ColumnName     | Type        | AggregationType | Comment          |
-   | -------------- | ----------- | --------------- | ---------------- |
-   | city           | VARCHAR(20) |                 | 用户所在城市     |
-   | age            | SMALLINT    |                 | 用户年龄         |
-   | cost           | BIGINT      | SUM             | 用户总消费       |
+   
+   | ColumnName     | Type        | AggregationType | Comment  |
+   | -------------- | ----------- | --------------- | -------- |
+   | city           | VARCHAR(20) |                 | 用户所在城市   |
+   | age            | SMALLINT    |                 | 用户年龄     |
+   | cost           | BIGINT      | SUM             | 用户总消费    |
    | max_dwell_time | INT         | MAX             | 用户最大停留时间 |
    | min_dwell_time | INT         | MIN             | 用户最小停留时间 |
-
+   
    则创建完成后，该 ROLLUP 中存储的数据如下：
-
-   | city | age  | cost | max_dwell_time | min_dwell_time |
-   | ---- | ---- | ---- | -------------- | -------------- |
-   | 北京 | 20   | 0    | 30             | 10             |
-   | 北京 | 30   | 1    | 2              | 22             |
-   | 上海 | 20   | 1    | 200            | 5              |
-   | 广州 | 32   | 0    | 30             | 11             |
-   | 深圳 | 35   | 0    | 111            | 6              |
-
+   
+   | city | age | cost | max_dwell_time | min_dwell_time |
+   | ---- | --- | ---- | -------------- | -------------- |
+   | 北京   | 20  | 0    | 30             | 10             |
+   | 北京   | 30  | 1    | 2              | 22             |
+   | 上海   | 20  | 1    | 200            | 5              |
+   | 广州   | 32  | 0    | 30             | 11             |
+   | 深圳   | 35  | 0    | 111            | 6              |
+   
    当我们进行如下这些查询时:
-
+   
    - `SELECT city, age, sum(cost), max(max_dwell_time), min(min_dwell_time) FROM table GROUP BY city, age;`
    - `SELECT city, sum(cost), max(max_dwell_time), min(min_dwell_time) FROM table GROUP BY city;`
    - `SELECT city, age, sum(cost), min(min_dwell_time) FROM table GROUP BY city, age;`
-
+   
    Doris 会自动命中这个 ROLLUP 表。
 
 #### Duplicate 模型中的 ROLLUP
@@ -433,7 +433,7 @@ ROLLUP 表的基本作用，在于在 Base 表的基础上，获得更粗粒度�
 我们将一行数据的前 **36 个字节** 作为这行数据的前缀索引。当遇到 VARCHAR 类型时，前缀索引会直接截断。我们举例说明：
 
 1. 以下表结构的前缀索引为 user_id(8Byte) + age(8Bytes) + message(prefix 20 Bytes)。
-
+   
    | ColumnName     | Type         |
    | -------------- | ------------ |
    | user_id        | BIGINT       |
@@ -443,7 +443,7 @@ ROLLUP 表的基本作用，在于在 Base 表的基础上，获得更粗粒度�
    | min_dwell_time | DATETIME     |
 
 2. 以下表结构的前缀索引为 user_name(20 Bytes)。即使没有达到 36 个字节，因为遇到 VARCHAR，所以直接截断，不再往后继续。
-
+   
    | ColumnName     | Type         |
    | -------------- | ------------ |
    | user_name      | VARCHAR(20)  |
@@ -520,10 +520,10 @@ SELECT * FROM table where age=20 and massage LIKE "%error%";
 
 假设表结构如下：
 
-| ColumnName | Type     | AggregationType | Comment      |
-| ---------- | -------- | --------------- | ------------ |
-| user_id    | LARGEINT |                 | 用户id       |
-| date       | DATE     |                 | 数据灌入日期 |
+| ColumnName | Type     | AggregationType | Comment |
+| ---------- | -------- | --------------- | ------- |
+| user_id    | LARGEINT |                 | 用户id    |
+| date       | DATE     |                 | 数据灌入日期  |
 | cost       | BIGINT   | SUM             | 用户总消费   |
 
 假设存储引擎中有如下两个已经导入完成的批次的数据：
@@ -604,11 +604,11 @@ SELECT COUNT(*) FROM table;
 
 因此，当业务上有频繁的 count(*) 查询时，我们建议用户通过增加一个**值衡为 1 的，聚合类型为 SUM 的列来模拟 count(\*)**。如刚才的例子中的表结构，我们修改如下：
 
-| ColumnName | Type   | AggreateType | Comment       |
-| ---------- | ------ | ------------ | ------------- |
-| user_id    | BIGINT |              | 用户id        |
-| date       | DATE   |              | 数据灌入日期  |
-| cost       | BIGINT | SUM          | 用户总消费    |
+| ColumnName | Type   | AggreateType | Comment   |
+| ---------- | ------ | ------------ | --------- |
+| user_id    | BIGINT |              | 用户id      |
+| date       | DATE   |              | 数据灌入日期    |
+| cost       | BIGINT | SUM          | 用户总消费     |
 | count      | BIGINT | SUM          | 用于计算count |
 
 增加一个 count 列，并且导入数据中，该列值**衡为 1**。则 `select count(*) from table;` 的结果等价于 `select sum(count) from table;`。而后者的查询效率将远高于前者。不过这种方式也有使用限制，就是用户需要自行保证，不会重复导入 AGGREGATE KEY 列都相同的行。否则，`select sum(count) from table;` 只能表述原始导入的行数，而不是 `select count(*) from table;` 的语义。

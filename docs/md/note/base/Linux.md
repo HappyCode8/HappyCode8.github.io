@@ -112,27 +112,25 @@ https://mp.weixin.qq.com/s?__biz=MzkwODE5ODM0Ng==&mid=2247488406&idx=1&sn=93e243
     grep -A 10 keyword catalina.out 显示keyword及后10行
 
 11. sed
-
+    
     ```shell
     sed -e "s/^/'/" -e "s/$/',/" temp.txt  # 在文件的每一行行首加上单引号，行尾加上单引号与逗号
     ```
 
 12. awk
-
+    
     ```shell
     awk '{print $1,$4}' temp.txt # 输出文件每行的第一项与第四项
     awk '/2023-07-25T17:26:15.805*/,/2023-07-25T17:26:15.807*/'log.txt #输出固定时间段的日志
     ```
 
-12. tail与grep连用查看日志
-
+13. tail与grep连用查看日志
+    
     ```java
     tail -f catalina.out | grep --line-buffer "发送邮件" //只打印满足条件的，如果需要固定时间段的与awk使用管道符连接共用
     tail -f sss.txt | grep --line-buffer -E '12345|nbsx' //满足任意一个条件
     tail -f sss.txt | grep --line-buffer '12345' | grep --line-buffer 'nbsz'//同时满足两个条件
     ```
-    
-    
 
 ## Shell
 

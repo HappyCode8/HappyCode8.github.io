@@ -112,7 +112,7 @@ world
 
 使用`<font color='red'>红色</font>`会使得字体变红色<font color='red'>红色</font>
 
-## 14、绘图(typora可用，其余未必)
+## 14、基于Mermaid绘图(typora可用，其余未必)
 
 使用如下代码绘制基本的横向流程图
 
@@ -130,4 +130,15 @@ A[方框]-->B(圆框)-->C{条件}-->|箭头加文字|D[方框]
 graph TD
 A[方框]-->B(圆框)-->C{条件}-->|箭头加文字|D[方框]
 ​```
+```
+
+## 15、基于plantuml绘图(大多数可用)
+
+```plantuml
+@startuml
+Alice -> Bob: Authentication Request
+Bob --> Alice: Authentication Response
+Alice -> Bob: Another authentication Request
+Alice <-- Bob: another authentication Response
+@enduml
 ```

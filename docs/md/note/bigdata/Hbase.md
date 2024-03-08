@@ -1,6 +1,6 @@
 # Hbase
 
-https://github.com/collabH/repository/blob/master/datawarehouse/%E7%90%86%E8%AE%BA/%E6%95%B0%E6%8D%AE%E4%BB%93%E5%BA%93%E5%AE%9E%E6%88%98.md
+[bigdata-growth/datawarehouse/理论/数据仓库实战.md at master · collabH/bigdata-growth · GitHub](https://github.com/collabH/repository/blob/master/datawarehouse/%E7%90%86%E8%AE%BA/%E6%95%B0%E6%8D%AE%E4%BB%93%E5%BA%93%E5%AE%9E%E6%88%98.md)
 
 ## 逻辑结构
 
@@ -19,29 +19,29 @@ https://github.com/collabH/repository/blob/master/datawarehouse/%E7%90%86%E8%AE%
 ## 数据模型
 
 1. Name Space
-
+   
    ![image-20210912215327048.png](https://s2.loli.net/2022/05/28/dXbvSrFtGlVqULw.png)
 
 2. Region
-
+   
    ![image-20210912215349208.png](https://s2.loli.net/2022/05/28/dJOCFLoU89n5uB7.png)
 
 3. Row
-
+   
    ![image-20210912214737224.png](https://s2.loli.net/2022/05/28/Xjqo7aY8r9WTeAR.png)
-
+   
    范围查询也可以
 
 4. Column
-
+   
    ![image-20210912214834798.png](https://s2.loli.net/2022/05/28/7axVKr63LCI8qdg.png)
 
 5. Time Stamp
-
+   
    ![image-20210912214923197.png](https://s2.loli.net/2022/05/28/8KIxqb3NsrFHgUT.png)
 
 6. Cell
-
+   
    ![image-20210912214955629.png](https://s2.loli.net/2022/05/28/swOezPZMvAB5nHl.png)
 
 ## 架构
@@ -67,8 +67,7 @@ docker run -d -p 2182:2181  -p 9090:9090 -p 9095:9095 -p 16000:16000 -p 16010:16
 ## 常用命令
 
 > 查看帮助命令：help
->
+> 
 > 查看当前数据库中有哪些表： list
->
+> 
 > 查询数据表最多返回10条：scan 'student',{LIMIT=>10} 
-
