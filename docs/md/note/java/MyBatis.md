@@ -11,14 +11,14 @@
   <resultMap id="ResultMap" type="查询结果对应的类">
       <result column="sql字段" jdbcType="VARCHAR" property="类字段" />
   </resultMap>
-    
+
     <select id="查询接口的方法名" resultMap="ResultMap">
         <include refid="sql片段引用"/>
         <if test="sortClause != null">
             order by ${sortClause}
         </if>
     </select>
-    
+
     <sql id="cityData">
         select 
           xxx,yyy
@@ -28,7 +28,7 @@
             <trim prefixOverrides="and" >
                 <if test="startDate != null">
                     <!--大于小于等需要转义-->
-                    and call_date &gt;= #{startDate}
+                    and call_date >= #{startDate}
                 </if>
                     and xxx like concat('%',#{node},'%')
             </trim>
@@ -41,7 +41,7 @@
         (#{item.taskId})
          <!--#{listItem} 预编译阶段会生成?占位符，但是如果${groupByClause}，就会做纯替换-->
     </foreach>
-  
+
   <update id="updateAuthorIfNecessary">
       update Author
         <set><!--动态更新-->
@@ -51,10 +51,10 @@
           <if test="bio != null">bio=#{bio}</if>
         </set>
       where id=#{id}
-	</update>
-  
+    </update>
+
   <select id="findActiveBlogLike" resultType="Blog">
-  				SELECT * FROM BLOG WHERE state = ‘ACTIVE’
+                  SELECT * FROM BLOG WHERE state = ‘ACTIVE’
           <choose>
                 <when test="title != null">
                   AND title like #{title}
@@ -66,14 +66,14 @@
                   AND featured = 1
                 </otherwise>
          </choose>
-		</select>
+        </select>
 </mapper>
 ```
 
 ## 传递多个参数
 
 - **@Param注解传参法**
-
+  
   ```xml
   public User selectUser(@Param("userName") String name, int @Param("deptId") deptId);
   
@@ -84,7 +84,7 @@
   ```
 
 - **Map传参法**
-
+  
   ```xml
   public User selectUser(Map<String, Object> params);
   
@@ -95,7 +95,7 @@
   ```
 
 - **Java Bean传参法**
-
+  
   ```xml
   public User selectUser(User user);
   
@@ -108,7 +108,7 @@
 ## 属性字段映射
 
 - 用别名映射
-
+  
   ```sql
   <select id="getOrder" parameterType="int" resultType="com.jourwon.pojo.Order">
          select order_id id, order_no orderno ,order_price price form orders where order_id=#{id};
@@ -120,7 +120,7 @@
 ## 一对一、一对多查询
 
 - 一对一
-
+  
   ```xml
   public class Order {
       private Integer orderId;
@@ -147,18 +147,18 @@
   ```
 
 - 一对多
-
+  
   ```xml
   public class Category {
       private int categoryId;
       private String categoryName;
-    
+  
       /**
       * 商品列表
       **/
       List<Product> products;
   }
-        
+  
   <resultMap type="Category" id="categoryBean">
           <id column="categoryId" property="category_id" />
           <result column="categoryName" property="category_name" />
@@ -171,7 +171,7 @@
               <result column="price" property="price" />
           </collection>
   </resultMap>
-        
+  
   <select id="listCategory" resultMap="categoryBean">
          select c.*, p.* from category_ c left join product_ p on c.id = p.cid
    </select>       
@@ -274,7 +274,7 @@ maven插件
         </commentGenerator>
 
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-                        connectionURL="jdbc:mysql://localhost:3306/test?useUnicode=true&amp;characterEncoding=utf-8&amp;useSSL=false"
+                        connectionURL="jdbc:mysql://localhost:3306/test?useUnicode=true&characterEncoding=utf-8&useSSL=false"
                         userId="root"
                         password="20131983"/>
 
@@ -313,7 +313,7 @@ maven插件
 ## mybatis拦截器
 
 - 使用拦截器+ThreadLocal做分页
-
+  
   ```java
   @Getter
   public class SelfPage {
@@ -421,9 +421,9 @@ maven插件
       }
   }
   ```
-
+  
   在xml文件中配置
-
+  
   ```xml
   <configuration>
       <plugins>
@@ -433,7 +433,7 @@ maven插件
   ```
 
 - 多租户隔离
-
+  
   ```sql
   @Intercepts(value = {
           @Signature(type = StatementHandler.class,
@@ -465,10 +465,7 @@ maven插件
       public void setProperties(Properties properties) {
       }
   }
-  
   ```
-
-  
 
 # 问题
 
@@ -496,8 +493,8 @@ maven插件
 　　1）#{}：select * from t_user where uid= #{uid}
 　　2）${}：select * from t_user where uid= '${uid}'
 （2）然后
-	 1）#{}：select * from t_user where uid= ?
-	 2）${}：select * from t_user where uid= '1'
+     1）#{}：select * from t_user where uid= ?
+     2）${}：select * from t_user where uid= '1'
 （3）最后
 　　1）#{}：select * from t_user where uid= '1'
 　　2）${}：select * from t_user where uid= '1'
@@ -507,32 +504,32 @@ maven插件
 （2）能用 #{} 的地方就用 #{}，不用或少用 ${}
 （3）表名作参数时，必须用 ${}。如：select * from ${tableName}
 （4）order by 时，必须用 ${}。如：select * from t_user order by ${columnName}
-		 3,4因为预编译加了单引号，会导致不起作用
+         3,4因为预编译加了单引号，会导致不起作用
 （5）使用 ${} 时，要注意何时加或不加单引号，即 ${} 和 '${}'
 ```
 
 ## 生命周期
 
 - SqlSessionFactoryBuilder
-
-  >一旦创建了 SqlSessionFactory，就不再需要它了。因此 SqlSessionFactoryBuilder 实例的生命周期只存在于方法的内部。
+  
+  > 一旦创建了 SqlSessionFactory，就不再需要它了。因此 SqlSessionFactoryBuilder 实例的生命周期只存在于方法的内部。
 
 - SqlSessionFactory
-
-  >SqlSessionFactory 是用来创建SqlSession的，相当于一个数据库连接池，每次创建SqlSessionFactory都会使用数据库资源，多次创建和销毁是对资源的浪费。所以SqlSessionFactory是应用级的生命周期，而且应该是单例的。
+  
+  > SqlSessionFactory 是用来创建SqlSession的，相当于一个数据库连接池，每次创建SqlSessionFactory都会使用数据库资源，多次创建和销毁是对资源的浪费。所以SqlSessionFactory是应用级的生命周期，而且应该是单例的。
 
 - SqlSession
-
+  
   > SqlSession相当于JDBC中的Connection，SqlSession 的实例不是线程安全的，因此是不能被共享的，所以它的最佳的生命周期是一次请求或一个方法。
 
 - Mapper
-
+  
   > 映射器是一些绑定映射语句的接口。映射器接口的实例是从 SqlSession 中获得的，它的生命周期在sqlsession事务方法之内，一般会控制在方法级。
 
 ## 延迟加载及其原理
 
->- Mybatis支持association关联对象和collection关联集合对象的延迟加载，association指的就是一对一，collection指的就是一对多查询。在Mybatis配置文件中，可以配置是否启用延迟加载lazyLoadingEnabled=true|false。
->- 它的原理是，使用CGLIB创建目标对象的代理对象，当调用目标方法时，进入拦截器方法，比如调用a.getB().getName()，拦截器invoke()方法发现a.getB()是null值，那么就会单独发送事先保存好的查询关联B对象的sql，把B查询上来，然后调用a.setB(b)，于是a的对象b属性就有值了，接着完成a.getB().getName()方法的调用。这就是延迟加载的基本原理。
+> - Mybatis支持association关联对象和collection关联集合对象的延迟加载，association指的就是一对一，collection指的就是一对多查询。在Mybatis配置文件中，可以配置是否启用延迟加载lazyLoadingEnabled=true|false。
+> - 它的原理是，使用CGLIB创建目标对象的代理对象，当调用目标方法时，进入拦截器方法，比如调用a.getB().getName()，拦截器invoke()方法发现a.getB()是null值，那么就会单独发送事先保存好的查询关联B对象的sql，把B查询上来，然后调用a.setB(b)，于是a的对象b属性就有值了，接着完成a.getB().getName()方法的调用。这就是延迟加载的基本原理。
 
 ## MyBatis执行流程
 

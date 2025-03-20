@@ -24,7 +24,7 @@
   > 
   > ```json
   > {
-  >     "product_id": "1", 
+  >   "product_id": "1", 
   >   "product_name": "iPhone X", 
   >   "product_desc": "苹果手机", 
   >   "category_id": "2", 

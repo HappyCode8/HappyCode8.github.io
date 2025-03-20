@@ -1,16 +1,12 @@
-
-
 # 常见问题
 
->redis有哪些数据结构？有哪些底层数据结构？高层数据结构分别在底层怎么实现的？
->
->为什么快（至少5个原因）？单线程与多线程？
->
->淘汰策略？持久化（AOF、RDB）？
->
->主从？哨兵？集群？
->
->
+> redis有哪些数据结构？有哪些底层数据结构？高层数据结构分别在底层怎么实现的？
+> 
+> 为什么快（至少5个原因）？单线程与多线程？
+> 
+> 淘汰策略？持久化（AOF、RDB）？
+> 
+> 主从？哨兵？集群？
 
 # Redis命令
 
@@ -383,7 +379,7 @@ zinterstore，zunionstore执行类似于集合的交集、并集运算
 
 因为Redis是基于内存的操作，CPU成为Redis的瓶颈的情况很少见，Redis的瓶颈最有可能是内存的大小或者网络限制。如果想要最大程度利用CPU，可以在一台机器上启动多个Redis实例。
 
-**PS：**网上有这样的回答，吐槽官方的解释有些敷衍，其实就是历史原因，开发者嫌多线程麻烦，后来这个CPU的利用问题就被抛给了使用者。
+**PS：** 网上有这样的回答，吐槽官方的解释有些敷衍，其实就是历史原因，开发者嫌多线程麻烦，后来这个CPU的利用问题就被抛给了使用者。
 
 同时FAQ里还提到了， Redis 4.0 之后开始变成多线程，除了主线程外，它也有后台线程在处理一些较为缓慢的操作，例如清理脏数据、无用连接的释放、大 Key 的删除等等。
 
@@ -574,13 +570,14 @@ Redis Sentinel ，它由两部分组成，哨兵节点和数据节点：
 - **定时监控**![图片](data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==)Redis Sentinel通过三个定时监控任务完成对各个节点发现和监控：
 
 - 1. 每隔10秒，每个Sentinel节点会向主节点和从节点发送info命令获取最新的拓扑结构
-  2. 每隔2秒，每个Sentinel节点会向Redis数据节点的__sentinel__：hello 频道上发送该Sentinel节点对于主节点的判断以及当前Sentinel节点的信息
+  2. 每隔2秒，每个Sentinel节点会向Redis数据节点的sentinel：hello 频道上发送该Sentinel节点对于主节点的判断以及当前Sentinel节点的信息
   3. 每隔1秒，每个Sentinel节点会向主节点、从节点、其余Sentinel节点发送一条ping命令做一次心跳检测，来确认这些节点当前是否可达
 
 - **主观下线和客观下线**主观下线就是哨兵节点认为某个节点有问题，客观下线就是超过一定数量的哨兵节点认为主节点有问题。
   
   ![图片](https://img-blog.csdnimg.cn/img_convert/90b7c298af0f5a000e167533becb87ba.png)
 1. 主观下线 每个Sentinel节点会每隔1秒对主节点、从节点、其他Sentinel节点发送ping命令做心跳检测，当这些节点超过 down-after-milliseconds没有进行有效回复，Sentinel节点就会对该节点做失败判定，这个行为叫做主观下线。
+
 2. 客观下线 当Sentinel主观下线的节点是主节点时，该Sentinel节点会通过sentinel is- master-down-by-addr命令向其他Sentinel节点询问对主节点的判断，当超过 <quorum>个数，Sentinel节点认为主节点确实有问题，这时该Sentinel节点会做出客观下线的决定
 - **领导者Sentinel节点选举**Sentinel节点之间会做一个领导者选举的工作，选出一个Sentinel节点作为领导者进行故障转移的工作。Redis使用了Raft算法实现领导者选举。
 
@@ -679,7 +676,7 @@ Redis集群通过数据分区来实现数据的分布式存储，通过自动故
 
 **节点握手**节点握手是指一批运行在集群模式下的节点通过Gossip协议彼此通信， 达到感知对方的过程。节点握手是集群彼此通信的第一步，由客户端发起命 令：cluster meet{ip}{port}。完成节点握手之后，一个个的Redis节点就组成了一个多节点的集群。
 
-**分配槽（slot）**Redis集群把所有的数据映射到16384个槽中。每个节点对应若干个槽，只有当节点分配了槽，才能响应和这些槽关联的键命令。通过 cluster addslots命令为节点分配槽。
+**分配槽（slot）** Redis集群把所有的数据映射到16384个槽中。每个节点对应若干个槽，只有当节点分配了槽，才能响应和这些槽关联的键命令。通过 cluster addslots命令为节点分配槽。
 
 ![](https://img-blog.csdnimg.cn/img_convert/55fcc0e3cc18f96c63157c09f921aacf.png)
 
@@ -691,7 +688,7 @@ Redis集群的故障转移和哨兵的故障转移类似，但是Redis集群中�
 
 ![图片](https://img-blog.csdnimg.cn/img_convert/0b12fa9d40e7a53ee4033e1499860dfe.png)
 
-当某个节点判断另一个节点主观下线后，相应的节点状态会跟随消息在集群内传播。通过Gossip消息传播，集群内节点不断收集到故障节点的下线报告。当 半数以上持有槽的主节点都标记某个节点是主观下线时。触发客观下线流程。![图片](data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==)
+当某个节点判断另一个节点主观下线后，相应的节点状态会跟随消息在集群内传播。通过Gossip消息传播，集群内节点不断收集到故障节点的下线报告。当半数以上持有槽的主节点都标记某个节点是主观下线时，触发客观下线流程。![图片](data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQImWNgYGBgAAAABQABh6FO1AAAAABJRU5ErkJggg==)
 
 **故障恢复**
 
@@ -730,10 +727,10 @@ Redis集群提供了灵活的节点扩容和收缩方案，可以在不影响集
 ## 缓存击穿、缓存穿透、缓存雪崩
 
 > 1. 如果在某个key（通常是热点key）失效的时候，有大量的请求一起过来就是**击穿**
->
+>    
 >    - 开一个后台线程监控数据，变化时就缓存进去，这种解决方案只适用于不要求数据严格一致性的情况，因为当后台线程在构建缓存的时候，其他的线程很有可能也在读取数据，这样就会访问到旧数据了。
 >    - 当 key 失效的时候，让一个线程读取数据并构建到缓存中，其他线程就先等待，直到缓存构建完后重新读取缓存。当然，采用互斥锁的方案也是有缺陷的，当缓存失效的时候，同一时间只有一个线程读数据库然后回写缓存，其他线程都处于阻塞状态。如果是高并发场景，大量线程阻塞势必会降低吞吐量。这种情况该如何处理呢？我只能说没什么设计是完美的，你又想数据一致，又想保证吞吐量，哪有那么好的事，为了系统能更加健全，必要的时候牺牲下性能也是可以采取的措施，两者之间怎么取舍要根据实际业务场景来决定，万能的技术方案什么的根本不存在。
->
+>    
 >    ```java
 >    @RestController
 >    @Slf4j
@@ -769,16 +766,16 @@ Redis集群提供了灵活的节点扩容和收缩方案，可以在不影响集
 >        }
 >    }
 >    ```
->
+> 
 > 2. 如果大量的请求访问多个key，刚好key同时失效了就是**雪崩**
->
+>    
 >    - 热点key永不过期
 >    - key设置不同的失效时间
 >    - 互斥锁（只有一个读库更新缓存，别的读缓存）
 >    - 主备缓存，备缓存有效期长，获取锁失败时读取备份缓存，更新主缓存时更新备用缓存
 >    - 缓存预热
 >    - 缓存降级，指缓存失效或缓存服务器挂掉的情况下，不去访问数据库，直接返回默认数据或访问服务的内存数据
->
+>    
 >    ```java
 >    /**
 >     * @author wyj
@@ -837,26 +834,26 @@ Redis集群提供了灵活的节点扩容和收缩方案，可以在不影响集
 >    在并发情况下，总共 1000 条数据回源达到了 1002 次，说明有一些条目出现了并发回源
 >    */
 >    ```
->
+> 
 > 3. 如果大量的用户请求缓存中不存在的key（甚至数据库也不存在，比如攻击）就是**穿透**
->
+>    
 >    ```java
 >    public class testRedis {
->                   
+>    
 >        @Autowired
 >        private StringRedisTemplate stringRedisTemplate;
 >        private AtomicInteger atomicInteger = new AtomicInteger();
->                   
+>    
 >        @PostConstruct
 >        public void init() {
 >            Executors.newSingleThreadScheduledExecutor().scheduleAtFixedRate(() -> {
 >                log.info("DB QPS : {}", atomicInteger.getAndSet(0));
 >            }, 0, 1, TimeUnit.SECONDS);
->                   
+>    
 >            //bloomFilter = BloomFilter.create(Funnels.integerFunnel(), 10000, 0.01);
 >            //IntStream.rangeClosed(1, 10000).forEach(bloomFilter::put);
 >        }
->                   
+>    
 >        @GetMapping("city")
 >        public String wrong(@RequestParam("id") int id) {
 >            String key = "user" + id;
@@ -868,7 +865,7 @@ Redis集群提供了灵活的节点扩容和收缩方案，可以在不影响集
 >            }
 >            return data;
 >        }
->                   
+>    
 >        private String getCityFromDb(int id) {
 >            atomicInteger.incrementAndGet();
 >            //注意，只有ID介于0（不含）和10000（包含）之间的用户才是有效用户，可以查询到用户信息
@@ -884,7 +881,6 @@ Redis集群提供了灵活的节点扩容和收缩方案，可以在不影响集
 >    - 缓存空对象，如果有大量的 key 穿透，缓存空对象会占用宝贵的内存空间。空对象的 key 设置了过期时间，这段时间内可能数据库刚好有了该 key 的数据，从而导致数据不一致的情况。
 >    
 >    ```java
->                   
 >    @GetMapping("right")
 >    public String right(@RequestParam("id") int id) {
 >        String key = "user" + id;
@@ -911,22 +907,22 @@ Redis集群提供了灵活的节点扩容和收缩方案，可以在不影响集
 >    @RestController
 >    @Slf4j
 >    public class testRedis {
->                   
+>    
 >        @Autowired
 >        private StringRedisTemplate stringRedisTemplate;
 >        private AtomicInteger atomicInteger = new AtomicInteger();
 >        private BloomFilter<Integer> bloomFilter;
->                   
+>    
 >        @PostConstruct
 >        public void init() {
 >            Executors.newSingleThreadScheduledExecutor().scheduleAtFixedRate(() -> {
 >                log.info("DB QPS : {}", atomicInteger.getAndSet(0));
 >            }, 0, 1, TimeUnit.SECONDS);
->                   
+>    
 >            bloomFilter = BloomFilter.create(Funnels.integerFunnel(), 10000, 0.01);
 >            IntStream.rangeClosed(1, 10000).forEach(bloomFilter::put);
 >        }
->                   
+>    
 >        @GetMapping("city")
 >        public String right(@RequestParam("id") int id) {
 >            String data = "";
@@ -940,7 +936,7 @@ Redis集群提供了灵活的节点扩容和收缩方案，可以在不影响集
 >            }
 >            return data;
 >        }
->                   
+>    
 >        private String getCityFromDb(int id) {
 >            atomicInteger.incrementAndGet();
 >            //注意，只有ID介于0（不含）和10000（包含）之间的用户才是有效用户，可以查询到用户信息
@@ -1124,23 +1120,23 @@ Redis 内存不足有这么几种处理方式：
 - 定期删除
   
   > 定期删除指的是Redis每隔⼀段时间对数据库做⼀次检查，删除⾥⾯的过期key。由于不可能对所有key去做轮询来删除，所以Redis会每次随机取⼀些key去做检查和删除
-  
+
 - 定时删除
   
-  >每个设置过期时间的key都需要创建一个定时器，到过期时间就会立即对key进行清除。该策略可以立即清除过期的数据，对内存很友好；但是会占用大量的CPU资源去处理过期的数据，从而影响缓存的响应时间和吞吐量。
+  > 每个设置过期时间的key都需要创建一个定时器，到过期时间就会立即对key进行清除。该策略可以立即清除过期的数据，对内存很友好；但是会占用大量的CPU资源去处理过期的数据，从而影响缓存的响应时间和吞吐量。
 
 ## Redis有哪些内存溢出控制/内存淘汰策略
 
 Redis所用内存达到maxmemory上限时会触发相应的溢出控制策略，Redis支持六种策略：
 
 > 1. noeviction：默认策略，不会删除任何数据，拒绝所有写入操作并返 回客户端错误信息，此 时Redis只响应读操作。
-> 2. volatile-lru：根据LRU算法删除设置了超时属性（expire）的键，直 到腾出足够空间为止。如果没有可删除的键对象，回退到noeviction策略。
+> 2. volatile-lru：根据LRU算法删除设置了超时属性（expire）的键，直到腾出足够空间为止。如果没有可删除的键对象，回退到noeviction策略。
 > 3. allkeys-lru：根据LRU算法删除键，不管数据有没有设置超时属性， 直到腾出足够空间为止。
 > 4. allkeys-random：随机删除所有键，直到腾出足够空间为止。
 > 5. volatile-random：随机删除过期键，直到腾出足够空间为止。
 > 6. volatile-ttl：根据键值对象的ttl属性，删除最近将要过期数据。如果没有，回退到noeviction策略。
-> 6. **allkeys-lfu（Redis 4.0 以上），针对所有 Key，优先删除最少使用的 Key；**
-> 6. **volatile-lfu（Redis 4.0 以上），针对带有过期时间的 Key，优先删除最少使用的 Key。**
+> 7. **allkeys-lfu（Redis 4.0 以上），针对所有 Key，优先删除最少使用的 Key；**
+> 8. **volatile-lfu（Redis 4.0 以上），针对带有过期时间的 Key，优先删除最少使用的 Key。**
 
 ## Redis阻塞怎么解决
 
@@ -1160,11 +1156,11 @@ Redis发生阻塞，可以从以下几个方面排查：
   单线程的Redis处理命令时只能使用一个CPU。而CPU饱和是指Redis单核CPU使用率跑到接近100%。
   
   针对这种情况，处理步骤一般如下：
-
+  
   1. 判断当前Redis并发量是否已经达到极限，可以使用统计命令redis-cli-h{ip}-p{port}--stat获取当前 Redis使用情
   2. 如果Redis的请求几万+，那么大概就是Redis的OPS已经到了极限，应该做集群化水品扩展来分摊OPS压力
   3. 如果只有几百几千，那么就得排查命令和内存的使用
-  
+
 - **持久化相关的阻塞**
   
   对于开启了持久化功能的Redis节点，需要排查是否是持久化导致的阻塞。
@@ -1195,16 +1191,17 @@ Redis使用过程中，有时候会出现大key的情况， 比如：
 > **如何处理大key?**
 
 - **删除大key**
-
+  
   - 当Redis版本大于4.0时，可使用UNLINK命令安全地删除大Key，该命令能够以非阻塞的方式，逐步地清理传入的Key。
-
+  
   - 当Redis版本小于4.0时，避免使用阻塞式命令KEYS，而是建议通过SCAN命令执行增量迭代扫描key，然后判断进行删除。
 
 - **压缩和拆分key**
-
+  
   - 当vaule是string时，比较难拆分，则使用序列化、压缩算法将key的大小控制在合理范围内，但是序列化和反序列化都会带来更多时间上的消耗。
-
+  
   - 当value是string，压缩之后仍然是大key，则需要进行拆分，一个大key分为不同的部分，记录每个部分的key，使用multiget等操作实现事务读取。
+  
   - 当value是list/set等集合类型时，根据预估的数据规模来进行分片，不同的元素计算后分到不同的片。
 
 ## Redis常见性能问题和解决方案
@@ -1378,6 +1375,18 @@ set lock:fighter3 true ex 5 nx OK ... do something critical ... > del lock:codeh
 ```
 
 上面这个指令就是 setnx 和 expire 组合在一起的原子指令，这个就算是比较完善的分布式锁了。
+
+但是以上逻辑还有问题
+
+1. 设置5s过期，代码执行了10s，锁都被别的线程抢占了
+
+2. 10s执行完以后还可能被错误释放
+- **V4：** 加随机值，删的时候判断是不是当前线程的锁，判断和删除需要是一条lua脚本，保证原子性；开一个守护线程，每隔一段时间检查锁是否还存在，存在则对锁的过期时间延长，防止锁过期提前释放。
+
+但是以上逻辑还有问题
+
+1. redis集群的时候可能主节点没来得及同步从节点就挂了
+- **V5**：有一个很复杂的redlock方案，可以参考这里[Redis实现分布式锁的7种方案 - why414 - 博客园](https://www.cnblogs.com/wangyingshuo/p/14510524.html?ivk_sa=1024320u)
 
 当然实际的开发，没人会去自己写分布式锁的命令，因为有专业的轮子——**Redisson**。
 
@@ -1568,14 +1577,14 @@ listpack 没有压缩列表中记录前一个节点长度的字段了，listpack
 - 从左向右遍历时，会先取到链表的头，然后根据每个记录的编码类型、数据和entry-len总长取到下一个的指针
 
 - 从右向左遍历时，先从头中获得总长直接定位到尾部，从右向左，逐个字节地读取当前列表项的 entry-len，得到 entry-len 本身长度，这样一来，我们就可以得到前一项的总长度，而 lpPrev 函数也就可以将指针指向前一项的起始位置了。所以按照这个方法，listpack 就实现了从右向左的查询功能。
-
-  >- 如何判断 entry-len 是否结束了呢？
-  >
-  >  这就依赖于 entry-len 的编码方式了。entry-len 每个字节的最高位，是用来表示当前字节是否为 entry-len 的最后一个字节，这里存在两种情况，分别是：
-  >
-  >  最高位为 1，表示 entry-len 还没有结束，当前字节的左边字节仍然表示 entry-len 的内容；
-  >  最高位为 0，表示当前字节已经是 entry-len 最后一个字节了。
-  >  而 entry-len 每个字节的低 7 位，则记录了实际的长度信息。
+  
+  > - 如何判断 entry-len 是否结束了呢？
+  >   
+  >   这就依赖于 entry-len 的编码方式了。entry-len 每个字节的最高位，是用来表示当前字节是否为 entry-len 的最后一个字节，这里存在两种情况，分别是：
+  >   
+  >   最高位为 1，表示 entry-len 还没有结束，当前字节的左边字节仍然表示 entry-len 的内容；
+  >   最高位为 0，表示当前字节已经是 entry-len 最后一个字节了。
+  >   而 entry-len 每个字节的低 7 位，则记录了实际的长度信息。
 
 ## 为什么 Redis 要用跳表来实现有序集合，而不是红黑树
 
@@ -1601,23 +1610,25 @@ Redis 中的有序集合支持的核心操作主要有下面这几个：
 
 使用 `keys` 指令可以扫出指定模式的 key 列表。但是要注意 keys 指令会导致线程阻塞一段时间，线上服务会停顿，直到指令执行完毕，服务才能恢复。这个时候可以使用 `scan` 指令，`scan` 指令可以无阻塞的提取出指定模式的 `key` 列表，但是会有一定的重复概率，在客户端做一次去重就可以了，但是整体所花费的时间会比直接用 `keys` 指令长。
 
+> 当执行 `KEYS` 命令时，Redis 会将当前线程中的 CPU 时间全部用于执行该操作，这就导致了其他客户端的请求被阻塞。
+> 
+> `SCAN` 命令使用游标的方式来遍历数据集中的元素，每次只返回一小部分数据，并不会一次性读取整个数据集
+
 ## 线上情况
 
 20主，40从，单机10G，总量200G，使用的volatile-lru（在设置了过期时间的key种使用LRU），配置单节点QPS大于6W告警（实际见过200wQPS（单节点10w）没有明显问题），平时高峰期也就40w，2.5亿key（占用60%），集群上又逻辑划分catogory，每个人在自己的category下存取数据。
 
 对于Lua脚本的要求
 
->lua脚本本身过于灵活，使用过程中存在一定风险（如使用不当可能会导致服务端卡死）。建议优先考虑其他非lua脚本方案实现需求。若确实是需要使用，请先联系集群DBA评估使用的合理性。
->
->- 注意事项：
->- 1. 使用这个lua脚本的每个集群，都需要做一次lua脚本的注册。
->- 2. lua脚本中，仅允许操作一个key（集群模式下，不支持lua操作多key，业务如果必须多key，则要考虑其他方案，lua行不通）。
->
->
+> lua脚本本身过于灵活，使用过程中存在一定风险（如使用不当可能会导致服务端卡死）。建议优先考虑其他非lua脚本方案实现需求。若确实是需要使用，请先联系集群DBA评估使用的合理性。
+> 
+> - 注意事项：
+> - 1. 使用这个lua脚本的每个集群，都需要做一次lua脚本的注册。
+> - 2. lua脚本中，仅允许操作一个key（集群模式下，不支持lua操作多key，业务如果必须多key，则要考虑其他方案，lua行不通）。
 
 ## 其它常见面试题总结
 
-[m1](https://mp.weixin.qq.com/s/SMkFzjSBvPvqA_ibFT6xCA)	[Redis 详解 五种数据结构（底层实现原理）、使用场景、淘汰策略、持久化、高可用、缓存的雪崩、击穿、穿透](https://copyfuture.com/blogs-details/20211203091032764J)
+[m1](https://mp.weixin.qq.com/s/SMkFzjSBvPvqA_ibFT6xCA)    [Redis 详解 五种数据结构（底层实现原理）、使用场景、淘汰策略、持久化、高可用、缓存的雪崩、击穿、穿透](https://copyfuture.com/blogs-details/20211203091032764J)
 
 ## 基于docker安装与启动
 

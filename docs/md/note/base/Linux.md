@@ -82,6 +82,8 @@ https://mp.weixin.qq.com/s?__biz=MzkwODE5ODM0Ng==&mid=2247488406&idx=1&sn=93e243
 - 什么是软链接？
   
   - 文件 A 和文件 B 的 inode 号码虽然不一样，但是文件 A 的内容是文件 B 的路径。读取文件 A 时，系统会自动将访问者导向文件 B。因此，无论打开哪一个文件，最终读取的都是文件 B。这时，文件 A 就称为文件 B 的"软链接"。这意味着，文件 A 依赖于文件 B 而存在，如果删除了文件 B，打开文件 A 就会报错："No such file or directory"。这是软链接与硬链接最大的不同：文件 A 指向文件 B 的文件名，而不是文件 B 的 inode 号码，文件 B 的 inode "链接数"不会因此发生变化。
+  
+  > 使用zsh，在home文件下的.zshrc配置alias可以简化命令
 
 ## 常用命令
 

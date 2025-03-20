@@ -3583,7 +3583,7 @@ public int maxAreaOfIslandHelper(int[][] grid,int i,int j){
 >        return dp[n];
 >    }
 > }
-> //比如对于10来说，是切为1，dp[9]或者4，dp[6]或者9，dp[1]
+> //比如对于10来说，是切为（1，dp[9]）或者（4，dp[6]）或者（9，dp[1]）
 > ```
 
 ### 分割整数构成字符串（解码）
@@ -4743,8 +4743,10 @@ public int maxAreaOfIslandHelper(int[][] grid,int i,int j){
 >    for (int i = 1; i <= m; i++) {
 >        for (int j = 1; j <= n; j++) {
 >            if (word1.charAt(i - 1) == word2.charAt(j - 1)) {
+>                 // 一样的话本位不用编辑
 >                dp[i][j] = dp[i - 1][j - 1];
 >            } else {
+>                 // 不一样的话，插入删除替换哪个代价小用哪个
 >                dp[i][j] = Math.min(dp[i - 1][j - 1], Math.min(dp[i][j - 1], dp[i - 1][j])) + 1;
 >            }
 >        }

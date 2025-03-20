@@ -6,5 +6,3 @@
 查看状态：skServer status
 结束：zkServer stop
 ```
-
-
