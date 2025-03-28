@@ -475,7 +475,7 @@ public class DefaultAdvisorAutoProxyCreator implements InstantiationAwareBeanPos
           /* 4. 在 Bean 实例化之前，执行 BeanFactoryPostProcessor
                  4.1 收集所有BeanFactoryPostProcessor类型的类为一个Map<String, T>,收集过程中已经开始通过doGetBean实例化而且仅实例化这些类（在getBeanTypeOf的方法中判断bean的类型时）
                  4.2 执行每个BeanFactoryPostProcessor的postProcessBeanFactory方法
-        */
+          */
           invokeBeanFactoryPostProcessors(beanFactory);
   
           /*5. BeanPostProcessor 需要提前于其他Bean对象实例化之前执行注册操作
